@@ -39,8 +39,11 @@ public class MyInfoActivity extends BackActivity implements OnDataReturnListener
 	}
 
 	private void initData() {
-		phoneTv.setText(StringUtil.encryptPhoneNumber(Constants.user.getPhoneNumber()));
-		usernameTv.setText(Constants.user.getUserName());
+		if (null != Constants.user.getPhoneNumber()) {
+			phoneTv.setText(StringUtil.encryptPhoneNumber(Constants.user.getPhoneNumber()));
+			usernameTv.setText(Constants.user.getUserName());
+		}
+		
 	}
 
 	private void initViews() {

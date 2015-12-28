@@ -35,13 +35,7 @@ public class LoadImage {
 		};
 	}
     
-	/**
-	 * 获取LruCache
-	 * @return
-	 */
-	public LruCache<String, Bitmap> getLruCache() {
-		return lruCache;
-	}
+	
 
 	public static LoadImage getInstance() {
 		if (null == loadImage) {
@@ -62,6 +56,18 @@ public class LoadImage {
 	 */
 	public Bitmap getBitmapFromLruCache(String path) {
 		return lruCache.get(StringUtil.MD5(path));
+	}
+	
+	/**
+	 * 获取LruCache存入缓存图片
+	 * @return
+	 */
+	public void setLruCacheImage(String fileURL, Bitmap bitmap) {
+		if (StringUtil.isEmptyString(fileURL))
+			return;
+		if (null == bitmap)
+			return;
+		lruCache.put( StringUtil.MD5(fileURL), bitmap);
 	}
 
 	/**

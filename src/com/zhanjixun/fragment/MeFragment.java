@@ -52,15 +52,25 @@ public class MeFragment extends CheckLoginFragment implements OnClickListener {
 					R.string.main_me));
 		} else {
 			initViews();
-			initData();
+			
 		}
+	}
+	
+	
+
+	@Override
+	public void onStart() {
+		super.onStart();
+		initData();
 	}
 
 	private void initData() {
 		IC.getInstance().setForegound(Constants.user.getHeadImage(), image_face);
 		IC.getInstance().setBlurForegound(getActivity(),
 				Constants.user.getHeadImage(), rela_face_bg);
-		userName.setText(Constants.user.getUserName());
+		if (null != Constants.user.getUserName()) {
+			userName.setText(Constants.user.getUserName());
+		}
 	}
 
 	private void initViews() {
