@@ -56,6 +56,7 @@ public class ThemeDialog extends Dialog {
 	 * @param height
 	 *            高度占屏幕高度的百分比
 	 */
+	@SuppressWarnings("deprecation")
 	public void setDialogSize(double width, double height) {
 		Window dialogWindow = this.getWindow();
 		WindowManager.LayoutParams lp = dialogWindow.getAttributes();

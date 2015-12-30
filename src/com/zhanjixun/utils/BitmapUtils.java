@@ -47,7 +47,7 @@ public class BitmapUtils {
 	 * @param path     保存地址
 	 * @return
 	 */
-	public static boolean BitmapToFile(Bitmap bitmap, String filename, String path) {
+	public static boolean BitmapToFile(Bitmap bitmap, String path, String filename) {
 		CompressFormat format = Bitmap.CompressFormat.JPEG;
 		Boolean result = false;
 		int quality = 100;//还原度

@@ -17,6 +17,7 @@ public class AsyncImageTask extends AsyncTask<String, Integer, Bitmap> {
 	public static final int SET_BITMAP_BACKGROUND = 1;
 	public static final int SET_BITMAP_FOREGROUND = 2;
 
+	@SuppressWarnings("deprecation")
 	public AsyncImageTask(String url, View view, int type) {
 		if (view == null)
 			return;
@@ -50,6 +51,7 @@ public class AsyncImageTask extends AsyncTask<String, Integer, Bitmap> {
 		return bitmap;
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	protected void onPostExecute(Bitmap result) {
 		if (result != null) {

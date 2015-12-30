@@ -108,7 +108,6 @@ public class ChangePasswdDialog {
 	}
 
 	public String getOldPassword() {
-
 		return passwordEt2.getText().toString();
 	}
 

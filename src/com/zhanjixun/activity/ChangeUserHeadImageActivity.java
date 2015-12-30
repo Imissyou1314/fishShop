@@ -7,9 +7,13 @@ import com.zhanjixun.base.BackActivity;
 import com.zhanjixun.data.Constants;
 import com.zhanjixun.data.IC;
 import com.zhanjixun.data.LoadImage;
+import com.zhanjixun.domain2.BaseResult;
+import com.zhanjixun.domain2.User;
+import com.zhanjixun.interfaces.OnDataReturnListener;
 import com.zhanjixun.net.UpFileToService;
 import com.zhanjixun.utils.BitmapUtils;
 import com.zhanjixun.utils.FileUtil;
+import com.zhanjixun.utils.MyGson;
 import com.zhanjixun.utils.StringUtil;
 
 import android.content.Intent;
@@ -24,7 +28,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-public class ChangeUserHeadImageActivity extends BackActivity implements OnClickListener {
+public class ChangeUserHeadImageActivity extends BackActivity implements OnClickListener ,OnDataReturnListener{
 
 	/* 头像 */
 	private ImageView headImage;
@@ -38,16 +42,11 @@ public class ChangeUserHeadImageActivity extends BackActivity implements OnClick
 	/* 头像Bitmap */
 	private Bitmap head;
 
-	/* 更新的结果 */
-	private boolean result;
-
 	private final static String headImageName = Constants.user.getHeadImage();
 
 	// 加载缓存图片
 	String imgURL = Constants.HOST + "/fishshop/" + headImageName;
 	Bitmap bitmap = LoadImage.getInstance().getBitmapFromLruCache(imgURL + LoadImage.BLUR_KEY);
-
-	private String cachePath;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -76,17 +75,12 @@ public class ChangeUserHeadImageActivity extends BackActivity implements OnClick
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.btn_photo:// 从相册里面取照片
-//			Intent intent1 = new Intent(Intent.ACTION_PICK, null);
-			Intent intent = new Intent(  
-                    Intent.ACTION_PICK,  
-                    android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-			
-//			intent1.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+			Intent intent = new Intent(Intent.ACTION_PICK,
+					android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 			startActivityForResult(intent, 1);
 			break;
 		case R.id.btn_tabkephoto:// 调用相机拍照
 			Intent intent2 = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-
 			intent2.putExtra(MediaStore.EXTRA_OUTPUT,
 					Uri.fromFile(new File(Environment.getExternalStorageDirectory(), "head.jpg")));
 			startActivityForResult(intent2, 2);// 采用ForResult打开
@@ -99,7 +93,6 @@ public class ChangeUserHeadImageActivity extends BackActivity implements OnClick
 	/**
 	 * 获取Intent 返回的数据
 	 */
-	@SuppressWarnings("unused")
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		switch (requestCode) {
 		case 1:
@@ -119,26 +112,19 @@ public class ChangeUserHeadImageActivity extends BackActivity implements OnClick
 				head = extras.getParcelable("data");
 				if (head != null) {
 					// 取出图片
-					setPicToView(head);// 保存在SD卡中
-					BitmapUtils.BitmapToFile(head, Constants.user.getHeadImage(), Constants.CACHE_DIR);
-					File file = new File(cachePath);
+					
+					BitmapUtils.BitmapToFile(head, Constants.CACHE_DIR, "UserImage.jpg");
+					File file = new File(Constants.CACHE_DIR+ "/"  + "UserImage.jpg");
 					if (null != file) {
-						result = UpFileToService.upLoadFile(file, "/fishshop/user_updateUserImg.action", "userId",
+						UpFileToService.upLoadFile("UpFile", this, file, "/fishshop/user_updateUserImg.action", "userId",
 								Constants.user.getUserId());
-						UpFileToService.getResult();
 						headImage.setImageBitmap(head);// 用ImageView显示出来
-					} else if (result) {
-						Toast.makeText(this, "更新成功....", Toast.LENGTH_LONG).show();
-						this.deleteFile();//删除文件
-					} else {
-						Toast.makeText(this, "file Not file", Toast.LENGTH_LONG).show();
 					}
 				}
-			}
+			} 
 			break;
 		default:
 			break;
-
 		}
 		super.onActivityResult(requestCode, resultCode, data);
 	}
@@ -167,18 +153,18 @@ public class ChangeUserHeadImageActivity extends BackActivity implements OnClick
 	 * 
 	 * @param mBitmap
 	 */
-	private void setPicToView(Bitmap mBitmap) {
+	private void setPicToView(Bitmap mBitmap, String Path) {
 		String sdStatus = Environment.getExternalStorageState();
 		if (!sdStatus.equals(Environment.MEDIA_MOUNTED)) { // 检测sd是否可用
 			return;
 		}
 		try {
-			LoadImage.getInstance().setLruCacheImage(imgURL + LoadImage.BLUR_KEY, mBitmap);
-			String urlMD5KeyGlass = StringUtil.MD5(imgURL + LoadImage.BLUR_KEY);
-			String urlMD5Key = StringUtil.MD5(imgURL);
+			LoadImage.getInstance().setLruCacheImage(Path + LoadImage.BLUR_KEY, mBitmap);
+			String urlMD5KeyGlass = StringUtil.MD5(Path + LoadImage.BLUR_KEY);
+			String urlMD5Key = StringUtil.MD5(Path);
 
 			String glassPath = Constants.CACHE_DIR + "/" + urlMD5KeyGlass;
-			cachePath = Constants.CACHE_DIR + "/" + urlMD5Key;
+			String cachePath = Constants.CACHE_DIR + "/" + urlMD5Key;
 			FileUtil.storeBitmap(glassPath, mBitmap);
 			FileUtil.storeBitmap(cachePath, mBitmap);
 			// 加载缓存图片
@@ -187,12 +173,30 @@ public class ChangeUserHeadImageActivity extends BackActivity implements OnClick
 			e.printStackTrace();
 		}
 	}
-	
-	/*删除文件*/
+
+	/* 删除文件 */
 	private void deleteFile() {
 		File delfile = new File(Environment.getExternalStorageDirectory() + "/head.jpg");
 		if (null != delfile) {
 			delfile.delete();
+		}
+	}
+	
+	/**
+	 * 回调函数
+	 */
+	@Override
+	public void onDataReturn(String taskTag, BaseResult result, String json) {
+		if (result.getServiceResult()) {
+			User user = MyGson.getInstance().fromJson(result.getResultParam()
+					.get("user"), User.class);
+			Constants.user.setHeadImage(user.getHeadImage());
+			String Path = Constants.HOST + "/fishshop/" + user.getHeadImage();
+			setPicToView(head, Path);// 保存在SD卡中
+			this.deleteFile();// 删除文件
+			Toast.makeText(this, "更新成功....", Toast.LENGTH_LONG).show();
+		} else {
+			Toast.makeText(this, "操作失败....", Toast.LENGTH_LONG).show();
 		}
 	}
 }

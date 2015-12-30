@@ -76,6 +76,7 @@ public class LoginActivity extends BackActivity implements OnDataReturnListener 
 			if (taskTag.equals(TaskTag.LOGIN)) {
 				Constants.user = MyGson.getInstance().fromJson(result.getResultParam()
 						.get("user"), User.class);
+				
 				LogUtils.v(Constants.user.getHeadImage());
 				Constants.user.saveUserInfo(this);
 

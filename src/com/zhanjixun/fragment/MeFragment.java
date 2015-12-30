@@ -2,6 +2,7 @@ package com.zhanjixun.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -56,8 +57,6 @@ public class MeFragment extends CheckLoginFragment implements OnClickListener {
 		}
 	}
 	
-	
-
 	@Override
 	public void onStart() {
 		super.onStart();
@@ -65,6 +64,7 @@ public class MeFragment extends CheckLoginFragment implements OnClickListener {
 	}
 
 	private void initData() {
+		Log.v("MyFragment===>HeadImage", Constants.user.getHeadImage()  + " Miss"); //TODO
 		IC.getInstance().setForegound(Constants.user.getHeadImage(), image_face);
 		IC.getInstance().setBlurForegound(getActivity(),
 				Constants.user.getHeadImage(), rela_face_bg);

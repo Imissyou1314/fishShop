@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -159,8 +158,6 @@ public class ShopDetailActivity extends FragmentActivity implements
 		LinearLayout.LayoutParams lp = new LayoutParams((int) (screenW / 3.0),
 				dipToPixels);
 		//TODO
-		LinearLayout.LayoutParams page = new LayoutParams(LinearLayout.LayoutParams.FILL_PARENT,
-				LinearLayout.LayoutParams.MATCH_PARENT);
 		cursor.setLayoutParams(lp);
 
 		bmpW = cursor.getHeight();
@@ -181,9 +178,6 @@ public class ShopDetailActivity extends FragmentActivity implements
 				getSupportFragmentManager(), pager, views, offset, bmpW, cursor);
 		pager.setAdapter(myPagerAdapter);
 		pager.setCurrentItem(0);
-		//TODO
-		Log.v("miss=====>", pager.getHeight() + "Miss");
-		Log.v("miss=====>", pager.getWidth() + "Miss");
 	}
 	
 	class MyClickListener implements View.OnClickListener {

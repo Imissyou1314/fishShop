@@ -13,7 +13,9 @@ import com.zhanjixun.data.Constants;
 import com.zhanjixun.data.DC;
 import com.zhanjixun.data.TaskTag;
 import com.zhanjixun.domain2.BaseResult;
+import com.zhanjixun.domain2.User;
 import com.zhanjixun.interfaces.OnDataReturnListener;
+import com.zhanjixun.utils.JsonToUserUtil;
 import com.zhanjixun.utils.SPUtil;
 import com.zhanjixun.utils.StringUtil;
 import com.zhanjixun.views.ChangePasswdDialog;
@@ -43,7 +45,7 @@ public class MyInfoActivity extends BackActivity implements OnDataReturnListener
 			phoneTv.setText(StringUtil.encryptPhoneNumber(Constants.user.getPhoneNumber()));
 			usernameTv.setText(Constants.user.getUserName());
 		}
-		
+
 	}
 
 	private void initViews() {
@@ -52,40 +54,46 @@ public class MyInfoActivity extends BackActivity implements OnDataReturnListener
 	}
 
 	public void onClick(View v) {
-		String tag = (String) v.getTag();
+		final String  tag = (String) v.getTag();
 		if (!tag.equals("headImage") && !tag.equals("exit")) {
-			 if (tag.equals("name")) {
-					dialog = new ChangePasswdDialog(this, R.layout.dialog_changename, "更改用户名");
-					dialog.show();
-				} else if (tag.equals("password")) {
-					dialog = new ChangePasswdDialog(this, R.layout.dialog_changepassword, "更改用户密码");
-					dialog.show();
-				} else if (tag.equals("phone")) {
-					dialog = new ChangePasswdDialog(this, R.layout.dialog_changephone, "更改用户手机号");
-					dialog.show();
-				} 
-				/* 更新 */
-				dialog.setPositiveButton("确定", new OnClickListener() {
-					public void onClick(View v) {
-						if (null != MyInfoActivity.this.dialog.getOldPassword()) {
-							if (MyInfoActivity.this.dialog.getSurepassword().equals(MyInfoActivity.this.dialog.getPassword())) {
-								DC.getInstance().changeUserPassword(MyInfoActivity.this, Constants.user.getUserId(),
-										MyInfoActivity.this.dialog.getOldPassword(), MyInfoActivity.this.dialog.getPassword());
-								}
-						} else if (null != MyInfoActivity.this.dialog.getName()) {
-							DC.getInstance().changeUserName(MyInfoActivity.this, Constants.user.getUserId(),
-									MyInfoActivity.this.dialog.getName());
-						} else if (null != MyInfoActivity.this.dialog.getPhone()) {
-							DC.getInstance().changeUserName(MyInfoActivity.this, Constants.user.getPhoneNumber(),
-									MyInfoActivity.this.dialog.getPhone());
+			if (tag.equals("name")) {
+				dialog = new ChangePasswdDialog(this, R.layout.dialog_changename, "更改用户名");
+				dialog.show();
+			} else if (tag.equals("password")) {
+				dialog = new ChangePasswdDialog(this, R.layout.dialog_changepassword, "更改用户密码");
+				dialog.show();
+			} else if (tag.equals("phone")) {
+				dialog = new ChangePasswdDialog(this, R.layout.dialog_changephone, "更改用户手机号");
+				dialog.show();
+			}
+			/* 更新 */
+			dialog.setPositiveButton("确定", new OnClickListener() {
+				public void onClick(View v) {
+					
+					if (tag.equals("password") && null != MyInfoActivity.this.dialog.getOldPassword()) {
+						//更新密码
+						if (MyInfoActivity.this.dialog.getSurepassword()
+								.equals(MyInfoActivity.this.dialog.getPassword())) {
+							DC.getInstance().changeUserPassword(MyInfoActivity.this, Constants.user.getUserId(),
+									MyInfoActivity.this.dialog.getOldPassword(),
+									MyInfoActivity.this.dialog.getPassword());
 						}
+					} else if ( tag.equals("name") && null != MyInfoActivity.this.dialog.getName()) {
+						DC.getInstance().changeUserName(MyInfoActivity.this, Constants.user.getUserId(),
+								MyInfoActivity.this.dialog.getName());
+					} else if (tag.equals("phone") && null != MyInfoActivity.this.dialog.getPhone()) {
+						DC.getInstance().changeUserName(MyInfoActivity.this, Constants.user.getPhoneNumber(),
+								MyInfoActivity.this.dialog.getPhone());
 					}
-				});
+				}
+			});
+
 		} else if (tag.equals("headImage")) {
 			Intent intent = new Intent(MyInfoActivity.this, ChangeUserHeadImageActivity.class);
 			startActivity(intent);
 		} else if (tag.equals("exit")) {
 			DoubleButtonMessageDialog dialog = new DoubleButtonMessageDialog(this, "确定要退出?");
+
 			dialog.setPositiveButton("退出", new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
@@ -110,10 +118,21 @@ public class MyInfoActivity extends BackActivity implements OnDataReturnListener
 		if (result.getServiceResult()) {
 			if (taskTag.equals(TaskTag.CHANGE_USER_NAME)) {
 				Toast.makeText(this, "更新用户名成功....", Toast.LENGTH_LONG).show();
+				//更新用户名
+				if (null != result.getResultParam()) {
+					User user = JsonToUserUtil.getuser(result);
+					usernameTv.setText(user.getUserName());
+				}
+				
 			} else if (taskTag.equals(TaskTag.CHANGE_USER_PASSWORD)) {
 				Toast.makeText(this, "更新用户密码成功....", Toast.LENGTH_LONG).show();
 			} else if (taskTag.equals(TaskTag.CHANGE_USER_PHONE)) {
 				Toast.makeText(this, "更新用户手机号成功....", Toast.LENGTH_LONG).show();
+				//更新手机号
+				if (null != result.getResultParam()) {
+					User user = JsonToUserUtil.getuser(result);
+					phoneTv.setText(user.getPhoneNumber());
+				}
 			}
 		} else {
 			Toast.makeText(this, result.getResultInfo(), Toast.LENGTH_LONG).show();
