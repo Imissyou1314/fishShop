@@ -8,7 +8,6 @@ public class MyGson {
 
 	private MyGson() {
 	}
-
 	public static Gson getInstance() {
 		if (gson == null) {
 			gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss")
