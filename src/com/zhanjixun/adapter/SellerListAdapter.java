@@ -121,9 +121,9 @@ public class SellerListAdapter extends BaseAdapter {
 				R.string.fishermen_return_time)
 				+ MyUtil.getDays(fishermen.getPortTime()) + "Ììºó");
 		if (seller.getGetTypeString() == null) {
-			vh.item_3.setText(context.getResources().getString(R.string.farmer_way));
+			vh.item_3.setText(context.getResources().getString(R.string.fishermen_catch_way));
 		} else {
-			vh.item_3.setText(context.getResources().getString(R.string.farmer_way)
+			vh.item_3.setText(context.getResources().getString(R.string.fishermen_catch_way)
 					+ StringUtil.splistString(seller.getGetTypeString().toString(), 1, ",", "]..."));
 		}
 	}

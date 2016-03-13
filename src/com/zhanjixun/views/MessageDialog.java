@@ -41,11 +41,6 @@ public class MessageDialog {
 		messageTv.setText(msg);
 	}
 	
-	//TODO
-	public void setMessage(String msg) {
-		messageTv.setText(msg);
-	}
-
 	public void show() {
 		if (dialog != null && !dialog.isShowing()) {
 			dialog.show();

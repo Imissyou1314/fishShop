@@ -1,7 +1,6 @@
 package com.zhanjixun.activity;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -77,9 +76,6 @@ public class RegisterActivity extends BackActivity implements
 	@Override
 	public void onDataReturn(String taskTag, BaseResult result, String json) {
 		dialog.dismiss();
-		
-		Log.d("miss json", json);
-		Log.d("miss result", result.getResultInfo());
 		
 		if (result.getServiceResult()) {
 			if (taskTag.equals(TaskTag.REGISTER_CODE)) {
