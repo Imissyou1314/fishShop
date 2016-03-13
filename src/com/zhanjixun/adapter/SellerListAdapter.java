@@ -18,6 +18,7 @@ import com.zhanjixun.domain2.Fisherman;
 import com.zhanjixun.domain2.Location;
 import com.zhanjixun.domain2.Seller;
 import com.zhanjixun.utils.MyUtil;
+import com.zhanjixun.utils.StringUtil;
 
 public class SellerListAdapter extends BaseAdapter {
 
@@ -98,8 +99,16 @@ public class SellerListAdapter extends BaseAdapter {
 		vh.item_2.setText(context.getResources().getString(
 				R.string.farmer_distance)
 				+ MyUtil.distance(Constants.location, l2) + "Ç§Ã×");
-		vh.item_3.setText(context.getResources().getString(R.string.farmer_way)
-				+ farmers.getGetTypeString());
+		
+		
+		if (farmers.getGetTypeString() == null) {
+			vh.item_3.setText(context.getResources().getString(R.string.farmer_way));
+		} else {
+			vh.item_3.setText(context.getResources().getString(R.string.farmer_way)
+					+ StringUtil.splistString(farmers.getGetTypeString().toString(), 1, ",", "]..."));
+		}
+		
+		
 	}
 
 	private void initFisherman(Seller seller, ViewHolder vh) {
@@ -111,9 +120,12 @@ public class SellerListAdapter extends BaseAdapter {
 		vh.item_2.setText(context.getResources().getString(
 				R.string.fishermen_return_time)
 				+ MyUtil.getDays(fishermen.getPortTime()) + "Ììºó");
-		vh.item_3.setText(context.getResources().getString(
-				R.string.fishermen_catch_way)
-				+ fishermen.getGetTypeString());
+		if (seller.getGetTypeString() == null) {
+			vh.item_3.setText(context.getResources().getString(R.string.farmer_way));
+		} else {
+			vh.item_3.setText(context.getResources().getString(R.string.farmer_way)
+					+ StringUtil.splistString(seller.getGetTypeString().toString(), 1, ",", "]..."));
+		}
 	}
 
 	class ViewHolder {

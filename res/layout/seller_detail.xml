@@ -139,6 +139,7 @@
                                     android:textSize="12sp" />
 
                                 <TextView
+                                    android:id="@+id/id_seller_detail_getAllGoods"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:background="@drawable/all_goods_button"
@@ -220,8 +221,9 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/seller_detail_linearLayout"
                 android:layout_width="fill_parent"
-                android:layout_height="600dp"
+                android:layout_height="match_parent"
                 android:orientation="vertical" >
 
                 <ImageView
@@ -229,13 +231,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="2dp"
                     android:background="@color/theme" />
-
-                <android.support.v4.view.ViewPager
+                <com.zhanjixun.views.selfAdapterViewPager
                     android:id="@+id/id_seller_detail_viewpager"
                     android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
+                    android:layout_height="match_parent"
                     android:background="#ffffff" >
-                </android.support.v4.view.ViewPager>
+                </com.zhanjixun.views.selfAdapterViewPager>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

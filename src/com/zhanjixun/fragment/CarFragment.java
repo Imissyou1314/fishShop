@@ -2,6 +2,7 @@ package com.zhanjixun.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -50,8 +51,12 @@ public class CarFragment extends CheckCarFragment implements OnClickListener {
 		if (hasData()) {
 			initViews();
 			initData();
+			Log.v("create", "miss");
 		}
 	}
+	
+	/*刷新页面*/
+	
 
 	private void initViews() {
 		msg = new MessageDialog(getActivity());
@@ -63,6 +68,16 @@ public class CarFragment extends CheckCarFragment implements OnClickListener {
 		editBtn = (TextView) getActivity().findViewById(R.id.btn_car_edit);
 		editBtn.setOnClickListener(this);
 		commitBtn.setOnClickListener(this);
+	}
+
+	@Override
+	public void onStart() {
+		super.onStart();
+//		if (hasData()) {
+//			initViews();
+//			initData();
+//			Log.v("create", "miss");
+//		}
 	}
 
 	private void initData() {
@@ -95,7 +110,6 @@ public class CarFragment extends CheckCarFragment implements OnClickListener {
 				msg.setMessage("所选商品数量为0！");
 				msg.show();
 			} else if (Constants.user.getUserId() == null) {
-
 				LogUtils.v("用户没有登录");
 				DoubleButtonMessageDialog doubleBtnMsg = new DoubleButtonMessageDialog(
 						getActivity(), "你还没有登录！");
@@ -117,14 +131,16 @@ public class CarFragment extends CheckCarFragment implements OnClickListener {
 		}
 		setPrice();
 	}
-
+	
 	private float getPrice() {
-		try {
-			String text = (String) priceTv.getText();
-			return Float.parseFloat(text.substring(1));
-		} catch (Exception e) {
-			return 0;
-		}
+		
+		String text = priceTv.getText().toString();
+		String price = text.substring(1, text.length());
+		String[] strlist = price.split(",");
+		price = "";
+		for (String str : strlist)
+			price  =price + str;
+		return Float.parseFloat(price);
 	}
 
 	private void setPrice() {

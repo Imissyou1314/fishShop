@@ -9,6 +9,7 @@ public class Address {
 	private String address;
 	private String postcode;
 	private boolean defaultAddress;
+	private long proginceId;
 
 	@Override
 	public String toString() {
@@ -104,4 +105,15 @@ public class Address {
 	public void setDefaultAddress(boolean defaultAddress) {
 		this.defaultAddress = defaultAddress;
 	}
+
+	/*获取省份ID*/
+	public long getProginceId() {
+		return proginceId;
+	}
+	/*设置省份ID*/
+	public void setProginceId(long proginceId) {
+		this.proginceId = proginceId;
+	}
+	
+	
 }

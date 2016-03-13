@@ -35,6 +35,11 @@ public class CarOrder {
 		return SPUtil.saveString(context, Constants.XML_CAR, Constants.XML_CAR,
 				json);
 	}
+	
+	//Çå¿Õ¹ºÎï³µ
+	public static boolean deleteCarOrder(Context context) {
+		return SPUtil.deleteSP(context, Constants.XML_CAR);
+	}
 
 	/**
 	 * @return userId

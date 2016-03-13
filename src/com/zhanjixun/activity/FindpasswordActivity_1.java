@@ -2,7 +2,6 @@ package com.zhanjixun.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -81,7 +80,6 @@ public class FindpasswordActivity_1 extends BackActivity implements
 				startActivity(intent);
 			}
 		} else {
-			Log.v("Miss=====>", result.toString());
 			msg.setMessage(result.getResultInfo());
 			msg.show();
 		}

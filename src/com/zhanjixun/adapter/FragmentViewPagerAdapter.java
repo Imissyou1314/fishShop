@@ -54,7 +54,8 @@ public class FragmentViewPagerAdapter extends PagerAdapter implements
 
 	@Override
 	public void destroyItem(ViewGroup container, int position, Object object) {
-		container.removeView(fragments.get(position).getView()); // 移出viewpager两边之外的page布局
+		// 移出viewpager两边之外的page布局
+		container.removeView(fragments.get(position).getView()); 
 	}
 
 	@Override

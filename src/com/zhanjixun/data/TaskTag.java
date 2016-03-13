@@ -94,6 +94,14 @@ public class TaskTag {
 	public static final String SEND_PRICE ="SEND_PRICE";
 	
 	public static final String SALES_VOLUME ="SALES_VOLUME";
+
+	public static final String SEARCH_GOOD = "SEARCH_GOOD";
+
+	public static final String GET_SHENFEN = "GET_SHENFEN";
+
+	public static final String DELETE_ORDERS = "DELETE_ORDERS";
+
+	public static final String GET_TOPCATWFROY = "GET_TOPCATWFROY";
 	
 
 }

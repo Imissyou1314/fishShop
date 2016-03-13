@@ -38,6 +38,8 @@
                 android:background="#FFFFFF"
                 android:orientation="horizontal"
                 android:paddingLeft="10dp"
+                android:onClick="onClick"
+                android:tag="Right"
                 android:paddingRight="10dp" >
 
                 <RelativeLayout
@@ -96,8 +98,8 @@
                     android:layout_width="0dip"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:onClick="onClick"
-                    android:tag="Right" >
+                    
+                     >
 
                     <ImageView
                         android:layout_width="wrap_content"

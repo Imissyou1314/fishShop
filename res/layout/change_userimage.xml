@@ -29,18 +29,8 @@
         android:layout_marginTop="20dp"
         android:layout_marginBottom="60dp"
         android:background="@drawable/mybutton"
+        android:textColor="#ffffff"
         android:text="相册" />
-
-    <Button
-        android:id="@+id/btn_tabkephoto"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/linear"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="147dp"
-        android:background="@drawable/mybutton"
-        android:gravity="center"
-        android:text="相机" />
 
     <LinearLayout
         android:id="@+id/linear"
@@ -60,5 +50,17 @@
             android:src="@drawable/user_face" />
 
     </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_tabkephoto"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/linear"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="82dp"
+        android:background="@drawable/mybutton"
+        android:gravity="center"
+        android:textColor="#ffffff"
+        android:text="相机" />
 
 </RelativeLayout>

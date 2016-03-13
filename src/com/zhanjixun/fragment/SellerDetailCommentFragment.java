@@ -72,7 +72,6 @@ public class SellerDetailCommentFragment extends Fragment implements
 		initData();
 	}
 
-	@SuppressLint("NewApi")
 	public void initView() {
 		freshRatingBar = (RatingBar) getView().findViewById(
 				R.id.id_ratingBar_freshQuality);

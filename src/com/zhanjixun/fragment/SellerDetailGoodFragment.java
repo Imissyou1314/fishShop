@@ -5,7 +5,6 @@ import java.util.List;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -77,7 +76,6 @@ public class SellerDetailGoodFragment extends Fragment implements
 						result.getResultParam().get("goodsList"),
 						new TypeToken<List<Good>>() {
 						}.getType());
-				Log.v("SELLER_GOODS===>Miss", g.size()+ "miss===>");
 				if (g.size() != 0) {
 					goods.clear();
 					goods.addAll(g);

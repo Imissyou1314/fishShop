@@ -28,6 +28,11 @@ import com.zhanjixun.views.DoubleButtonMessageDialog;
 import com.zhanjixun.views.LoadingDialog;
 import com.zhanjixun.views.MessageDialog;
 
+/**
+ * 提交订单
+ * @author Imissyou
+ *
+ */
 public class SubmitOrder extends BackActivity implements OnDataReturnListener {
 	private LoadingDialog dialog;
 	private TextView shellerName;
@@ -167,7 +172,6 @@ public class SubmitOrder extends BackActivity implements OnDataReturnListener {
 						});
 				buttonMessageDialog.setPositiveButton("去付款",
 						new OnClickListener() {
-
 							@Override
 							public void onClick(View v) {
 								Intent intent2 = new Intent(SubmitOrder.this,

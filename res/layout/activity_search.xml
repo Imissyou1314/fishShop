@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:id="@+id/search_Relative"
+    android:orientation="vertical" >
+    
+     <FrameLayout style="@style/TitleTheme" >
+
+        <TextView
+            style="@style/TitleLeftTheme"
+            android:clickable="true"
+            android:drawableLeft="@drawable/title_back"
+            android:drawableStart="@drawable/title_back"
+            android:onClick="onBack"
+            android:text="首页" />
+
+        <TextView
+            style="@style/TitleMiddleTheme"
+            android:text="搜索" />
+    </FrameLayout>
+    
+    <LinearLayout 
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="65dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_alignParentTop="true"
+        android:gravity="center_horizontal"
+        android:background="@drawable/linearlayout"
+        android:orientation="horizontal">
+        <ImageView 
+            android:id="@+id/searche_image"
+            android:layout_width="20dp"
+            android:layout_marginLeft="8dp"
+			android:layout_gravity="center"
+            android:layout_height="20dp"
+            android:src="@drawable/search1"/>
+        
+        <EditText 
+            android:id="@+id/searche_ET"
+            android:layout_height="30dp"
+            android:textSize="13sp"
+            android:layout_width="match_parent"
+            android:layout_marginLeft="4dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="10dp"
+            android:text="请输入要搜索的名称"
+            android:textColor="#A5A5A5"
+            android:inputType="text"
+            android:background="#EAEAEA"/>
+    </LinearLayout>
+
+</RelativeLayout>

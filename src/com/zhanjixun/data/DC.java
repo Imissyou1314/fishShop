@@ -516,9 +516,9 @@ public class DC extends DataCenter {
 	 * @param type
 	 */
 	public void getLogistic(OnDataReturnListener dataReturnListener, String postid) {
-		// http://www.kuaidi100.com/query?type=zhongtong&postid=719121392152
+		// http://www.kuaidi100.com/query?type=shunfeng&postid=719121392152
 		Map<String, String> params = new HashMap<String, String>();
-		params.put("type", "zhongtong");
+		params.put("type", "shunfeng");
 		params.put("postid", postid);
 		getLogistics(TaskTag.LOGISTIC, params, dataReturnListener);
 	}
@@ -574,7 +574,7 @@ public class DC extends DataCenter {
 	public void ensureGet(OnDataReturnListener dataReturnListener, String orderId) {
 		Map<String, String> params = new HashMap<String, String>();
 		params.put("ordersId", orderId);
-		getDatasFromServer(TaskTag.ENSUREGET, "orders_realGetOrders.action", params, dataReturnListener);
+		getDatasFromServer(TaskTag.ENSUREGET, "fishshop/orders_realGetOrders.action", params, dataReturnListener);
 	}
 
 	/**
@@ -609,11 +609,12 @@ public class DC extends DataCenter {
 	 * @param mail
 	 */
 	public void addAddress(OnDataReturnListener dataReturnListener, String phone, String name, String adsPhone,
-			String address, String mail) {
+			String address, String mail, long provinceId) {
 		Map<String, String> params = new HashMap<String, String>();
 		params.put("userId", phone);
 		params.put("userName", name);
 		params.put("address", address);
+		params.put("addresscode", provinceId + "");
 		params.put("phone", adsPhone);
 		params.put("postcode", mail);
 
@@ -632,15 +633,16 @@ public class DC extends DataCenter {
 	 * @param mail
 	 */
 	public void updataAddress(OnDataReturnListener dataReturnListener, String addressId, String phone, String name,
-			String adsPhone, String address, String mail) {
+			String adsPhone, String address, String mail, long provinceId) {
 		Map<String, String> params = new HashMap<String, String>();
 		params.put("getAddressId", addressId);
 		params.put("userId", phone);
 		params.put("userName", name);
 		params.put("address", address);
 		params.put("phone", adsPhone);
+		params.put("addresscode", provinceId + "");
 		params.put("postcode", mail);
-		getDatasFromServer(TaskTag.UPDATA_ADDRESS, "fishshop/getaddress_addGetAddress.action", params,
+		getDatasFromServer(TaskTag.UPDATA_ADDRESS, "fishshop/getaddress_updateGetAddress.action", params,
 				dataReturnListener);
 	}
 
@@ -753,47 +755,52 @@ public class DC extends DataCenter {
 			this.getGoodDatailWild(dataReturnListener, TASK, pageIndex, pageSize, typenumber, categoryId);
 			break;
 		}
-		// switch (type) {
-		// //所有的商品
-		// case TaskTag.GOOD_ALL:
-		// getDatasFromServer(TaskTag.GOOD_ALL, URL, params,
-		// dataReturnListener);
-		// break;
-		// //所有的野生商品
-		// case TaskTag.GOOD_WILD:
-		// getDatasFromServer(TaskTag.GOOD_WILD, URL, params,
-		// dataReturnListener);
-		// break;
-		// //所有的养殖商品
-		// case TaskTag.GOOD_BREAD:
-		// getDatasFromServer(TaskTag.GOOD_BREAD, URL, params,
-		// dataReturnListener);
-		// break;
-		// //所有综合排序商品
-		// case TaskTag.COMPREHENSIVE_RANKING:
-		// getDatasFromServer(TaskTag.COMPREHENSIVE_RANKING, URL, params,
-		// dataReturnListener);
-		// break;
-		// //所有评分最高商品
-		// case TaskTag.COMMENT_HIGHEST:
-		// getDatasFromServer(TaskTag.COMMENT_HIGHEST, URL, params,
-		// dataReturnListener);
-		// break;
-		// //所有起送价最低商品
-		// case TaskTag.SEND_PRICE:
-		// getDatasFromServer(TaskTag.SEND_PRICE, URL, params,
-		// dataReturnListener);
-		// break;
-		// //所以销量最高
-		// case TaskTag.SALES_VOLUME:
-		// getDatasFromServer(TaskTag.SALES_VOLUME, URL, params,
-		// dataReturnListener);
-		// break;
-		// default:
-		// getDatasFromServer(TaskTag.GOOD_ALL,
-		// "fishshop/category_getGoodsShops.action", params,
-		// dataReturnListener);
-		// break;
-		// }
+	}
+	
+	/**
+	 * 搜索商品
+	 * @param dataReturnListener
+	 * @param search
+	 */
+	public void searchGoods(OnDataReturnListener dataReturnListener, String search, 
+			int pageIndex, int pageSize) {
+		Map<String, String> params = new HashMap<String, String>();
+		params.put("categorySimpleName", search);
+		params.put(new String("pageInfo.indexPageNum"), pageIndex + "");
+		params.put(new String("pageInfo.size"), pageSize + "");
+		//TODO URL 和 要不要分页加载
+		getDatasFromServer(TaskTag.GOOD_LIST, "fishshop/category_searchCateogry.action", params, dataReturnListener);
+	}
+	
+	/**
+	 * 获取省份
+	 * @param addAddressActivity
+	 */
+	public void getProvinces(OnDataReturnListener dataReturnListener) {
+		getDatasFromServer(TaskTag.GET_SHENFEN, "region_allRegion.action", null, dataReturnListener);
+	}
+	
+	/**
+	 * 删除订单
+	 * @param dataReturnListener
+	 * @param ordersId
+	 */
+	public void deleteOrders(OnDataReturnListener dataReturnListener, String ordersId) {
+		Map<String, String> params = new HashMap<String, String>();
+		params.put("ordersId", ordersId);
+		getDatasFromServer(TaskTag.DELETE_ORDERS, "fishshop/orders_deleteOrders.action", 
+				params, dataReturnListener);
+		
+	}
+	
+	/**
+	 * 获取所有的一级分类
+	 * @param dataReturnListener
+	 * @param pageIndex
+	 * @param pageSize
+	 */
+	public void getTopCategory(OnDataReturnListener dataReturnListener) {
+		getDatasFromServer(TaskTag.GET_TOPCATWFROY, "fishshop/category_getTopCategory.action", 
+				null, dataReturnListener);
 	}
 }

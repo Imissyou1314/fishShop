@@ -10,11 +10,13 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.zhanjixun.R;
 import com.zhanjixun.base.BackActivity;
 import com.zhanjixun.data.DC;
 import com.zhanjixun.data.IC;
+import com.zhanjixun.data.TaskTag;
 import com.zhanjixun.domain2.BaseResult;
 import com.zhanjixun.domain2.Good;
 import com.zhanjixun.domain2.Order;
@@ -132,7 +134,7 @@ public class OrderInfoActivity extends BackActivity implements
 		case Order.state_un_sent:
 			orderStateTv.setText("等待卖家发货");
 			orderStateMsgTv.setText("");
-			btn.setText("提醒发货");
+			btn.setText("提醒发货");//TODO
 			btn.setTag(Order.state_un_sent);
 			btn.setOnClickListener(this);
 			break;
@@ -153,7 +155,7 @@ public class OrderInfoActivity extends BackActivity implements
 		case Order.state_finish:
 			orderStateTv.setText("已完成");
 			orderStateMsgTv.setText("");
-			btn.setText("已完成");
+			btn.setText("删除");
 			break;
 		default:
 			break;
@@ -171,6 +173,10 @@ public class OrderInfoActivity extends BackActivity implements
 			messageDialog = new MessageDialog(this, result.getResultInfo());
 			messageDialog.show();
 		}
+		if (taskTag.equals(TaskTag.DELETE_ORDERS)) {
+			Toast.makeText(this, "删除成功", Toast.LENGTH_SHORT).show();
+			this.finish();
+		}
 	}
 
 	@Override
@@ -182,8 +188,10 @@ public class OrderInfoActivity extends BackActivity implements
 			this.startActivity(intent2);
 			break;
 		case Order.state_un_sent:
+			//TODO 提现发货
 			break;
 		case Order.state_un_get:
+			//查看物流
 			Intent intent = new Intent(this, LogisiticeActivity.class);
 			try {
 				intent.putExtra("imageUrl", order.getOrdersDetail().get(0)
@@ -195,6 +203,7 @@ public class OrderInfoActivity extends BackActivity implements
 			this.startActivity(intent);
 			break;
 		case Order.state_un_commet:
+			//去评论
 			Intent intent1 = new Intent(this, AppraiseActivity.class);
 			try {
 				intent1.putExtra("imageUrl", order.getOrdersDetail().get(0)
@@ -207,6 +216,9 @@ public class OrderInfoActivity extends BackActivity implements
 			this.startActivity(intent1);
 			break;
 		case Order.state_finish:
+			//已经完成
+			DC.getInstance().deleteOrders(this, order.getOrdersId());
+			
 			break;
 		default:
 			break;

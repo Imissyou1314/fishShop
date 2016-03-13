@@ -6,7 +6,6 @@ import java.util.Map;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -240,48 +239,55 @@ public class GoodDetailActivity extends BackActivity
 	public void onDataReturn(String taskTag, BaseResult result, String json) {
 		dialog.dismiss();
 		sellers.clear();
-		List<Seller> ss = new ArrayList<Seller>();
 		Map<String, String> resultParm = result.getResultParam();
 		
-		Log.v("TaskTag", taskTag);
 		if (result.getServiceResult()) {
-			//所以有的商品
-			if (taskTag.equals(TaskTag.GOOD_SELLER) || taskTag.equals(TaskTag.GOOD_ALL)) {
-				List<Fisherman> fisher = MyGson.getInstance().fromJson(resultParm.get("shopList"),
-						new TypeToken<List<Fisherman>>() {
-						}.getType());
-				List<Farmer> farmer = MyGson.getInstance().fromJson(resultParm.get("shopList"),
-						new TypeToken<List<Farmer>>() {
-						}.getType());
-				for (int i = 0; i < fisher.size(); i++) {
-					if (fisher.get(i).getShopType() == Seller.TYPE_FARMER) {
-						ss.add(farmer.get(i));
-					} else {
-						ss.add(fisher.get(i));
-					}
-				}
-			} else if (taskTag.equals(TaskTag.GOOD_WILD)) { //野生的商品
-				List<Farmer> farmers = MyGson.getInstance().fromJson(resultParm.get("shopList"),
-						new TypeToken<List<Farmer>>() {
-						}.getType());
-				Log.v("farmers", farmers.toString());
-				for (Farmer farmer : farmers) {
-					ss.add(farmer);
-				}
-			} else if (taskTag.equals(TaskTag.GOOD_BREAD)) { //养殖的商品
-				List<Fisherman> fishers = MyGson.getInstance().fromJson(resultParm.get("shopList"),
-						new TypeToken<List<Fisherman>>() {
-						}.getType());
-				for (Fisherman fisher : fishers) {
-					ss.add(fisher);
-				}
-			}
-			Log.v("SS  Miss===>", ss.toString());
-			sellers.addAll(ss);
-			Log.v("fresh", "Miss----->");
-			initListData();
+			loadData(taskTag, resultParm);
 		} else {
 			new MessageDialog(this, result.getResultInfo()).show();
 		}
+	}
+	
+	/**
+	 * 加载页面数据
+	 * @param taskTag
+	 * @param resultParam
+	 */
+	private void loadData(String taskTag, Map<String,String> resultParam) {
+		
+		List<Seller> ss = new ArrayList<Seller>();
+		//所以有的商品
+		if (taskTag.equals(TaskTag.GOOD_SELLER) || taskTag.equals(TaskTag.GOOD_ALL)) {
+			List<Fisherman> fisher = MyGson.getInstance().fromJson(resultParam.get("shopList"),
+					new TypeToken<List<Fisherman>>() {
+					}.getType());
+			List<Farmer> farmer = MyGson.getInstance().fromJson(resultParam.get("shopList"),
+					new TypeToken<List<Farmer>>() {
+					}.getType());
+			for (int i = 0; i < fisher.size(); i++) {
+				if (fisher.get(i).getShopType() == Seller.TYPE_FARMER) {
+					ss.add(farmer.get(i));
+				} else {
+					ss.add(fisher.get(i));
+				}
+			}
+		} else if (taskTag.equals(TaskTag.GOOD_BREAD)) { 
+			//养殖的商品
+			List<Farmer> farmers = MyGson.getInstance().fromJson(resultParam.get("shopList"),
+					new TypeToken<List<Farmer>>() {
+					}.getType());
+			for (Farmer farmer : farmers)
+				ss.add(farmer);
+		} else if (taskTag.equals(TaskTag.GOOD_WILD)) { 
+			
+			//野生的商品
+			List<Fisherman> fishers = MyGson.getInstance().fromJson(resultParam.get("shopList"),
+					new TypeToken<List<Fisherman>>() {
+					}.getType());
+			for (Fisherman fisher : fishers)
+				ss.add(fisher);
+		}
+		sellers.addAll(ss);
+		initListData();
 	}
 }

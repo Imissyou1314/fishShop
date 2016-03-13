@@ -9,10 +9,12 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.reflect.TypeToken;
 import com.zhanjixun.R;
 import com.zhanjixun.adapter.GoodListAdapter;
+import com.zhanjixun.adapter.TopGoodsAdapter;
 import com.zhanjixun.base.BackActivity;
 import com.zhanjixun.data.DC;
 import com.zhanjixun.data.TaskTag;
@@ -23,8 +25,8 @@ import com.zhanjixun.utils.MyGson;
 import com.zhanjixun.utils.LogUtils;
 import com.zhanjixun.views.LoadingDialog;
 import com.zhanjixun.views.MessageDialog;
-import com.zhanjixun.views.ReflashListView;
-import com.zhanjixun.views.ReflashListView.OnRefreshListener;
+import com.zhanjixun.views.ReflashListViewTwo;
+import com.zhanjixun.views.ReflashListViewTwo.OnRefreshListener;
 
 public class GoodListActivity extends BackActivity implements
 		OnDataReturnListener, OnRefreshListener, OnItemClickListener {
@@ -39,13 +41,18 @@ public class GoodListActivity extends BackActivity implements
 	public static final int SQUID = 5;
 	public static final int GINSENG = 6;
 	public static final int OTHERS = 7;
+	public static final int SEARCH = 8;
 
 	private TextView titleTv;
-	private ReflashListView goodLv;
+	private ReflashListViewTwo goodLv;
 	private GoodListAdapter adapter;
+	
+	private TopGoodsAdapter topAdapter;
 	private LoadingDialog dialog;
 	private String categoryId;
 	private List<GoodListItem> goods = new ArrayList<GoodListItem>();
+	private String search = null;
+	private Integer kind;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -56,13 +63,19 @@ public class GoodListActivity extends BackActivity implements
 	}
 
 	private void initViews() {
+		kind = (Integer) getIntent().getExtras().get("kind");
 		titleTv = (TextView) findViewById(R.id.text_activity_goodlist_title);
-		goodLv = (ReflashListView) findViewById(R.id.text_activity_goodlist_list);
+		goodLv = (ReflashListViewTwo) findViewById(R.id.text_activity_goodlist_list);
+		seletTitle(kind);
+		
+	}
+	
+	/*
+	 * 自定义加载数据
+	 */
+	private void seletTitle(int kind) {
 		adapter = new GoodListAdapter(this, goods);
 		goodLv.setAdapter(adapter);
-		goodLv.setOnRefreshListener(this);
-		goodLv.setOnItemClickListener(this);
-		Integer kind = (Integer) getIntent().getExtras().get("kind");
 		switch (kind) {
 		case FISH:
 			titleTv.setText("鱼类");
@@ -90,25 +103,49 @@ public class GoodListActivity extends BackActivity implements
 			break;
 		case OTHERS:
 			titleTv.setText("其他");
+			categoryId = "7";
+			topAdapter = new TopGoodsAdapter(this, goods);
+			goodLv.setAdapter(topAdapter);
 			break;
+		case SEARCH:
+			titleTv.setText("搜索结果");
+			search  = getIntent().getStringExtra("search");
 		default:
 			break;
 		}
+		goodLv.setOnRefreshListener(this);
+		goodLv.setOnItemClickListener(this);
 	}
 
+	/*请求服务器数据*/
 	private void initData() {
-		if (categoryId != null) {
+		if (categoryId != null && !categoryId.equals("")) {
 			dialog = new LoadingDialog(this);
 			dialog.show();
-			DC.getInstance().getGoodList(this, categoryId, pageIndex++,
+			if (categoryId.equals("7")) {
+				DC.getInstance().getTopCategory(this);
+			} else {
+				DC.getInstance().getGoodList(this, categoryId, pageIndex++,
+						PAGE_SIZE);
+			}
+		} else if (null !=  search && !search.equals("")) {
+			dialog = new LoadingDialog(this);
+			dialog.show();
+			DC.getInstance().searchGoods(this, search, pageIndex++,
 					PAGE_SIZE);
-		} else {
+		}  else {
 			LogUtils.w("categoryId=null");
 		}
 	}
-
+	
+	/**
+	 * 刷新页面
+	 */
 	private void initListViewData() {
 		adapter.notifyDataSetChanged();
+		if (topAdapter != null) {
+			topAdapter.notifyDataSetInvalidated();
+		}
 		goodLv.hideFooterView();
 	}
 
@@ -116,17 +153,19 @@ public class GoodListActivity extends BackActivity implements
 	public void onDataReturn(String taskTag, BaseResult result, String json) {
 		dialog.dismiss();
 		if (result.getServiceResult()) {
-			if (taskTag.equals(TaskTag.GOOD_LIST)) {
+//			goods.clear();
+			if (taskTag.equals(TaskTag.GOOD_LIST) || taskTag.equals(TaskTag.SEARCH_GOOD) 
+					|| taskTag.equals(TaskTag.GET_TOPCATWFROY)) {
 				List<GoodListItem> items = MyGson.getInstance().fromJson(result
 						.getResultParam().get("categoryList"),
 						new TypeToken<List<GoodListItem>>() {
 						}.getType());
 				if (items.size() != 0) {
 					goods.addAll(items);
+				} else {
+					Toast.makeText(this, "结果为空....", Toast.LENGTH_LONG).show();
 				}
 				initListViewData();
-				// Toast.makeText(this, items.size() == 0 ? "没有更多数据了" : "加载成功",
-				// Toast.LENGTH_LONG).show();
 			}
 		} else {
 			new MessageDialog(this, result.getResultInfo()).show();
@@ -138,12 +177,20 @@ public class GoodListActivity extends BackActivity implements
 	public void onLoadingMore(View v) {
 		DC.getInstance().getGoodList(this, categoryId, pageIndex++, PAGE_SIZE);
 	}
-
+	
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
 		GoodListItem item = (GoodListItem) parent.getAdapter()
 				.getItem(position);
+		
+		/*重新刷新页面*/
+		if (categoryId.equals("7")) {
+			seletTitle((int) parent.getAdapter().getItemId(position) + 1);
+			pageIndex-- ;
+			initData();
+			return ;
+		}
 		Intent intent = new Intent(this, GoodDetailActivity.class);
 		intent.putExtra("back", titleTv.getText());
 		intent.putExtra("simpleName", item.getCategorySimpleName());

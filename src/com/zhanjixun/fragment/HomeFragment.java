@@ -27,6 +27,7 @@ import com.zhanjixun.R;
 import com.zhanjixun.activity.GoodDetailActivity;
 import com.zhanjixun.activity.GoodListActivity;
 import com.zhanjixun.activity.MainActivity;
+import com.zhanjixun.activity.SearchActivity;
 import com.zhanjixun.adapter.AdvertisePagerAdapter;
 import com.zhanjixun.data.Constants;
 import com.zhanjixun.data.DC;
@@ -51,6 +52,8 @@ public class HomeFragment extends Fragment implements OnClickListener,
 	@SuppressWarnings("unused")
 	private TextView packTv;
 	private TextView othersTv;
+	/*ËÑË÷*/
+	private ImageView search_normal;
 
 	private View hotItem[] = new View[6];
 
@@ -121,6 +124,8 @@ public class HomeFragment extends Fragment implements OnClickListener,
 
 		points = (LinearLayout) getActivity().findViewById(R.id.home_points);
 		viewPager = (ViewPager) getActivity().findViewById(R.id.home_viewpager);
+		
+		search_normal = (ImageView) getActivity().findViewById(R.id.homeImage_search_normal);
 
 		fishTv.setOnClickListener(this);
 		shrimpTv.setOnClickListener(this);
@@ -129,6 +134,7 @@ public class HomeFragment extends Fragment implements OnClickListener,
 		squidTv.setOnClickListener(this);
 		ginsengTv.setOnClickListener(this);
 		othersTv.setOnClickListener(this);
+		search_normal.setOnClickListener(this);
 
 		initMonthHotViews();
 	}
@@ -158,6 +164,12 @@ public class HomeFragment extends Fragment implements OnClickListener,
 		case R.id.text_home_others:
 			intent.putExtra("kind", GoodListActivity.OTHERS);
 			break;
+		case R.id.homeImage_search_normal:
+			Intent intent2 = new Intent(getActivity(), SearchActivity.class);
+			getActivity().startActivity(intent2);
+			Log.v("searcheImage", "ËÑË÷Ò³Ãæ");
+			return ;
+			//TODO ËÑË÷Ò³Ãæ
 		default:
 			break;
 		}

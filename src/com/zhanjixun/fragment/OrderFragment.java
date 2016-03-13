@@ -37,11 +37,10 @@ import com.zhanjixun.utils.StringUtil;
 import com.zhanjixun.utils.UnitUtil;
 import com.zhanjixun.views.LoadingDialog;
 import com.zhanjixun.views.MessageDialog;
-import com.zhanjixun.views.ReflashListView;
-import com.zhanjixun.views.ReflashListView.OnRefreshListener;
+import com.zhanjixun.views.ReflashListViewTwo;
+import com.zhanjixun.views.ReflashListViewTwo.OnRefreshListener;
 
-public class OrderFragment extends Fragment implements OnRefreshListener,
-		OnDataReturnListener {
+public class OrderFragment extends Fragment implements OnDataReturnListener, OnRefreshListener{
 	private int index[] = new int[5];
 	private final int PAGE_SIZE = 7;
 
@@ -106,7 +105,7 @@ public class OrderFragment extends Fragment implements OnRefreshListener,
 				R.id.order_home_viewPager);
 		ArrayList<View> list = new ArrayList<View>();
 		for (int i = 0; i < 5; i++) {
-			ReflashListView lv = (ReflashListView) View.inflate(getActivity(),
+			ReflashListViewTwo lv = (ReflashListViewTwo) View.inflate(getActivity(),
 					R.layout.listview_order, null);
 			List<Order> dataList = new ArrayList<Order>();
 			OrderListAdapter adapter = new OrderListAdapter(getActivity(),
@@ -432,7 +431,7 @@ public class OrderFragment extends Fragment implements OnRefreshListener,
 
 	private void updataListViewData(int i) {
 		((OrderListAdapter) lvKeeper[i].getAdapter()).notifyDataSetChanged();
-		((ReflashListView) lvKeeper[i].getListView()).hideFooterView();
+		((ReflashListViewTwo) lvKeeper[i].getListView()).hideFooterView();
 	}
 
 }

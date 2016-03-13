@@ -3,7 +3,6 @@ package com.zhanjixun.activity;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -61,6 +60,7 @@ public class MyCommentActivity extends BackActivity implements
 	private void initViews() {
 		faceBg = (ImageView) findViewById(R.id.img_mycomment_bg);
 		faceImg = (RoundImageView) findViewById(R.id.img_mycomment_face);
+		
 		userNameTv = (TextView) findViewById(R.id.text_mycomment_name);
 		commentLv = (ReflashListView) findViewById(R.id.list_mycomment_data);
 		frameLayout = (FrameLayout) findViewById(R.id.frameLayout_face_mycomment);
@@ -73,7 +73,6 @@ public class MyCommentActivity extends BackActivity implements
 		title.setAlpha(0);
 		mScrollView.setOnTouchListener(new OnTouchListener() {
 
-			@SuppressLint("ClickableViewAccessibility")
 			@Override
 			public boolean onTouch(View view, MotionEvent event) {
 
@@ -92,9 +91,7 @@ public class MyCommentActivity extends BackActivity implements
 							.getMeasuredHeight()) {
 						MyCommentActivity.this.onLoadingMore(null);
 					}
-
 					break;
-
 				default:
 					break;
 				}

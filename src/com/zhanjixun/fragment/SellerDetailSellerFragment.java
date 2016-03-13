@@ -1,5 +1,6 @@
 package com.zhanjixun.fragment;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
@@ -37,6 +38,12 @@ import com.zhanjixun.utils.JsonUtil;
 import com.zhanjixun.utils.LogUtils;
 import com.zhanjixun.views.MessageDialog;
 
+/**
+ * 卖家的信息页面 
+ *  评分，商品，信息
+ * @author Imissyou
+ *
+ */
 public class SellerDetailSellerFragment extends Fragment implements
 		OnDataReturnListener {
 
@@ -96,11 +103,16 @@ public class SellerDetailSellerFragment extends Fragment implements
 	// 初始化鱼户信息
 	private void initFishmanData() {
 		LayoutInflater inflater = LayoutInflater.from(getContext());
+		//更新 null Throw
+		String portTime = "null";
+		if (null != fishmen.getPortTime() ) {
+			portTime = new SimpleDateFormat("yyyy-MM-dd").format(fishmen
+					.getPortTime());
+		}
+		
 		String[] textArr = {
 				"靠岸点 : " + fishmen.getShipPort(),
-				"预计靠岸时间 : "
-						+ new SimpleDateFormat("yyyy-MM-dd").format(fishmen
-								.getPortTime()),
+				"预计靠岸时间 : " + portTime,
 				"捕捞方式 : " + fishmen.getGetType(),
 				"主机功率 : " + fishmen.getEnginePower(),
 				"船吨位数 : " + fishmen.getTonnage(), "商家展示" };
@@ -151,7 +163,7 @@ public class SellerDetailSellerFragment extends Fragment implements
 		parent.addView(initShowImageView(farmer.getShowImageUrls()));
 	}
 
-	@SuppressWarnings({ "unchecked", "deprecation" })
+	@SuppressWarnings("unchecked")
 	@Override
 	public void onDataReturn(String taskTag, BaseResult result, String json) {
 		
@@ -172,7 +184,13 @@ public class SellerDetailSellerFragment extends Fragment implements
 					fishmen.setShipPort(map.get("homePort").toString());
 					fishmen.setTonnage(map.get("tonnage").toString());
 					fishmen.setEnginePower(map.get("enginePower") + "W");
-					Date date = new Date(map.get("shipCreateTime").toString());
+					SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+					Date date = null;
+					try {
+						date = sdf.parse(map.get("shipCreateTime").toString());
+					} catch (ParseException e) {
+						e.printStackTrace();
+					}
 					fishmen.setPortTime(date);
 					fishmen.setGetType(map.get("getType").toString());
 					fishmen.setShowImageUrls((List<String>) map
@@ -188,7 +206,13 @@ public class SellerDetailSellerFragment extends Fragment implements
 				farmer.setAddress(parm.get("address").toString());// 地址
 				Map<String, Object> fm = (Map<String, Object>) parm
 						.get("farmer");
-				farmer.setShowImageUrls((List<String>) fm.get("addressPhoto"));
+				//TODO
+				if (null != fm.get("addressPhoto")) {
+					farmer.setShowImageUrls((List<String>) fm.get("addressPhoto"));
+				} else {
+					farmer.setShowImageUrls(null);
+				}
+				
 			}
 			initSellerData();
 		} else {

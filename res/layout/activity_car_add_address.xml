@@ -40,7 +40,7 @@
         android:background="#ffffff"
         android:orientation="horizontal" >
 
-        <!-- 收货地址 -->
+        <!-- 收货人 -->
 
         <TextView
             android:layout_width="80dp"
@@ -60,7 +60,6 @@
             android:background="@drawable/missmyedit"
             android:inputType="textPersonName" />
     </LinearLayout>
-    <!-- 手机号 -->
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -69,7 +68,7 @@
         android:background="#FFFFFF"
         android:orientation="horizontal" >
 
-        <!-- 收货地址 -->
+        <!-- 收货手机号 -->
 
         <TextView
             android:layout_width="80dp"
@@ -88,6 +87,34 @@
             android:layout_marginTop="2dp"
             android:background="@drawable/missmyedit"
             android:inputType="phone" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="15dp"
+        android:background="#ffffff"
+        android:orientation="horizontal" >
+
+        <!-- 收货邮编 -->
+
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="50dp"
+            android:gravity="center|left"
+            android:paddingLeft="18dp"
+            android:paddingRight="0dp"
+            android:text="邮编" />
+
+        <EditText
+            android:id="@+id/shopping_car_add_address_email"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_marginBottom="15dp"
+            android:layout_marginRight="40dp"
+            android:layout_marginTop="2dp"
+            android:background="@drawable/missmyedit"
+            android:inputType="textEmailAddress" />
     </LinearLayout>
 
     <LinearLayout
@@ -121,11 +148,11 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="50dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="20dp"
         android:background="#ffffff"
         android:orientation="horizontal" >
 
-        <!-- 收货地址 -->
+        <!-- 收货地址省份 -->
 
         <TextView
             android:layout_width="80dp"
@@ -133,23 +160,18 @@
             android:gravity="center|left"
             android:paddingLeft="18dp"
             android:paddingRight="0dp"
-            android:text="邮编" />
+            android:text="省份" />
 
-        <EditText
-            android:id="@+id/shopping_car_add_address_email"
+        <Spinner
+            android:id="@+id/shopping_car_add_address_shenfen"
             android:layout_width="match_parent"
             android:layout_height="35dp"
-            android:layout_marginBottom="15dp"
+            android:gravity="center|right"
+            android:spinnerMode="dropdown"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="5dp"
             android:layout_marginRight="40dp"
-            android:layout_marginTop="2dp"
-            android:background="@drawable/missmyedit"
-            android:inputType="textEmailAddress" />
+            android:background="@drawable/missmyedit" />
     </LinearLayout>
-
-    <!-- <Spinner
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:entries="@array/address" /> -->
 
 </LinearLayout>

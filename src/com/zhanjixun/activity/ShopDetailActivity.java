@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -63,6 +64,8 @@ public class ShopDetailActivity extends FragmentActivity implements
 	private LoadingDialog dialog;
 	private MessageDialog messageDialog;
 	private TextView backTv;
+	/*获取商家的所有商品*/
+	private TextView getShopGoods;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +76,8 @@ public class ShopDetailActivity extends FragmentActivity implements
 	}
 
 	private void initView() {
+		
+		getShopGoods = (TextView) findViewById(R.id.id_seller_detail_getAllGoods);
 		backTv = (TextView) findViewById(R.id.shop_back);
 		faceImg = (ImageView) findViewById(R.id.id_seller_detail_sellerImage);
 		faceImgBg = (ImageView) findViewById(R.id.id_seller_detail_sellerImage_bg);
@@ -81,12 +86,15 @@ public class ShopDetailActivity extends FragmentActivity implements
 		tv_sellers = (TextView) findViewById(R.id.id_seller_detail_seller);
 		cursor = (ImageView) findViewById(R.id.image_seller_detail_cursor);
 		pager = (ViewPager) findViewById(R.id.id_seller_detail_viewpager);
-
+		
 		shopName = (TextView) findViewById(R.id.id_seller_detail_sellerName); // 商家名
 		msg_item1 = (TextView) findViewById(R.id.id_seller_detail_shipPort); // 靠岸口
 		msg_item2 = (TextView) findViewById(R.id.id_seller_detail_returnTime); // 靠岸时间
 		msg_item3 = (TextView) findViewById(R.id.id_seller_detail_creditValue); // 信用值
-
+		
+		/*商店的使用商品还是页面goods*/
+		getShopGoods.setOnClickListener(new MyClickListener(0));
+		
 		tv_goods.setOnClickListener(new MyClickListener(0));
 		tv_comments.setOnClickListener(new MyClickListener(1));
 		tv_sellers.setOnClickListener(new MyClickListener(2));
@@ -152,12 +160,15 @@ public class ShopDetailActivity extends FragmentActivity implements
 	}
 	
 	private void initViewpager() {
+		
+		
 		int screenW = ScreenUtil.getWidth(this);
 		// 设置游标自适应长度
 		int dipToPixels = UnitUtil.DipToPixels(this, 2);
 		LinearLayout.LayoutParams lp = new LayoutParams((int) (screenW / 3.0),
 				dipToPixels);
-		//TODO
+		
+		/*设置ViewPager*/
 		cursor.setLayoutParams(lp);
 
 		bmpW = cursor.getHeight();
@@ -173,9 +184,10 @@ public class ShopDetailActivity extends FragmentActivity implements
 		views.add(goodFragment);
 		views.add(commentFragment);
 		views.add(sellerFragment);
-
+		
 		myPagerAdapter = new FragmentViewPagerAdapter(
 				getSupportFragmentManager(), pager, views, offset, bmpW, cursor);
+		
 		pager.setAdapter(myPagerAdapter);
 		pager.setCurrentItem(0);
 	}
@@ -189,6 +201,10 @@ public class ShopDetailActivity extends FragmentActivity implements
 
 		@Override
 		public void onClick(View v) {
+			if (v.getId() == R.id.id_seller_detail_getAllGoods) {
+				Log.d("getMiss", "get shop all fishs");
+//				DC.getInstance()  TODO 获取商店的所有商品
+			}
 			pager.setCurrentItem(index);
 		}
 	}

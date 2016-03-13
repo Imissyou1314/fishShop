@@ -18,6 +18,7 @@ public class JsonUtil {
 		Map<String, Object> map = new HashMap<String, Object>();
 		if (!TextUtils.isEmpty(jsonStr)) {
 			JSONObject json = new JSONObject(jsonStr);
+			@SuppressWarnings("unchecked")
 			Iterator<String> i = json.keys();
 			while (i.hasNext()) {
 				String key = (String) i.next();

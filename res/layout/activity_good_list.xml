@@ -20,10 +20,10 @@
             android:text="鱼类" />
     </FrameLayout>
 
-    <com.zhanjixun.views.ReflashListView
+    <com.zhanjixun.views.ReflashListViewTwo
         android:id="@+id/text_activity_goodlist_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
-    </com.zhanjixun.views.ReflashListView>
+    </com.zhanjixun.views.ReflashListViewTwo>
 
 </LinearLayout>

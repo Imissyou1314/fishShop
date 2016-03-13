@@ -72,4 +72,24 @@ public class StringUtil {
 				.append(name.substring(name.indexOf(".")));
 		return sb.toString();
 	}
+	
+	/**
+	 * 转换成 。。。。 1,2,3,4,4,4 ====》 1,2,3.....
+	 * @param str 原来的字符串
+	 * @param leng 转出的长度
+	 * @param flag 识别标志
+	 * @param replace 代替的字符串（....)
+	 * @return 转换好的
+	 */
+	public static String splistString( String str, int leng, String flag, String replace ) {
+		String[] strList = str.split(flag);
+		String result = null;
+		if (strList.length <= 2) {
+			return str;
+		}
+		for (int i = 0; i < leng; i ++) {
+			result = strList[i] + flag;
+		}
+		return result.substring(0, result.length() -1) + replace;
+	}
 }

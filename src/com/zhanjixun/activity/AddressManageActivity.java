@@ -27,17 +27,19 @@ import com.zhanjixun.utils.MyGson;
 import com.zhanjixun.views.DoubleButtonMessageDialog;
 import com.zhanjixun.views.LoadingDialog;
 import com.zhanjixun.views.MessageDialog;
-import com.zhanjixun.views.ReflashListView;
-import com.zhanjixun.views.ReflashListView.OnRefreshListener;
+import com.zhanjixun.views.ReflashListViewTwo;
+import com.zhanjixun.views.ReflashListViewTwo.OnRefreshListener;
 
 public class AddressManageActivity extends BackActivity implements
 		OnDataReturnListener, OnRefreshListener {
 	private LoadingDialog dialog;
-	private ReflashListView addressLv;
+	private ReflashListViewTwo addressLv;
 	private AddressManageAdapter adapter;
 	private int postion;
 	private DoubleButtonMessageDialog dbMsgDialog;
 	private AdapterContextMenuInfo info;
+	
+	
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -62,7 +64,7 @@ public class AddressManageActivity extends BackActivity implements
 	}
 
 	private void loadListViewData(List<Address> addresses) {
-		addressLv = (ReflashListView) findViewById(R.id.id_mp_admanage);
+		addressLv = (ReflashListViewTwo) findViewById(R.id.id_mp_admanage);
 		adapter = new AddressManageAdapter(this, addresses);
 		addressLv.setAdapter(adapter);
 		addressLv.setOnRefreshListener(this);
@@ -92,6 +94,7 @@ public class AddressManageActivity extends BackActivity implements
 		// ÐÞ¸Ä
 		case 2:
 			Intent intent = new Intent(this, AddAddressActivity.class);
+			intent.setFlags(Constants.CHANGE_ADDRESS);
 			intent.putExtra("address", address.toString());
 			startActivity(intent);
 			break;

@@ -42,7 +42,7 @@ public class ChangeUserHeadImageActivity extends BackActivity implements OnClick
 	/* 头像Bitmap */
 	private Bitmap head;
 
-	private final static String headImageName = Constants.user.getHeadImage();
+	private  static String headImageName = Constants.user.getHeadImage();
 
 	// 加载缓存图片
 	String imgURL = Constants.HOST + "/fishshop/" + headImageName;
@@ -63,13 +63,20 @@ public class ChangeUserHeadImageActivity extends BackActivity implements OnClick
 		btnTakePhoto = (Button) findViewById(R.id.btn_tabkephoto);
 		btnPhotos = (Button) findViewById(R.id.btn_photo);
 
-		IC.getInstance().setForegound(headImageName, headImage);
+		
 		btnTakePhoto.setOnClickListener(this);
 		btnPhotos.setOnClickListener(this);
 	}
+	
+	@Override
+	protected void onStart() {
+		super.onStart();
+		//获取网络图片
+		IC.getInstance().setForegound(headImageName, headImage);
+	}
 
 	/**
-	 * 是调用哪一个方式获取图片
+	 * 是调用不同方式获取图片
 	 */
 	@Override
 	public void onClick(View v) {
@@ -111,9 +118,7 @@ public class ChangeUserHeadImageActivity extends BackActivity implements OnClick
 				Bundle extras = data.getExtras();
 				head = extras.getParcelable("data");
 				if (head != null) {
-					// 取出图片
-					
-					BitmapUtils.BitmapToFile(head, Constants.CACHE_DIR, "UserImage.jpg");
+					BitmapUtils.BitmapToFile(head, Constants.CACHE_DIR, "UserImage.jpg");// 取出图片
 					File file = new File(Constants.CACHE_DIR+ "/"  + "UserImage.jpg");
 					if (null != file) {
 						UpFileToService.upLoadFile("UpFile", this, file, "/fishshop/user_updateUserImg.action", "userId",
@@ -174,7 +179,9 @@ public class ChangeUserHeadImageActivity extends BackActivity implements OnClick
 		}
 	}
 
-	/* 删除文件 */
+	/**
+	 * 删除文件 
+	 */
 	private void deleteFile() {
 		File delfile = new File(Environment.getExternalStorageDirectory() + "/head.jpg");
 		if (null != delfile) {
@@ -190,11 +197,18 @@ public class ChangeUserHeadImageActivity extends BackActivity implements OnClick
 		if (result.getServiceResult()) {
 			User user = MyGson.getInstance().fromJson(result.getResultParam()
 					.get("user"), User.class);
-			Constants.user.setHeadImage(user.getHeadImage());
+			
+			headImageName = user.getHeadImage();
+			Constants.user = user;
+			
+			//保存用户更新的信息
+			
 			String Path = Constants.HOST + "/fishshop/" + user.getHeadImage();
 			setPicToView(head, Path);// 保存在SD卡中
 			this.deleteFile();// 删除文件
 			Toast.makeText(this, "更新成功....", Toast.LENGTH_LONG).show();
+			Constants.user.saveUserInfo(this);
+			
 		} else {
 			Toast.makeText(this, "操作失败....", Toast.LENGTH_LONG).show();
 		}

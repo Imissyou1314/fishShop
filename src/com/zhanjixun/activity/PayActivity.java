@@ -33,6 +33,8 @@ import com.zhanjixun.interfaces.OnDataReturnListener;
  */
 public class PayActivity extends BackActivity implements OnClickListener, OnDataReturnListener{
 	
+	
+
 	private ImageView zhifubaoImage;
 	private ImageView weixiImage;
 	private String channel = "";
@@ -51,6 +53,14 @@ public class PayActivity extends BackActivity implements OnClickListener, OnData
 		setContentView(R.layout.activity_pay);
 		
 		initViews();
+	}
+	
+	/*·µ»ØÊ×Ò³*/
+	@Override
+	public void onBack(View v) {
+		super.onBack(v);
+		Intent intent = new Intent(this, MainActivity.class);
+		this.startActivity(intent);
 	}
 
 	private void initViews() {
@@ -148,5 +158,4 @@ public class PayActivity extends BackActivity implements OnClickListener, OnData
     	builder.setPositiveButton("OK", null);
     	builder.create().show();
     }
-
 }

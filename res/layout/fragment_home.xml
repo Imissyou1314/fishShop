@@ -18,6 +18,7 @@
             android:text="位置信息" />
 
         <ImageView
+            android:id="@+id/homeImage_search_normal"
             style="@style/TitleRightTheme"
             android:src="@drawable/search_normal" />
     </FrameLayout>
@@ -36,7 +37,7 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="120dp"
+                android:layout_height="225dp"
                 android:layout_marginBottom="20dp" >
 
                 <android.support.v4.view.ViewPager

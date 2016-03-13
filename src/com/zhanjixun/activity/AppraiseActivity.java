@@ -24,6 +24,12 @@ import com.zhanjixun.interfaces.OnDataReturnListener;
 import com.zhanjixun.views.LoadingDialog;
 import com.zhanjixun.views.MessageDialog;
 
+
+/**
+ * 
+ * @author Imissyou
+ *
+ */
 public class AppraiseActivity extends BackActivity implements
 		OnDataReturnListener, OnClickListener, OnRatingBarChangeListener,
 		OnCheckedChangeListener {
@@ -175,7 +181,5 @@ public class AppraiseActivity extends BackActivity implements
 		default:
 			break;
 		}
-
 	}
-
 }

@@ -68,6 +68,7 @@ public class MainActivity extends FragmentActivity {
 	// µ¼º½À¸¼àÌýÊÂ¼þ
 	public void onClick(View v) {
 		String tag = (String) v.getTag();
+		
 		LogUtils.v(tag);
 
 		int index = 0;
@@ -84,6 +85,7 @@ public class MainActivity extends FragmentActivity {
 		updateContentFragment(index);
 	}
 
+	@SuppressWarnings("deprecation")
 	private void updateNavigationBarBackground(int index) {
 		LogUtils.v(index + "");
 		imgBtn_home.setImageResource(R.drawable.activity_main_home_normal);

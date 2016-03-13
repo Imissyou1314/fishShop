@@ -122,6 +122,9 @@ public class MyInfoActivity extends BackActivity implements OnDataReturnListener
 				if (null != result.getResultParam()) {
 					User user = JsonToUserUtil.getuser(result);
 					usernameTv.setText(user.getUserName());
+					//保存用户更新后的信息
+					Constants.user = user;
+					Constants.user.saveUserInfo(this);
 				}
 				
 			} else if (taskTag.equals(TaskTag.CHANGE_USER_PASSWORD)) {
@@ -131,7 +134,11 @@ public class MyInfoActivity extends BackActivity implements OnDataReturnListener
 				//更新手机号
 				if (null != result.getResultParam()) {
 					User user = JsonToUserUtil.getuser(result);
+					
 					phoneTv.setText(user.getPhoneNumber());
+					//保存用户更新后的信息
+					Constants.user = user;
+					Constants.user.saveUserInfo(this);
 				}
 			}
 		} else {

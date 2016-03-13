@@ -14,7 +14,7 @@
             android:drawableLeft="@drawable/title_back"
             android:drawableStart="@drawable/title_back"
             android:onClick="onBack"
-            android:text="订单" />
+            android:text="首页" />
 
         <TextView
             style="@style/TitleMiddleTheme"
