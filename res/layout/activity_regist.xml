@@ -176,7 +176,7 @@
             <CheckBox
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/mycheckbox"
+                
                 android:paddingEnd="0dip"
                 android:paddingLeft="10dip"
                 android:paddingRight="0dip"

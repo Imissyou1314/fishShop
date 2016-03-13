@@ -1,6 +1,7 @@
 package com.zhanjixun.activity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -41,6 +42,7 @@ public class RegisterActivity extends BackActivity implements
 		phoneEd = (EditText) findViewById(R.id.edit_register_phone);
 		checkCodeEdit = (EditText) findViewById(R.id.edit_register_checkCode);
 		passwordEdit = (EditText) findViewById(R.id.edit_register_password);
+		messageDialog = new MessageDialog(this);
 	}
 
 	public void onClick(View v) {
@@ -75,6 +77,10 @@ public class RegisterActivity extends BackActivity implements
 	@Override
 	public void onDataReturn(String taskTag, BaseResult result, String json) {
 		dialog.dismiss();
+		
+		Log.d("miss json", json);
+		Log.d("miss result", result.getResultInfo());
+		
 		if (result.getServiceResult()) {
 			if (taskTag.equals(TaskTag.REGISTER_CODE)) {
 				Toast.makeText(this, result.getResultInfo(), Toast.LENGTH_LONG)
@@ -83,10 +89,13 @@ public class RegisterActivity extends BackActivity implements
 				messageDialog.setMessage(result.getResultInfo());
 				messageDialog.show();
 			}
+		} else if(null != result.getResultInfo()){
+			String showMessage = result.getResultInfo() + "";
+			messageDialog.setMessage(showMessage);
 		} else {
-			messageDialog.setMessage(result.getResultInfo());
-			messageDialog.show();
+			messageDialog.setMessage("×¢²á³ö´í");
 		}
+		messageDialog.show();
 
 	}
 
