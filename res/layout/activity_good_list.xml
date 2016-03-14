@@ -20,10 +20,12 @@
             android:text="鱼类" />
     </FrameLayout>
 
-    <com.zhanjixun.views.ReflashListViewTwo
+    <com.handmark.pulltorefresh.library.PullToRefreshListView
         android:id="@+id/text_activity_goodlist_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
-    </com.zhanjixun.views.ReflashListViewTwo>
+        android:layout_height="match_parent"
+        android:divider="@color/page_bg"
+        android:dividerHeight="20dp"
+        android:scrollbars="none" />
 
 </LinearLayout>
