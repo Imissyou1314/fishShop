@@ -155,7 +155,7 @@ public class GoodListActivity extends BackActivity implements
 	public void onDataReturn(String taskTag, BaseResult result, String json) {
 		dialog.dismiss();
 		if (result.getServiceResult()) {
-			goods.clear();
+//			goods.clear();
 			if (taskTag.equals(TaskTag.GOOD_LIST) || taskTag.equals(TaskTag.SEARCH_GOOD) 
 					|| taskTag.equals(TaskTag.GET_TOPCATWFROY)) {
 				List<GoodListItem> items = MyGson.getInstance().fromJson(result
