@@ -23,9 +23,6 @@
     <com.handmark.pulltorefresh.library.PullToRefreshListView
         android:id="@+id/text_activity_goodlist_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:divider="@color/page_bg"
-        android:dividerHeight="20dp"
-        android:scrollbars="none" />
+        android:layout_height="match_parent" />
 
 </LinearLayout>
