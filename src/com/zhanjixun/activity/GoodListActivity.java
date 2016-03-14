@@ -8,10 +8,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.reflect.TypeToken;
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.zhanjixun.R;
 import com.zhanjixun.adapter.GoodListAdapter;
 import com.zhanjixun.adapter.TopGoodsAdapter;
@@ -21,15 +25,13 @@ import com.zhanjixun.data.TaskTag;
 import com.zhanjixun.domain2.BaseResult;
 import com.zhanjixun.domain2.GoodListItem;
 import com.zhanjixun.interfaces.OnDataReturnListener;
-import com.zhanjixun.utils.MyGson;
 import com.zhanjixun.utils.LogUtils;
+import com.zhanjixun.utils.MyGson;
 import com.zhanjixun.views.LoadingDialog;
 import com.zhanjixun.views.MessageDialog;
-import com.zhanjixun.views.ReflashListViewTwo;
-import com.zhanjixun.views.ReflashListViewTwo.OnRefreshListener;
 
 public class GoodListActivity extends BackActivity implements
-		OnDataReturnListener, OnRefreshListener, OnItemClickListener {
+		OnDataReturnListener, OnItemClickListener, OnRefreshListener<ListView> {
 
 	private int pageIndex = 1;
 	private final int PAGE_SIZE = 7;
@@ -44,9 +46,9 @@ public class GoodListActivity extends BackActivity implements
 	public static final int SEARCH = 8;
 
 	private TextView titleTv;
-	private ReflashListViewTwo goodLv;
+	private PullToRefreshListView goodLv;
 	private GoodListAdapter adapter;
-	
+
 	private TopGoodsAdapter topAdapter;
 	private LoadingDialog dialog;
 	private String categoryId;
@@ -65,11 +67,12 @@ public class GoodListActivity extends BackActivity implements
 	private void initViews() {
 		kind = (Integer) getIntent().getExtras().get("kind");
 		titleTv = (TextView) findViewById(R.id.text_activity_goodlist_title);
-		goodLv = (ReflashListViewTwo) findViewById(R.id.text_activity_goodlist_list);
+		goodLv = (PullToRefreshListView) findViewById(R.id.text_activity_goodlist_list);
+		goodLv.setMode(Mode.PULL_FROM_END);
 		seletTitle(kind);
-		
+
 	}
-	
+
 	/*
 	 * 自定义加载数据
 	 */
@@ -109,8 +112,8 @@ public class GoodListActivity extends BackActivity implements
 			break;
 		case SEARCH:
 			titleTv.setText("搜索结果");
-//			categoryId = SEARCH + "";
-			search  = getIntent().getStringExtra("search");
+			// categoryId = SEARCH + "";
+			search = getIntent().getStringExtra("search");
 			break;
 		default:
 			break;
@@ -119,7 +122,7 @@ public class GoodListActivity extends BackActivity implements
 		goodLv.setOnItemClickListener(this);
 	}
 
-	/*请求服务器数据*/
+	/* 请求服务器数据 */
 	private void initData() {
 		if (categoryId != null && !categoryId.equals("")) {
 			dialog = new LoadingDialog(this);
@@ -130,16 +133,15 @@ public class GoodListActivity extends BackActivity implements
 				DC.getInstance().getGoodList(this, categoryId, pageIndex++,
 						PAGE_SIZE);
 			}
-		} else if (null !=  search && !search.equals("")) {
+		} else if (null != search && !search.equals("")) {
 			dialog = new LoadingDialog(this);
 			dialog.show();
-			DC.getInstance().searchGoods(this, search, pageIndex++,
-					PAGE_SIZE);
-		}  else {
+			DC.getInstance().searchGoods(this, search, pageIndex++, PAGE_SIZE);
+		} else {
 			LogUtils.w("categoryId=null");
 		}
 	}
-	
+
 	/**
 	 * 刷新页面
 	 */
@@ -148,24 +150,25 @@ public class GoodListActivity extends BackActivity implements
 		if (topAdapter != null) {
 			topAdapter.notifyDataSetInvalidated();
 		}
-		goodLv.hideFooterView();
+		goodLv.onRefreshComplete();
 	}
 
 	@Override
 	public void onDataReturn(String taskTag, BaseResult result, String json) {
 		dialog.dismiss();
 		if (result.getServiceResult()) {
-//			goods.clear();
-			if (taskTag.equals(TaskTag.GOOD_LIST) || taskTag.equals(TaskTag.SEARCH_GOOD) 
+
+			if (taskTag.equals(TaskTag.GOOD_LIST)
+					|| taskTag.equals(TaskTag.SEARCH_GOOD)
 					|| taskTag.equals(TaskTag.GET_TOPCATWFROY)) {
-				List<GoodListItem> items = MyGson.getInstance().fromJson(result
-						.getResultParam().get("categoryList"),
+				List<GoodListItem> items = MyGson.getInstance().fromJson(
+						result.getResultParam().get("categoryList"),
 						new TypeToken<List<GoodListItem>>() {
 						}.getType());
 				if (items.size() != 0) {
 					goods.addAll(items);
 				} else {
-					Toast.makeText(this, "结果为空....", Toast.LENGTH_LONG).show();
+					// Toast.makeText(this, "结果为空", Toast.LENGTH_LONG).show();
 				}
 				initListViewData();
 			}
@@ -176,28 +179,10 @@ public class GoodListActivity extends BackActivity implements
 	}
 
 	@Override
-	public void onLoadingMore(View v) {
-		DC.getInstance().getGoodList(this, categoryId, pageIndex++, PAGE_SIZE);
-	}
-	
-	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
 		GoodListItem item = (GoodListItem) parent.getAdapter()
 				.getItem(position);
-		//TODO
-//		categoryId = item.getCategoryId();
-		
-		/*重新刷新页面*/
-		
-//		Log.d("miss test", categoryId);
-		
-//		if (categoryId.equals("7")) {
-//			seletTitle((int) parent.getAdapter().getItemId(position) + 1);
-//			pageIndex-- ;
-//			initData();
-//			return ;
-//		}
 		Intent intent = new Intent(this, GoodDetailActivity.class);
 		intent.putExtra("back", titleTv.getText());
 		intent.putExtra("simpleName", item.getCategorySimpleName());
@@ -206,6 +191,11 @@ public class GoodListActivity extends BackActivity implements
 		intent.putExtra("categoryId", item.getCategoryId());
 		intent.putExtra("iamgeURL", item.getFishPhoto());
 		startActivity(intent);
+	}
+
+	@Override
+	public void onRefresh(PullToRefreshBase<ListView> refreshView) {
+		DC.getInstance().getGoodList(this, categoryId, pageIndex++, PAGE_SIZE);
 	}
 
 }
