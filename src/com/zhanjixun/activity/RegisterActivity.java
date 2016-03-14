@@ -72,7 +72,8 @@ public class RegisterActivity extends BackActivity implements
 			}
 		}
 	}
-
+	
+	//TODO messageDialog返回有的BUG(不能正常的finish掉）
 	@Override
 	public void onDataReturn(String taskTag, BaseResult result, String json) {
 		dialog.dismiss();
@@ -81,17 +82,21 @@ public class RegisterActivity extends BackActivity implements
 			if (taskTag.equals(TaskTag.REGISTER_CODE)) {
 				Toast.makeText(this, result.getResultInfo(), Toast.LENGTH_LONG)
 						.show();
+				return;
+//				messageDialog.setMessage(result.getResultInfo());
 			} else if (taskTag.equals(TaskTag.REGISTER)) {
 				messageDialog.setMessage(result.getResultInfo());
-				messageDialog.show();
 			}
 		} else if(null != result.getResultInfo()){
 			String showMessage = result.getResultInfo() + "";
 			messageDialog.setMessage(showMessage);
 		} else {
 			messageDialog.setMessage("注册出错");
+			messageDialog.show();
+			return;
 		}
 		messageDialog.show();
+		this.finish();
 
 	}
 

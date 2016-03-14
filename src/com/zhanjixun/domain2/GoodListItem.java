@@ -9,6 +9,7 @@ public class GoodListItem {
 	private String fishPhoto;
 	private Integer totalSellNumber;
 	private Float lowPrice;
+//	private Float lowPrice= "暂无定价";
 	private String unit;
 	/**
 	 * @return categoryId
@@ -92,7 +93,9 @@ public class GoodListItem {
 	 * @param lowPrice 要设置的 lowPrice
 	 */
 	public void setLowPrice(Float lowPrice) {
-		this.lowPrice = lowPrice;
+		if (lowPrice != null) {
+			this.lowPrice = lowPrice;
+		} 
 	}
 	/**
 	 * @return unit

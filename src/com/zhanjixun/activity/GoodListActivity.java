@@ -109,7 +109,9 @@ public class GoodListActivity extends BackActivity implements
 			break;
 		case SEARCH:
 			titleTv.setText("搜索结果");
+//			categoryId = SEARCH + "";
 			search  = getIntent().getStringExtra("search");
+			break;
 		default:
 			break;
 		}
@@ -153,7 +155,7 @@ public class GoodListActivity extends BackActivity implements
 	public void onDataReturn(String taskTag, BaseResult result, String json) {
 		dialog.dismiss();
 		if (result.getServiceResult()) {
-//			goods.clear();
+			goods.clear();
 			if (taskTag.equals(TaskTag.GOOD_LIST) || taskTag.equals(TaskTag.SEARCH_GOOD) 
 					|| taskTag.equals(TaskTag.GET_TOPCATWFROY)) {
 				List<GoodListItem> items = MyGson.getInstance().fromJson(result
@@ -183,14 +185,19 @@ public class GoodListActivity extends BackActivity implements
 			long id) {
 		GoodListItem item = (GoodListItem) parent.getAdapter()
 				.getItem(position);
+		//TODO
+//		categoryId = item.getCategoryId();
 		
 		/*重新刷新页面*/
-		if (categoryId.equals("7")) {
-			seletTitle((int) parent.getAdapter().getItemId(position) + 1);
-			pageIndex-- ;
-			initData();
-			return ;
-		}
+		
+//		Log.d("miss test", categoryId);
+		
+//		if (categoryId.equals("7")) {
+//			seletTitle((int) parent.getAdapter().getItemId(position) + 1);
+//			pageIndex-- ;
+//			initData();
+//			return ;
+//		}
 		Intent intent = new Intent(this, GoodDetailActivity.class);
 		intent.putExtra("back", titleTv.getText());
 		intent.putExtra("simpleName", item.getCategorySimpleName());

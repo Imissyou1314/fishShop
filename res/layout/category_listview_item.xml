@@ -88,7 +88,7 @@
                     android:id="@+id/id_category_listview_item_lowest_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/Null"
+                    android:text="@string/Null_ZERO"
                     android:textColor="#ED5219"
                     android:textSize="16sp" />
             </LinearLayout>

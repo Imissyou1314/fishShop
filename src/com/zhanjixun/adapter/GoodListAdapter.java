@@ -68,8 +68,18 @@ public class GoodListAdapter extends BaseAdapter {
 		vh.simpleName.setText(itemBean.getCategorySimpleName());
 		vh.englishName.setText(itemBean.getCategoryEnglishName());
 		vh.sellNumber.setText(itemBean.getTotalSellNumber() + "");
+		if (itemBean.getTotalSellNumber() == null) {
+			vh.sellNumber.setText( 0 + "");
+		}
+		
 		vh.sendPrice.setText("£¤ " + itemBean.getLowPrice() + "/"
 				+ itemBean.getUnit());
+		if (itemBean.getLowPrice() == null) {
+			vh.sendPrice.setText(": ÔÝÎÞ¶¨¼Û" + "/"
+					+ itemBean.getUnit());
+		}
+		
+		
 		return convertView;
 	}
 

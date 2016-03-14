@@ -54,7 +54,12 @@
     <string name="finding_Password_input1">请输入新密码</string>
     <string name="finding_Password_input2">确认新密码</string>
     <string name="action_settings">Settings</string>
+    
+    
     <string name="Null">null</string>
+    <string name="Null_ZERO">0</string>
+    <string name="Null_Price">暂无定价</string>
+    
     <string name="Hot_In_This_Month">本月热门</string>
     <string name="Buy">buy</string>
     <string name="Receving_People">收货人姓名</string>
