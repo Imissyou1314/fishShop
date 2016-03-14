@@ -168,7 +168,7 @@ public class GoodListActivity extends BackActivity implements
 				if (items.size() != 0) {
 					goods.addAll(items);
 				} else {
-					Toast.makeText(this, "结果为空", Toast.LENGTH_LONG).show();
+					// Toast.makeText(this, "结果为空", Toast.LENGTH_LONG).show();
 				}
 				initListViewData();
 			}

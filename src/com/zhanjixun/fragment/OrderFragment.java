@@ -25,6 +25,7 @@ import android.widget.TextView;
 import com.google.gson.reflect.TypeToken;
 import com.zhanjixun.R;
 import com.zhanjixun.adapter.OrderListAdapter;
+import com.zhanjixun.data.Constants;
 import com.zhanjixun.data.DC;
 import com.zhanjixun.data.TaskTag;
 import com.zhanjixun.domain2.BaseResult;
@@ -40,7 +41,8 @@ import com.zhanjixun.views.MessageDialog;
 import com.zhanjixun.views.ReflashListViewTwo;
 import com.zhanjixun.views.ReflashListViewTwo.OnRefreshListener;
 
-public class OrderFragment extends Fragment implements OnDataReturnListener, OnRefreshListener{
+public class OrderFragment extends Fragment implements OnDataReturnListener,
+		OnRefreshListener {
 	private int index[] = new int[5];
 	private final int PAGE_SIZE = 7;
 
@@ -105,8 +107,8 @@ public class OrderFragment extends Fragment implements OnDataReturnListener, OnR
 				R.id.order_home_viewPager);
 		ArrayList<View> list = new ArrayList<View>();
 		for (int i = 0; i < 5; i++) {
-			ReflashListViewTwo lv = (ReflashListViewTwo) View.inflate(getActivity(),
-					R.layout.listview_order, null);
+			ReflashListViewTwo lv = (ReflashListViewTwo) View.inflate(
+					getActivity(), R.layout.listview_order, null);
 			List<Order> dataList = new ArrayList<Order>();
 			OrderListAdapter adapter = new OrderListAdapter(getActivity(),
 					dataList);
@@ -323,21 +325,28 @@ public class OrderFragment extends Fragment implements OnDataReturnListener, OnR
 	public void onLoadingMore(View v) {
 		int tag = (int) v.getTag();
 		LogUtils.v(tag + "");
-		if (tag == 0) {
-			DC.getInstance().getAllOrder(this, id, index[0]++, PAGE_SIZE);
+		if (!StringUtil.isEmptyString(Constants.user.getUserId())) {
+			if (tag == 0) {
+				DC.getInstance().getAllOrder(this, id, index[0]++, PAGE_SIZE);
+			}
+			if (tag == 1) {
+				DC.getInstance().getUnPayOrder(this, id, index[1]++, PAGE_SIZE);
+			}
+			if (tag == 2) {
+				DC.getInstance()
+						.getUnSentOrder(this, id, index[2]++, PAGE_SIZE);
+			}
+			if (tag == 3) {
+				DC.getInstance().getUngetOrder(this, id, index[3]++, PAGE_SIZE);
+			}
+			if (tag == 4) {
+				DC.getInstance().getUnCommentOrder(this, id, index[4]++,
+						PAGE_SIZE);
+			}
+		} else {
+			LogUtils.v("用户没有登录");
 		}
-		if (tag == 1) {
-			DC.getInstance().getUnPayOrder(this, id, index[1]++, PAGE_SIZE);
-		}
-		if (tag == 2) {
-			DC.getInstance().getUnSentOrder(this, id, index[2]++, PAGE_SIZE);
-		}
-		if (tag == 3) {
-			DC.getInstance().getUngetOrder(this, id, index[3]++, PAGE_SIZE);
-		}
-		if (tag == 4) {
-			DC.getInstance().getUnCommentOrder(this, id, index[4]++, PAGE_SIZE);
-		}
+
 	}
 
 	private class ListViewKeeper {
