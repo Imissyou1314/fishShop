@@ -57,6 +57,7 @@
     
     
     <string name="Null">null</string>
+    <string name="Null_explain">暂无说明</string>
     <string name="Null_ZERO">0</string>
     <string name="Null_Price">暂无定价</string>
     

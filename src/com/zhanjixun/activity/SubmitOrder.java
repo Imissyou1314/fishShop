@@ -79,6 +79,11 @@ public class SubmitOrder extends BackActivity implements OnDataReturnListener {
 
 	private void initData() {
 		co = CarOrder.getCarOrder(this);
+		//修复先下单后登陆的BUG
+		if (co.getUserId() == null || co.getBuyerName() == null) {
+			co.setBuyerName(Constants.user.getUserName());
+			co.setUserId(Constants.user.getUserId());
+		}
 		initAddress();
 		initGoods();
 		initDetail();

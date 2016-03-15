@@ -35,7 +35,6 @@ import com.zhanjixun.domain2.BaseResult;
 import com.zhanjixun.interfaces.OnDataReturnListener;
 import com.zhanjixun.utils.JsonResultUtil;
 import com.zhanjixun.utils.JsonUtil;
-import com.zhanjixun.utils.LogUtils;
 import com.zhanjixun.views.MessageDialog;
 
 /**
@@ -47,8 +46,6 @@ import com.zhanjixun.views.MessageDialog;
 public class SellerDetailSellerFragment extends Fragment implements
 		OnDataReturnListener {
 
-	@SuppressWarnings("unused")
-	private static final String rsult = null;
 	private String Id;
 	private String sellerType;
 	private Fishermen fishmen = null;
@@ -100,7 +97,9 @@ public class SellerDetailSellerFragment extends Fragment implements
 		}
 	}
 
-	// 初始化鱼户信息
+	/**
+	 *  初始化鱼户信息
+	 */
 	private void initFishmanData() {
 		LayoutInflater inflater = LayoutInflater.from(getContext());
 		//更新 null Throw
@@ -136,7 +135,6 @@ public class SellerDetailSellerFragment extends Fragment implements
 	@SuppressLint({ "InflateParams", "CutPasteId" })
 	private void initFarmerData() {
 		
-		LogUtils.d(farmer.toString() + "Miss===>farmer");
 		LayoutInflater inflater = LayoutInflater.from(getContext());
 		View child1 = inflater.inflate(R.layout.seller_detail_infoitem, null);
 		TextView getType = (TextView) child1
@@ -199,7 +197,6 @@ public class SellerDetailSellerFragment extends Fragment implements
 			} else if (TaskTag.FARMER_DETAIL.equals(taskTag)) {
 				Map<String, Object> parm = (Map<String, Object>) jr
 						.get("resultParm");
-				LogUtils.d(parm.get("getName").toString());  
 				List<String> types = Arrays.asList( parm.get("getName").toString().split(","));
 				farmer = new Farmers();
 				farmer.setGetTypes(types);// 养殖方式

@@ -24,8 +24,17 @@ public class CheckCarFragment extends Fragment {
 	protected CarOrder getData() {
 		if (hasData()) {
 			return carOrder;
-		}
+			}
 		return null;
+	}
+	
+	/**
+	 * 更新购物车的订单
+	 * @param carOrder
+	 * @return
+	 */
+	protected boolean saveCarData(CarOrder carOrder) {
+		return CarOrder.saveCarOrder(carOrder, getActivity());
 	}
 
 	protected void setListViewHeightBasedOnChildren(ListView listView) {

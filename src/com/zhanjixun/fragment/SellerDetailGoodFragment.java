@@ -24,6 +24,12 @@ import com.zhanjixun.views.MessageDialog;
 import com.zhanjixun.views.ReflashListView;
 import com.zhanjixun.views.ReflashListView.OnRefreshListener;
 
+
+/**
+ * 卖家 商品的页面
+ * @author Imissyou
+ *
+ */
 public class SellerDetailGoodFragment extends Fragment implements
 		OnDataReturnListener, OnRefreshListener {
 

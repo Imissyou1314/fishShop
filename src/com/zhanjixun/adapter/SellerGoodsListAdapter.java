@@ -140,6 +140,9 @@ public class SellerGoodsListAdapter extends BaseAdapter {
 		if (goods == null) {
 			goods = new ArrayList<Good>();
 		}
+		
+		//TODO 设置商品数量(根据需求来加入)
+		
 		g.setNumber(1);
 		goods.add(g);
 		o.setOrdersDetail(goods);

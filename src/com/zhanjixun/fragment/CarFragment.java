@@ -33,6 +33,7 @@ public class CarFragment extends CheckCarFragment implements OnClickListener {
 	private TextView editBtn;
 	private CarOrder data;
 	private MessageDialog msg;
+	
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -51,7 +52,6 @@ public class CarFragment extends CheckCarFragment implements OnClickListener {
 		if (hasData()) {
 			initViews();
 			initData();
-			Log.v("create", "miss");
 		}
 	}
 	
@@ -82,10 +82,12 @@ public class CarFragment extends CheckCarFragment implements OnClickListener {
 
 	private void initData() {
 		data = getData();
-		sellerNameTv.setText(data.getShopKeeperName());
-		listView.setAdapter(new CarAdapter(getActivity(), data));
-		setListViewHeightBasedOnChildren(listView);
-		setPrice();
+		if (checkData(data)) {
+			sellerNameTv.setText(data.getShopKeeperName());
+			listView.setAdapter(new CarAdapter(getActivity(), data));
+			setListViewHeightBasedOnChildren(listView);
+			setPrice();
+		}
 	}
 
 	@Override
@@ -95,14 +97,35 @@ public class CarFragment extends CheckCarFragment implements OnClickListener {
 			String text = (String) editBtn.getText();
 			if (text.equals("编辑")) {
 				data = getData();
+				if(checkData(data)) {
 				listView.setAdapter(new CarEditAdapter(getActivity(), data));
 				commitBtn.setClickable(false);
 				editBtn.setText("完成");
+				}
 			} else if (text.equals("完成")) {
 				data = getData();
-				listView.setAdapter(new CarAdapter(getActivity(), data));
-				editBtn.setText("编辑");
-				commitBtn.setClickable(true);
+				//删除数量为空的订单
+				if (checkData(data)) {
+					for (int i = 0; i < data.getOrdersDetail().size(); i++) {
+						if (data.getOrdersDetail().get(i).getNumber() == 0) {
+							Log.d("Miss", i + "Miss");
+							data.getOrdersDetail().remove(i); 
+							Log.d("Miss", data.getOrdersDetail().size() + "MissNumber");
+						} 
+					} 
+					//保存更新后的购物车
+					saveCarData(data);
+					
+					if (data.getOrdersDetail().size() != 0) {
+						listView.setAdapter(new CarAdapter(getActivity(), data));
+						editBtn.setText("编辑");
+						commitBtn.setClickable(true);
+					} else {
+						msg = new MessageDialog(getActivity());
+						msg.setMessage("所选商品数量为0！");
+						msg.show();
+					}
+				}
 			}
 		} else if (tag.equals("COMMIT")) {
 			if (getPrice() == 0f) {
@@ -132,6 +155,22 @@ public class CarFragment extends CheckCarFragment implements OnClickListener {
 		setPrice();
 	}
 	
+	/**
+	 * 校正购物车是否为空
+	 * @param data
+	 * @return
+	 */
+	private boolean checkData(CarOrder data) {
+		if (data != null) {
+			return true;
+		}
+		
+		msg = new MessageDialog(getActivity());
+		msg.setMessage("所选商品数量为0！");
+		msg.show();
+		return false;
+	}
+
 	private float getPrice() {
 		
 		String text = priceTv.getText().toString();
@@ -144,7 +183,9 @@ public class CarFragment extends CheckCarFragment implements OnClickListener {
 	}
 
 	private void setPrice() {
-		priceTv.setText(UnitUtil.toRMB(data.getPrice()));
+		if (data != null) {
+			priceTv.setText(UnitUtil.toRMB(data.getPrice()));
+		}
 	}
 
 }
