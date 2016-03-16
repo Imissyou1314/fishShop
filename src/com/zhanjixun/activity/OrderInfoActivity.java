@@ -45,6 +45,9 @@ public class OrderInfoActivity extends BackActivity implements
 	private TextView allPrice;
 	private TextView postPrice;
 	private MessageDialog messageDialog;
+	/**确认收货按钮*/
+	private Button sureGetGoodsBtn;
+	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +68,10 @@ public class OrderInfoActivity extends BackActivity implements
 		goodSum = (TextView) findViewById(R.id.order_home_item_shop_number2);
 		allPrice = (TextView) findViewById(R.id.order_home_item_allmoney);
 		postPrice = (TextView) findViewById(R.id.order_home_logistics_money);
+		
+		sureGetGoodsBtn = (Button) findViewById(R.id.orderinfo_sureGetGoods_Btn);
+		//设置确认收货按钮不可见
+		sureGetGoodsBtn.setVisibility(View.GONE);
 
 		orderId = getIntent().getStringExtra("order_id");
 		btn = (Button) findViewById(R.id.orderinfo_Btn);
@@ -122,7 +129,7 @@ public class OrderInfoActivity extends BackActivity implements
 
 	private void setOrderState() {
 		int state = order.getState();
-
+		
 		switch (state) {
 		case Order.state_un_pay:
 			orderStateTv.setText("等待付款");
@@ -143,6 +150,10 @@ public class OrderInfoActivity extends BackActivity implements
 			orderStateMsgTv.setText("");
 			btn.setText("查看物流");
 			btn.setTag(Order.state_un_get);
+			//TODO 确认收货按钮显示
+			sureGetGoodsBtn.setVisibility(View.VISIBLE);
+			sureGetGoodsBtn.setTag(Order.state_toDofinish);
+			sureGetGoodsBtn.setOnClickListener(this);
 			btn.setOnClickListener(this);
 			break;
 		case Order.state_un_commet:
@@ -219,6 +230,11 @@ public class OrderInfoActivity extends BackActivity implements
 			//已经完成
 			DC.getInstance().deleteOrders(this, order.getOrdersId());
 			
+			break;
+		case Order.state_toDofinish:
+			//确认收货并设置按钮不可触发
+			sureGetGoodsBtn.setClickable(false);
+			DC.getInstance().ensureGet(this, orderId);
 			break;
 		default:
 			break;

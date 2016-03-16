@@ -150,6 +150,8 @@ public class LogisiticeActivity extends BackActivity implements
 	@Override
 	public void onClick(View v) {
 		dialog.show();
+		//设置按钮不能再触发
+		logistics_Btn.setClickable(false);
 		DC.getInstance().ensureGet(this, orderId);
 	}
 

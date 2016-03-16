@@ -4,6 +4,8 @@ import java.util.Date;
 import java.util.List;
 
 public class Order {
+	/**确认收货*/
+	public final static int state_toDofinish = 5;
 	public final static int state_finish = 4;
 	public final static int state_un_commet = 3;
 	public final static int state_un_get = 2;
