@@ -4,6 +4,11 @@ import java.util.Date;
 import java.util.List;
 
 public class Order {
+	
+	/**
+	 * 删除未付款订单
+	 */
+	public final static int state_toDelete = 6;
 	/**确认收货*/
 	public final static int state_toDofinish = 5;
 	public final static int state_finish = 4;

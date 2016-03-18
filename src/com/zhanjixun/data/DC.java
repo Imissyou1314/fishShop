@@ -792,6 +792,18 @@ public class DC extends DataCenter {
 				params, dataReturnListener);
 		
 	}
+	/**
+	 * 删除未付款订单
+	 * @param dataReturnListener
+	 * @param ordersId
+	 */
+	public void deleteUnPayOrders(OnDataReturnListener dataReturnListener, String ordersId) {
+		Map<String, String> params = new HashMap<String, String>();
+		params.put("ordersId", ordersId);
+		getDatasFromServer(TaskTag.DELETE_ORDERS, "orders_deleteOrders.action", 
+				params, dataReturnListener);
+		
+	}
 	
 	/**
 	 * 获取所有的一级分类

@@ -69,12 +69,13 @@ public class OrderInfoActivity extends BackActivity implements
 		allPrice = (TextView) findViewById(R.id.order_home_item_allmoney);
 		postPrice = (TextView) findViewById(R.id.order_home_logistics_money);
 		
+		btn = (Button) findViewById(R.id.order_info_Btn);
 		sureGetGoodsBtn = (Button) findViewById(R.id.orderinfo_sureGetGoods_Btn);
 		//设置确认收货按钮不可见
-		sureGetGoodsBtn.setVisibility(View.GONE);
+//		sureGetGoodsBtn.setVisibility(View.GONE);
 
 		orderId = getIntent().getStringExtra("order_id");
-		btn = (Button) findViewById(R.id.orderinfo_Btn);
+		
 		// 获取订单数据
 		dialog = new LoadingDialog(this);
 		dialog.show();
@@ -135,6 +136,11 @@ public class OrderInfoActivity extends BackActivity implements
 			orderStateTv.setText("等待付款");
 			orderStateMsgTv.setText("");
 			btn.setText("付款");
+			//添加删除付费款订单
+			sureGetGoodsBtn.setText("删除订单");
+			sureGetGoodsBtn.setVisibility(View.VISIBLE);
+			sureGetGoodsBtn.setTag(Order.state_toDelete);
+			sureGetGoodsBtn.setOnClickListener(this);
 			btn.setTag(Order.state_un_pay);
 			btn.setOnClickListener(this);
 			break;
@@ -179,7 +185,10 @@ public class OrderInfoActivity extends BackActivity implements
 		if (result.getServiceResult()) {
 			order = MyGson.getInstance().fromJson(
 					result.getResultParam().get("orders"), Order.class);
-			initData();
+			if (order != null) {
+				initData();
+			}
+			
 		} else {
 			messageDialog = new MessageDialog(this, result.getResultInfo());
 			messageDialog.show();
@@ -228,13 +237,18 @@ public class OrderInfoActivity extends BackActivity implements
 			break;
 		case Order.state_finish:
 			//已经完成
-			DC.getInstance().deleteOrders(this, order.getOrdersId());
+//			DC.getInstance().deleteOrders(this, order.getOrdersId());
 			
 			break;
 		case Order.state_toDofinish:
 			//确认收货并设置按钮不可触发
 			sureGetGoodsBtn.setClickable(false);
 			DC.getInstance().ensureGet(this, orderId);
+			break;
+		case Order.state_toDelete:
+			//确认收货并设置按钮不可触发
+			sureGetGoodsBtn.setClickable(false);
+			DC.getInstance().deleteUnPayOrders(this, orderId);
 			break;
 		default:
 			break;

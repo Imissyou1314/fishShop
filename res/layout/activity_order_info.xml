@@ -250,14 +250,15 @@
                     <Button
                         android:id="@+id/orderinfo_sureGetGoods_Btn"
                         android:layout_width="100dp"
-                        android:layout_toLeftOf="@+id/orderinfo_Btn"
+                        android:layout_toLeftOf="@+id/order_info_Btn"
+                        android:visibility="gone"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:background="@drawable/mybutton"
                         android:text="确认收货"
                         android:textColor="#FFFFFF" />
                     <Button
-                        android:id="@+id/orderinfo_Btn"
+                        android:id="@+id/order_info_Btn"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="30dp"
