@@ -172,6 +172,8 @@ public class OrderInfoActivity extends BackActivity implements
 		case Order.state_finish:
 			orderStateTv.setText("已完成");
 			orderStateMsgTv.setText("");
+			btn.setTag(Order.state_finish);
+			btn.setOnClickListener(this);
 			btn.setText("删除");
 			break;
 		default:
@@ -193,8 +195,11 @@ public class OrderInfoActivity extends BackActivity implements
 			messageDialog = new MessageDialog(this, result.getResultInfo());
 			messageDialog.show();
 		}
-		if (taskTag.equals(TaskTag.DELETE_ORDERS)) {
+		if (taskTag.equals(TaskTag.DELETE_ORDERS)) {		//删除未付款和已完成订单
 			Toast.makeText(this, "删除成功", Toast.LENGTH_SHORT).show();
+			this.finish();
+		} else if(taskTag.equals(TaskTag.ENSUREGET)) {		//确认收货
+			Toast.makeText(this, "请前去评论", Toast.LENGTH_SHORT).show();
 			this.finish();
 		}
 	}
@@ -208,7 +213,7 @@ public class OrderInfoActivity extends BackActivity implements
 			this.startActivity(intent2);
 			break;
 		case Order.state_un_sent:
-			//TODO 提现发货
+			//TODO 提醒发货
 			break;
 		case Order.state_un_get:
 			//查看物流
@@ -222,8 +227,7 @@ public class OrderInfoActivity extends BackActivity implements
 			intent.putExtra("order_id", orderId);
 			this.startActivity(intent);
 			break;
-		case Order.state_un_commet:
-			//去评论
+		case Order.state_un_commet:			//去评论
 			Intent intent1 = new Intent(this, AppraiseActivity.class);
 			try {
 				intent1.putExtra("imageUrl", order.getOrdersDetail().get(0)
@@ -235,10 +239,8 @@ public class OrderInfoActivity extends BackActivity implements
 			intent1.putExtra("shop_id", order.getShopId());
 			this.startActivity(intent1);
 			break;
-		case Order.state_finish:
-			//已经完成
-//			DC.getInstance().deleteOrders(this, order.getOrdersId());
-			
+		case Order.state_finish:			//已经完成
+			DC.getInstance().deleteOrders(this, order.getOrdersId());
 			break;
 		case Order.state_toDofinish:
 			//确认收货并设置按钮不可触发

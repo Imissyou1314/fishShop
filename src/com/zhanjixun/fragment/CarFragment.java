@@ -70,15 +70,6 @@ public class CarFragment extends CheckCarFragment implements OnClickListener {
 		commitBtn.setOnClickListener(this);
 	}
 
-	@Override
-	public void onStart() {
-		super.onStart();
-//		if (hasData()) {
-//			initViews();
-//			initData();
-//			Log.v("create", "miss");
-//		}
-	}
 
 	private void initData() {
 		data = getData();

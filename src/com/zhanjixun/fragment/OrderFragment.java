@@ -72,8 +72,18 @@ public class OrderFragment extends Fragment implements OnDataReturnListener,
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		messageDialog = new MessageDialog(getActivity());
+//		messageDialog = new MessageDialog(getActivity());
 		initViews();
+		
+	}
+	
+	/**
+	 * 删除后的数据进行刷新
+	 */
+	@Override
+	public void onStart() {
+		// TODO Auto-generated method stub
+		super.onStart();
 		initData();
 	}
 
@@ -83,7 +93,10 @@ public class OrderFragment extends Fragment implements OnDataReturnListener,
 		initImageView();
 		initViewPage();
 	}
-
+	
+	/**
+	 * 加载页面数据
+	 */
 	private void initData() {
 		for (int i = 0; i < index.length; i++) {
 			index[i] = 1;

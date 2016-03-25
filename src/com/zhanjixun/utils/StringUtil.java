@@ -92,4 +92,21 @@ public class StringUtil {
 		}
 		return result.substring(0, result.length() -1) + replace;
 	}
+	
+	/**
+	 * 判断是否可以装Integer类型
+	 * @param str   待判断的字符串
+	 * @return boolean
+	 */
+	public static boolean isNumber(String str) {
+		if (str == null || str.isEmpty() || str.equals("null")) {
+			return false;
+		}
+		try {
+			Integer.parseInt(str);
+			return true;
+		} catch(Exception e) {
+			return false;
+		}
+	}
 }

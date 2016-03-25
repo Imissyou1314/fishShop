@@ -116,8 +116,13 @@ public class AppraiseActivity extends BackActivity implements
 	 */
 	public void onDataReturn(String taskTag, BaseResult result, String json) {
 		dialog.dismiss();
-		msg.setMessage(result.getResultInfo());
-		msg.show();
+		if (result.getServiceResult()) {
+			msg.setMessage(result.getResultInfo());
+			msg.show();
+			//退回到上一个页面
+			this.finish();
+		}
+		
 	}
 
 	/*

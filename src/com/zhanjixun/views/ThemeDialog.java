@@ -76,6 +76,10 @@ public class ThemeDialog extends Dialog {
 		content.removeAllViews();
 		content.addView(v);
 	}
+	
+	public LinearLayout getContextView() {
+		return content;
+	}
 
 	public void setPositiveButton(String text, View.OnClickListener l) {
 		btns.setVisibility(View.VISIBLE);

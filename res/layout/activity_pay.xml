@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:background="@drawable/paybackground"
     android:orientation="vertical" >
     
     <!-- Bar Title -->
@@ -21,24 +22,62 @@
             android:text="订单支付" />
     </FrameLayout>
     
-    <com.zhanjixun.views.RoundImageView 
+     <!-- 支付宝支付 -->
+    <LinearLayout 
+        android:id="@+id/pay_zhifubao_linear"
+        android:layout_width="fill_parent"
+        android:layout_height="200dp"
+        android:orientation="vertical"
+        >
+         <com.zhanjixun.views.RoundImageView 
         android:id="@+id/pay_zhifubao_image"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_gravity="center"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="50dp"
         android:gravity="center"
         android:src="@drawable/zhifubao"     
         android:layout_weight="5"/>
+        
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="30dp"
+        android:layout_marginTop="14dp"
+        android:gravity="center_horizontal"
+        android:text="支付宝支付"
+        android:textSize="20sp" />
+        
+    </LinearLayout>
+    <View 
+		android:layout_width="fill_parent"
+		android:layout_height="4dp" 
+		android:background="@color/theme"      
+        />
     
-    
-     <com.zhanjixun.views.RoundImageView 
+    <!-- 微信支付 -->
+    <LinearLayout 
+        android:id="@+id/pay_weixi_linear"
+        android:layout_width="fill_parent"
+        android:layout_height="200dp"
+        android:orientation="vertical"
+        >
+        <com.zhanjixun.views.RoundImageView 
         android:id="@+id/pay_weixi_image"
-        android:layout_marginTop="80dp"
-        android:layout_marginBottom="80dp"
+        android:layout_marginTop="50dp"
         android:layout_width="100dp"
         android:layout_gravity="center"
         android:layout_height="100dp"
         android:src="@drawable/weixin"
         android:layout_weight="5"/>
+     <TextView 
+        android:layout_width="fill_parent"
+        android:layout_height="30dp"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="14dp"
+        android:text="微信支付"
+        android:textSize="20sp"
+        />
+    </LinearLayout>
+    
+     
 </LinearLayout>

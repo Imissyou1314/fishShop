@@ -42,7 +42,13 @@ public class CarEditAdapter extends BaseAdapter {
 		}
 		Good g = goods.get(position);
 		IC.getInstance().setForegound(g.getGoodsPhoto(), vh.face);
-		vh.number.setText(g.getNumber() + "");
+		
+		if (g.getNumber() != null) {
+			vh.number.setText(g.getNumber() + "");
+		} else {
+			return null;
+		}
+		
 		MyOnClickListener l = new MyOnClickListener(position, g.getNumber(),
 				vh.number);
 		vh.reduce.setOnClickListener(l);

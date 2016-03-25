@@ -66,7 +66,6 @@ public class TimelineAdapter extends BaseAdapter {
 		vh.title.setText(l.getContext());
 		if (position == 0) {
 			vh.image.setImageResource(R.drawable.timeline_orange);
-			@SuppressWarnings("deprecation")
 			int themeColor = context.getResources().getColor(R.color.theme);
 			vh.title.setTextColor(themeColor);
 			vh.time.setTextColor(themeColor);

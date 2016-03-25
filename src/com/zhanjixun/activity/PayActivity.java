@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.pingplusplus.android.PaymentActivity;
@@ -34,7 +35,8 @@ import com.zhanjixun.interfaces.OnDataReturnListener;
 public class PayActivity extends BackActivity implements OnClickListener, OnDataReturnListener{
 	
 	
-
+	private LinearLayout  zhifubaoLinear;
+	private LinearLayout  weixiLinear;
 	private ImageView zhifubaoImage;
 	private ImageView weixiImage;
 	private String channel = "";
@@ -64,9 +66,13 @@ public class PayActivity extends BackActivity implements OnClickListener, OnData
 	}
 
 	private void initViews() {
+		zhifubaoLinear = (LinearLayout) findViewById(R.id.pay_zhifubao_linear);
 		zhifubaoImage = (ImageView) findViewById(R.id.pay_zhifubao_image);
+		weixiLinear = (LinearLayout) findViewById(R.id.pay_weixi_linear);
 		weixiImage = (ImageView) findViewById(R.id.pay_weixi_image);
+		zhifubaoLinear.setOnClickListener(this);
 		zhifubaoImage.setOnClickListener(this);
+		weixiLinear.setOnClickListener(this);
 		weixiImage.setOnClickListener(this);
 		Intent intent = getIntent();
 		OrdersId = intent.getStringExtra("order_id");
@@ -77,10 +83,10 @@ public class PayActivity extends BackActivity implements OnClickListener, OnData
 		weixiImage.setOnClickListener(null);
 		zhifubaoImage.setOnClickListener(null);
 		
-		if (v.getId() == R.id.pay_zhifubao_image) {
+		if (v.getId() == R.id.pay_zhifubao_image || v.getId() == R.id.pay_zhifubao_linear) {
 			channel = CHANNEL_ALIPAY;
 			
-		} else if(v.getId() == R.id.pay_weixi_image) {
+		} else if(v.getId() == R.id.pay_weixi_image || v.getId() == R.id.pay_weixi_linear) {
 			channel = CHANNEL_WECHAT;
 		} else {
 			Toast.makeText(this, "请选择支付方式...", Toast.LENGTH_LONG).show();

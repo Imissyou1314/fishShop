@@ -2,9 +2,11 @@ package com.zhanjixun.adapter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +14,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.zhanjixun.R;
 import com.zhanjixun.data.Constants;
@@ -20,13 +23,16 @@ import com.zhanjixun.domain2.CarOrder;
 import com.zhanjixun.domain2.Fisherman;
 import com.zhanjixun.domain2.Good;
 import com.zhanjixun.domain2.Seller;
-import com.zhanjixun.views.MessageDialog;
+import com.zhanjixun.utils.StringUtil;
+import com.zhanjixun.views.InputDialog;
+import com.zhanjixun.views.InputDialog.OnPositiveButtonClickListener;
 
 @SuppressLint("InflateParams")
 public class SellerGoodsListAdapter extends BaseAdapter {
 
 	private LayoutInflater inflater;
 	private List<Good> goods;
+	private Integer number = 1;
 	
 	public void setGoods(List<Good> goods) {
 		this.goods = goods;
@@ -108,10 +114,22 @@ public class SellerGoodsListAdapter extends BaseAdapter {
 
 		@Override
 		public void onClick(View v) {
-			addToCarOrder(goodItemBean);
-//			Toast.makeText(context, "添加成功！", Toast.LENGTH_LONG).show();
-			new MessageDialog(context, "添加成功！请转到购物车付款").show();
-			// v.setBackgroundColor(context.getResources().getColor(R.color.black));
+			
+			
+			InputDialog input = new InputDialog(context);
+			input.addInputItem(goodItemBean.getGoodsId(),
+					"默认数量为一");
+			number = 1;
+			input.setPositiveButton("确认", new OnPositiveButtonClickListener() {
+						@Override public void onPositiveButtonClick(Map<String, String> result) {
+							if (StringUtil.isNumber(result.get(goodItemBean.getGoodsId()))){
+								number = Integer.valueOf(result.get(goodItemBean.getGoodsId()));
+							}	
+							addToCarOrder(goodItemBean);
+							Toast.makeText(context, "添加" + number + "个商品成功!", Toast.LENGTH_LONG).show();
+						}
+					});
+			input.show();
 			v.setClickable(false);
 		}
 	}
@@ -142,8 +160,8 @@ public class SellerGoodsListAdapter extends BaseAdapter {
 		}
 		
 		//TODO 设置商品数量(根据需求来加入)
-		
-		g.setNumber(1);
+		Log.d("商品数量", number + "条");
+		g.setNumber(number);
 		goods.add(g);
 		o.setOrdersDetail(goods);
 		CarOrder.saveCarOrder(o, context);
