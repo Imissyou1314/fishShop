@@ -139,7 +139,8 @@ public class LoadImage {
 				return blurBitmap;
 			} else {
 				if (HttpConnection.sendGetToFile(path, cachePath)) {
-
+					if(path.isEmpty())
+						return null;
 					Bitmap netBitmap = FileUtil.loadBitmap(path);
 					Bitmap netBlurBitmap = Blur
 							.fastblur(context, netBitmap, 12);

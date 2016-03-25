@@ -120,19 +120,19 @@ public class ReflashListViewTwo extends ListView implements OnScrollListener {
 			// 如果: -头布局的高度 > paddingTop的值 执行super.onTouchEvent(ev);
 			if (firstVisibleItemPosition == 0 && -headerViewHeight < paddingTop) {
 				if (paddingTop > 0 && currentState == DOWN_PULL_REFRESH) { // 完全显示了.
-					currentState = RELEASE_REFRESH;
+//					currentState = RELEASE_REFRESH;
 					// refreshHeaderView();
 				} else if (paddingTop < 0 && currentState == RELEASE_REFRESH) { // 没有显示完全
 					currentState = DOWN_PULL_REFRESH;
 					// refreshHeaderView();
 				}
-				// 下拉头布局
+//				 下拉头布局
 				headerView.setPadding(0, paddingTop, 0, 0);
 				return true;
 			}
 			break;
 		case MotionEvent.ACTION_UP:
-			// 判断当前的状态是松开刷新还是下拉刷新
+//			 判断当前的状态是松开刷新还是下拉刷新
 			if (currentState == RELEASE_REFRESH) {
 				// 把头布局设置为完全显示状态
 				headerView.setPadding(0, 0, 0, 0);

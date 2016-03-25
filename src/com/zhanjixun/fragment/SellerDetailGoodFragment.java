@@ -8,8 +8,13 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import com.google.gson.reflect.TypeToken;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import com.zhanjixun.R;
 import com.zhanjixun.activity.ShopDetailActivity;
 import com.zhanjixun.adapter.SellerGoodsListAdapter;
@@ -21,8 +26,7 @@ import com.zhanjixun.interfaces.OnDataReturnListener;
 import com.zhanjixun.utils.MyGson;
 import com.zhanjixun.utils.LogUtils;
 import com.zhanjixun.views.MessageDialog;
-import com.zhanjixun.views.ReflashListView;
-import com.zhanjixun.views.ReflashListView.OnRefreshListener;
+
 
 
 /**
@@ -31,11 +35,11 @@ import com.zhanjixun.views.ReflashListView.OnRefreshListener;
  *
  */
 public class SellerDetailGoodFragment extends Fragment implements
-		OnDataReturnListener, OnRefreshListener {
+		OnDataReturnListener, OnRefreshListener<ListView> {
 
 	private int pageIndex = 1;
 	private final int PAGE_SIZE = 7;
-	private ReflashListView listGoods;
+	private PullToRefreshListView listGoods;
 	private SellerGoodsListAdapter adapter;
 	private String shopId;
 	private List<Good> goods = new ArrayList<Good>();
@@ -55,8 +59,9 @@ public class SellerDetailGoodFragment extends Fragment implements
 	}
 
 	private void initView() {
-		listGoods = (ReflashListView) getView().findViewById(
+		listGoods = (PullToRefreshListView) getView().findViewById(
 				R.id.listview_seller_detail_goods);
+		listGoods.setMode(Mode.PULL_FROM_END);
 		adapter = new SellerGoodsListAdapter(getActivity(), goods);
 		listGoods.setAdapter(adapter);
 		listGoods.setOnRefreshListener(this);
@@ -83,7 +88,6 @@ public class SellerDetailGoodFragment extends Fragment implements
 						new TypeToken<List<Good>>() {
 						}.getType());
 				if (g.size() != 0) {
-					goods.clear();
 					goods.addAll(g);
 				}
 				initListViewData();
@@ -96,12 +100,12 @@ public class SellerDetailGoodFragment extends Fragment implements
 
 	private void initListViewData() {
 		adapter.setGoods(goods);
-		this.adapter.notifyDataSetChanged();
-		listGoods.hideFooterView();
+		adapter.notifyDataSetInvalidated();
+		listGoods.onRefreshComplete();
 	}
 
 	@Override
-	public void onLoadingMore(View v) {
+	public void onRefresh(PullToRefreshBase<ListView> refreshView) {
 		DC.getInstance().getSellerGoods(this, shopId, pageIndex++, PAGE_SIZE);
 	}
 }

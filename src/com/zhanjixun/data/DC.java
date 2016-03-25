@@ -45,7 +45,7 @@ public class DC extends DataCenter {
 		Map<String, String> params = new HashMap<String, String>();
 		params.put("phoneNumber", id);
 		params.put("password", pw);
-		getDatasFromServer(TaskTag.LOGIN, "fishshop/user_userLogin.action", params, dataReturnListener);
+		getDatasFromServer(TaskTag.LOGIN, "user_userLogin.action", params, dataReturnListener);
 	}
 
 	/**
@@ -57,7 +57,7 @@ public class DC extends DataCenter {
 	public void requestCodeForRegister(OnDataReturnListener dataReturnListener, String id) {
 		Map<String, String> params = new HashMap<String, String>();
 		params.put("phoneNumber", id);
-		getDatasFromServer(TaskTag.REGISTER_CODE, "fishshop/user_smsCodeOfRegister.action", params, dataReturnListener);
+		getDatasFromServer(TaskTag.REGISTER_CODE, "user_smsCodeOfRegister.action", params, dataReturnListener);
 	}
 
 	/**
@@ -73,7 +73,7 @@ public class DC extends DataCenter {
 		params.put("phoneNumber", phone);
 		params.put("verifyCode", checkCode);
 		params.put("password", password);
-		getDatasFromServer(TaskTag.REGISTER, "fishshop/user_addUser.action", params, dataReturnListener);
+		getDatasFromServer(TaskTag.REGISTER, "user_addUser.action", params, dataReturnListener);
 	}
 
 	/**
@@ -86,7 +86,7 @@ public class DC extends DataCenter {
 
 		Map<String, String> params = new HashMap<String, String>();
 		params.put("phoneNumber", id);
-		getDatasFromServer(TaskTag.REQUEST_MSG_CODE, "fishshop/user_smsCodeOfFound.action", params, dataReturnListener);
+		getDatasFromServer(TaskTag.REQUEST_MSG_CODE, "user_smsCodeOfFound.action", params, dataReturnListener);
 	}
 
 	/**
@@ -100,7 +100,7 @@ public class DC extends DataCenter {
 		Map<String, String> params = new HashMap<String, String>();
 		params.put("verifyCode", code);
 		params.put("phoneNumber", id);
-		getDatasFromServer(TaskTag.CHECK_MSG_CODE, "fishshop/user_confirmSmsVerifyCode.action", params,
+		getDatasFromServer(TaskTag.CHECK_MSG_CODE, "user_confirmSmsVerifyCode.action", params,
 				dataReturnListener);
 	}
 
@@ -115,7 +115,7 @@ public class DC extends DataCenter {
 		Map<String, String> params = new HashMap<String, String>();
 		params.put("password", pw);
 		params.put("phoneNumber", id);
-		getDatasFromServer(TaskTag.FIND_PASSWORD, "fishshop/user_findPassword.action", params, dataReturnListener);
+		getDatasFromServer(TaskTag.FIND_PASSWORD, "user_findPassword.action", params, dataReturnListener);
 	}
 
 	/**
@@ -127,7 +127,7 @@ public class DC extends DataCenter {
 	public void getAddrees(OnDataReturnListener dataReturnListener, String id) {
 		Map<String, String> params = new HashMap<String, String>();
 		params.put("userId", id);
-		getDatasFromServer(TaskTag.GET_ADDREES, "fishshop/getaddress_getUserAllAddress.action", params,
+		getDatasFromServer(TaskTag.GET_ADDREES, "getaddress_getUserAllAddress.action", params,
 				dataReturnListener);
 	}
 
@@ -151,7 +151,7 @@ public class DC extends DataCenter {
 		params.put("address", address);
 		params.put("phone", adsPhone);
 		params.put("zip_code", mail);
-		getDatasFromServer(TaskTag.CHANGE_ADDRESS, "fishshop/getaddress_updateGetAddress.action", params,
+		getDatasFromServer(TaskTag.CHANGE_ADDRESS, "getaddress_updateGetAddress.action", params,
 				dataReturnListener);
 	}
 
@@ -170,7 +170,7 @@ public class DC extends DataCenter {
 		params.put(new String("pageInfo.indexPageNum"), indexPageNum + "");
 		params.put(new String("pageInfo.size"), size + "");
 
-		getDatasFromServer(TaskTag.GOOD_LIST, "fishshop/category_getNextLevelCategory.action", params,
+		getDatasFromServer(TaskTag.GOOD_LIST, "category_getNextLevelCategory.action", params,
 				dataReturnListener);
 	}
 
@@ -183,7 +183,7 @@ public class DC extends DataCenter {
 	public void deleteAdress(OnDataReturnListener dataReturnListener, String addressId) {
 		Map<String, String> params = new HashMap<String, String>();
 		params.put("getAddressId", addressId);
-		getDatasFromServer(TaskTag.DELETE_ADDRESS, "fishshop/getaddress_deleteGetAddress.action", params,
+		getDatasFromServer(TaskTag.DELETE_ADDRESS, "getaddress_deleteGetAddress.action", params,
 				dataReturnListener);
 	}
 
@@ -202,7 +202,7 @@ public class DC extends DataCenter {
 		params.put(new String("pageInfo.size"), item + "");
 		params.put("sortType", 1 + "");
 
-		getDatasFromServer(TaskTag.GOOD_SELLER, "fishshop/category_getGoodsShops.action", params, dataReturnListener);
+		getDatasFromServer(TaskTag.GOOD_SELLER, "category_getGoodsShops.action", params, dataReturnListener);
 	}
 
 	/**
@@ -219,7 +219,7 @@ public class DC extends DataCenter {
 		params.put(new String("pageInfo.indexPageNum"), page + "");
 		params.put(new String("pageInfo.size"), item + "");
 
-		getDatasFromServer(TaskTag.SELLER_GOODS, "fishshop/shop_getShopAllGoods.action", params, dataReturnListener);
+		getDatasFromServer(TaskTag.SELLER_GOODS, "shop_getShopAllGoods.action", params, dataReturnListener);
 	}
 
 	/**
@@ -228,7 +228,7 @@ public class DC extends DataCenter {
 	 * @param dataReturnListener
 	 */
 	public void getHotItems(OnDataReturnListener dataReturnListener) {
-		getDatasFromServer(TaskTag.MONTH_HOT, "fishshop/category_getHotCategory.action", null, dataReturnListener);
+		getDatasFromServer(TaskTag.MONTH_HOT, "category_getHotCategory.action", null, dataReturnListener);
 	}
 
 	/**
@@ -245,7 +245,7 @@ public class DC extends DataCenter {
 		params.put(new String("pageInfo.indexPageNum"), page + "");
 		params.put(new String("pageInfo.size"), item + "");
 
-		getDatasFromServer(TaskTag.COMMENT_DETAIL, "fishshop/comment_getShopComment.action", params,
+		getDatasFromServer(TaskTag.COMMENT_DETAIL, "comment_getShopComment.action", params,
 				dataReturnListener);
 	}
 
@@ -263,7 +263,7 @@ public class DC extends DataCenter {
 		params.put(new String("pageInfo.indexPageNum"), page + "");
 		params.put(new String("pageInfo.size"), item + "");
 
-		getDatasFromServer(TaskTag.COMMENT_DETAIL, "fishshop/comment_getGoodComment.action", params,
+		getDatasFromServer(TaskTag.COMMENT_DETAIL, "comment_getGoodComment.action", params,
 				dataReturnListener);
 	}
 
@@ -281,7 +281,7 @@ public class DC extends DataCenter {
 		params.put(new String("pageInfo.indexPageNum"), page + "");
 		params.put(new String("pageInfo.size"), item + "");
 
-		getDatasFromServer(TaskTag.COMMENT_DETAIL, "fishshop/comment_getMidComment.action", params, dataReturnListener);
+		getDatasFromServer(TaskTag.COMMENT_DETAIL, "comment_getMidComment.action", params, dataReturnListener);
 	}
 
 	/**
@@ -298,7 +298,7 @@ public class DC extends DataCenter {
 		params.put(new String("pageInfo.indexPageNum"), page + "");
 		params.put(new String("pageInfo.size"), item + "");
 
-		getDatasFromServer(TaskTag.COMMENT_DETAIL, "fishshop/comment_getBedComment.action", params, dataReturnListener);
+		getDatasFromServer(TaskTag.COMMENT_DETAIL, "comment_getBedComment.action", params, dataReturnListener);
 	}
 
 	/**
@@ -320,7 +320,7 @@ public class DC extends DataCenter {
 		params.put("freshQuality", submitData.get("freshQuality").toString());
 		params.put("speedQuality", submitData.get("speedQuality").toString());
 		params.put("anonymity", submitData.get("anonymity").toString());
-		getDatasFromServer(TaskTag.APPRAISE_COMMIT, "fishshop/comment_addComment.action", params, dataReturnListener);
+		getDatasFromServer(TaskTag.APPRAISE_COMMIT, "comment_addComment.action", params, dataReturnListener);
 	}
 
 	/**
@@ -336,7 +336,7 @@ public class DC extends DataCenter {
 		params.put("userId", id);
 		params.put("pageInfo.indexPageNum", page + "");
 		params.put("pageInfo.size", item + "");
-		getDatasFromServer(TaskTag.MY_COMMENT, "fishshop/comment_getUserComment.action", params, dataReturnListener);
+		getDatasFromServer(TaskTag.MY_COMMENT, "comment_getUserComment.action", params, dataReturnListener);
 	}
 
 	/**
@@ -352,7 +352,7 @@ public class DC extends DataCenter {
 		params.put("userId", userId);
 		params.put("pageInfo.indexPageNum", index + "");
 		params.put("pageInfo.size", pageSize + "");
-		getDatasFromServer(TaskTag.ORDER_ALL, "fishshop/orders_getAllUserOrders.action", params, dataReturnListener);
+		getDatasFromServer(TaskTag.ORDER_ALL, "orders_getAllUserOrders.action", params, dataReturnListener);
 	}
 
 	/**
@@ -368,7 +368,7 @@ public class DC extends DataCenter {
 		params.put("userId", userId);
 		params.put("pageInfo.indexPageNum", index + "");
 		params.put("pageInfo.size", pageSize + "");
-		getDatasFromServer(TaskTag.ORDER_UN_PAY, "fishshop/orders_getUnPayOrders.action", params, dataReturnListener);
+		getDatasFromServer(TaskTag.ORDER_UN_PAY, "orders_getUnPayOrders.action", params, dataReturnListener);
 	}
 
 	/**
@@ -384,7 +384,7 @@ public class DC extends DataCenter {
 		params.put("userId", userId);
 		params.put("pageInfo.indexPageNum", index + "");
 		params.put("pageInfo.size", pageSize + "");
-		getDatasFromServer(TaskTag.ORDER_UN_GET, "fishshop/orders_getUngetOrders.action", params, dataReturnListener);
+		getDatasFromServer(TaskTag.ORDER_UN_GET, "orders_getUngetOrders.action", params, dataReturnListener);
 	}
 
 	/**
@@ -400,7 +400,7 @@ public class DC extends DataCenter {
 		params.put("userId", userId);
 		params.put("pageInfo.indexPageNum", index + "");
 		params.put("pageInfo.size", pageSize + "");
-		getDatasFromServer(TaskTag.ORDER_UN_SENT, "fishshop/orders_getUnSentOrders.action", params, dataReturnListener);
+		getDatasFromServer(TaskTag.ORDER_UN_SENT, "orders_getUnSentOrders.action", params, dataReturnListener);
 	}
 
 	/**
@@ -416,7 +416,7 @@ public class DC extends DataCenter {
 		params.put("userId", userId);
 		params.put("pageInfo.indexPageNum", index + "");
 		params.put("pageInfo.size", pageSize + "");
-		getDatasFromServer(TaskTag.ORDER_UN_COMMENT, "fishshop/orders_getUnCommentOrders.action", params,
+		getDatasFromServer(TaskTag.ORDER_UN_COMMENT, "orders_getUnCommentOrders.action", params,
 				dataReturnListener);
 	}
 
@@ -445,7 +445,7 @@ public class DC extends DataCenter {
 		Map<String, String> params = new IdentityHashMap<String, String>();
 		params.put("odersId", order_id);
 		LogUtils.d(params.toString());
-		getDatasFromServer(taskTag, "fishshop/orders_payForOrdersWithAlipay.action", params, dataReturnListener);
+		getDatasFromServer(taskTag, "orders_payForOrdersWithAlipay.action", params, dataReturnListener);
 	}
 
 	/**
@@ -458,7 +458,7 @@ public class DC extends DataCenter {
 		Map<String, String> params = new IdentityHashMap<String, String>();
 		params.put(new String("shopId"), Id);
 
-		getDatasFromServer(TaskTag.COMMENT_SUMMARY, "fishshop/shop_getShopCommentInfo.action", params,
+		getDatasFromServer(TaskTag.COMMENT_SUMMARY, "shop_getShopCommentInfo.action", params,
 				dataReturnListener);
 	}
 
@@ -471,7 +471,7 @@ public class DC extends DataCenter {
 	public void getSellerBaseInfo(OnDataReturnListener dataReturnListener, String sellerId) {
 		Map<String, String> params = new HashMap<String, String>();
 		params.put("shopId", sellerId);
-		getDatasFromServer(TaskTag.SELLER_INFO, "fishshop/shop_getShop.action", params, dataReturnListener);
+		getDatasFromServer(TaskTag.SELLER_INFO, "shop_getShop.action", params, dataReturnListener);
 	}
 
 	/**
@@ -532,7 +532,7 @@ public class DC extends DataCenter {
 	public void getFishmanDetialInfo(OnDataReturnListener dataReturnListener, String Id) {
 		Map<String, String> params = new IdentityHashMap<String, String>();
 		params.put(new String("shopId"), Id);
-		getDatasFromServer(TaskTag.FISHMAN_DETAIL, "fishshop/fishman_getFishmanByShop.action", params,
+		getDatasFromServer(TaskTag.FISHMAN_DETAIL, "fishman_getFishmanByShop.action", params,
 				dataReturnListener);
 	}
 
@@ -546,7 +546,7 @@ public class DC extends DataCenter {
 		Map<String, String> params = new IdentityHashMap<String, String>();
 		params.put(new String("shopId"), Id);
 
-		getDatasFromServer(TaskTag.FARMER_DETAIL, "fishshop/farmers_getFarmerByShop.action", params,
+		getDatasFromServer(TaskTag.FARMER_DETAIL, "farmers_getFarmerByShop.action", params,
 				dataReturnListener);
 	}
 
@@ -574,7 +574,7 @@ public class DC extends DataCenter {
 	public void ensureGet(OnDataReturnListener dataReturnListener, String orderId) {
 		Map<String, String> params = new HashMap<String, String>();
 		params.put("ordersId", orderId);
-		getDatasFromServer(TaskTag.ENSUREGET, "fishshop/orders_realGetOrders.action", params, dataReturnListener);
+		getDatasFromServer(TaskTag.ENSUREGET, "orders_realGetOrders.action", params, dataReturnListener);
 	}
 
 	/**
@@ -595,7 +595,7 @@ public class DC extends DataCenter {
 		params.put("freshQuality", appraisal.getConmment_fresh() + "");
 		params.put("speedQuality", appraisal.getConmment_speed() + "");
 		params.put("anonymity", appraisal.getAnonymous() + "");
-		getDatasFromServer(TaskTag.APPRAISE_COMMIT, "fishshop/comment_addComment.action", params, dataReturnListener);
+		getDatasFromServer(TaskTag.APPRAISE_COMMIT, "comment_addComment.action", params, dataReturnListener);
 	}
 
 	/**
@@ -618,7 +618,7 @@ public class DC extends DataCenter {
 		params.put("phone", adsPhone);
 		params.put("postcode", mail);
 
-		getDatasFromServer(TaskTag.ADD_ADDRESS, "fishshop/getaddress_addGetAddress.action", params, dataReturnListener);
+		getDatasFromServer(TaskTag.ADD_ADDRESS, "getaddress_addGetAddress.action", params, dataReturnListener);
 	}
 
 	/**
@@ -642,7 +642,7 @@ public class DC extends DataCenter {
 		params.put("phone", adsPhone);
 		params.put("addresscode", provinceId + "");
 		params.put("postcode", mail);
-		getDatasFromServer(TaskTag.UPDATA_ADDRESS, "fishshop/getaddress_updateGetAddress.action", params,
+		getDatasFromServer(TaskTag.UPDATA_ADDRESS, "getaddress_updateGetAddress.action", params,
 				dataReturnListener);
 	}
 
@@ -697,7 +697,7 @@ public class DC extends DataCenter {
 		Map<String, String> params = new HashMap<String, String>();
 		params.put("userId", userId);
 		params.put("userName", userName);
-		getDatasFromServer(TaskTag.CHANGE_USER_NAME, "fishshop/user_updateUser.action", params, dataReturnListener);
+		getDatasFromServer(TaskTag.CHANGE_USER_NAME, "user_updateUser.action", params, dataReturnListener);
 	}
 
 	/**
@@ -719,7 +719,7 @@ public class DC extends DataCenter {
 		Map<String, String> params = new HashMap<String, String>();
 		params.put("userId", userId + "");
 		params.put("userName", userName);
-		getDatasFromServer(TaskTag.CHANGE_USER_NAME, "fishshop/user_updateUser.action", params, dataReturnListener);
+		getDatasFromServer(TaskTag.CHANGE_USER_NAME, "user_updateUser.action", params, dataReturnListener);
 	}
 
 	/**
@@ -741,15 +741,15 @@ public class DC extends DataCenter {
 		switch (taskTag) {
 		case TaskTag.GOOD_ALL:
 			TASK = TaskTag.GOOD_ALL;
-			getDatasFromServer(TASK, "fishshop/category_getGoodsShops.action", params, dataReturnListener);
+			getDatasFromServer(TASK, "category_getGoodsShops.action", params, dataReturnListener);
 			break;
 		case TaskTag.GOOD_WILD:
 			TASK = TaskTag.GOOD_WILD;
-			getDatasFromServer(TASK, "fishshop/category_getGoodsFishShops.action", params, dataReturnListener);
+			getDatasFromServer(TASK, "category_getGoodsFishShops.action", params, dataReturnListener);
 			break;
 		case TaskTag.GOOD_BREAD:
 			TASK = TaskTag.GOOD_BREAD;
-			getDatasFromServer(TASK, "fishshop/category_getGoodsFarmerShops.action", params, dataReturnListener);
+			getDatasFromServer(TASK, "category_getGoodsFarmerShops.action", params, dataReturnListener);
 			break;
 		default:
 			this.getGoodDatailWild(dataReturnListener, TASK, pageIndex, pageSize, typenumber, categoryId);
@@ -769,7 +769,7 @@ public class DC extends DataCenter {
 		params.put(new String("pageInfo.indexPageNum"), pageIndex + "");
 		params.put(new String("pageInfo.size"), pageSize + "");
 		//TODO URL 和 要不要分页加载
-		getDatasFromServer(TaskTag.GOOD_LIST, "fishshop/category_searchCateogry.action", params, dataReturnListener);
+		getDatasFromServer(TaskTag.GOOD_LIST, "category_searchCateogry.action", params, dataReturnListener);
 	}
 	
 	/**
@@ -788,7 +788,7 @@ public class DC extends DataCenter {
 	public void deleteOrders(OnDataReturnListener dataReturnListener, String ordersId) {
 		Map<String, String> params = new HashMap<String, String>();
 		params.put("ordersId", ordersId);
-		getDatasFromServer(TaskTag.DELETE_ORDERS, "fishshop/orders_deleteOrders.action", 
+		getDatasFromServer(TaskTag.DELETE_ORDERS, "orders_deleteOrders.action", 
 				params, dataReturnListener);
 		
 	}
@@ -812,7 +812,7 @@ public class DC extends DataCenter {
 	 * @param pageSize
 	 */
 	public void getTopCategory(OnDataReturnListener dataReturnListener) {
-		getDatasFromServer(TaskTag.GET_TOPCATWFROY, "fishshop/category_getTopCategory.action", 
+		getDatasFromServer(TaskTag.GET_TOPCATWFROY, "category_getTopCategory.action", 
 				null, dataReturnListener);
 	}
 }

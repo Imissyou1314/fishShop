@@ -6,10 +6,10 @@
 
     <!-- 商铺页面中点击商品或滑动到商品时显示的页面 -->
 
-    <com.zhanjixun.views.ReflashListView
+    <com.handmark.pulltorefresh.library.PullToRefreshListView
         android:id="@+id/listview_seller_detail_goods"
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
-    </com.zhanjixun.views.ReflashListView>
+    </com.handmark.pulltorefresh.library.PullToRefreshListView>
 
 </LinearLayout>

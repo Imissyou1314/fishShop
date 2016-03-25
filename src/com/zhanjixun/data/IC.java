@@ -19,6 +19,10 @@ public class IC {
 	}
 
 	public void setBlurForegound(Context context, String url, View view) {
+		if (url == null) {
+			LogUtils.w("url=null");
+			return;
+		}
 		String imgURL = Constants.HOST + "/fishshop/" + url;
 		LogUtils.v(imgURL);
 		new AsyncBlurImageTask(view, context, imgURL);

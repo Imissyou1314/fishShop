@@ -56,4 +56,3 @@ public class CheckCarFragment extends Fragment {
 		listView.setLayoutParams(params);
 	}
 }
-

@@ -1,5 +1,4 @@
 package com.zhanjixun.net;
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
@@ -38,7 +37,10 @@ public class AsyncBlurImageTask extends AsyncTask<String, Void, Bitmap> {
 
 	@Override
 	protected Bitmap doInBackground(String... params) {
+		
 		String path = params[0];
+		if(path.isEmpty())
+			return null;
 		Bitmap bitmap = LoadImage.getInstance().getBlurBitmap(path, context);
 		return bitmap;
 	}
