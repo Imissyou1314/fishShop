@@ -157,6 +157,7 @@ public class GoodListActivity extends BackActivity implements
 	public void onDataReturn(String taskTag, BaseResult result, String json) {
 		dialog.dismiss();
 		if (result.getServiceResult()) {
+
 			if (taskTag.equals(TaskTag.GOOD_LIST)
 					|| taskTag.equals(TaskTag.SEARCH_GOOD)
 					|| taskTag.equals(TaskTag.GET_TOPCATWFROY)) {

@@ -45,8 +45,8 @@ public class ChangeUserHeadImageActivity extends BackActivity implements OnClick
 	private  static String headImageName = Constants.user.getHeadImage();
 
 	// 加载缓存图片
-	String imgURL = Constants.HOST + "/fishshop/" + headImageName;
-	Bitmap bitmap = LoadImage.getInstance().getBitmapFromLruCache(imgURL + LoadImage.BLUR_KEY);
+//	String imgURL = Constants.HOST + "/fishshop/" + headImageName;
+//	Bitmap bitmap = LoadImage.getInstance().getBitmapFromLruCache(imgURL + LoadImage.BLUR_KEY);
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -101,6 +101,7 @@ public class ChangeUserHeadImageActivity extends BackActivity implements OnClick
 	 * 获取Intent 返回的数据
 	 */
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
 		switch (requestCode) {
 		case 1:
 			if (resultCode == RESULT_OK) {
@@ -131,7 +132,7 @@ public class ChangeUserHeadImageActivity extends BackActivity implements OnClick
 		default:
 			break;
 		}
-		super.onActivityResult(requestCode, resultCode, data);
+		
 	}
 
 	/**
@@ -174,6 +175,7 @@ public class ChangeUserHeadImageActivity extends BackActivity implements OnClick
 			FileUtil.storeBitmap(cachePath, mBitmap);
 			// 加载缓存图片
 			LoadImage.getInstance().setImage(Constants.user.getHeadImage(), headImage);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -209,8 +211,10 @@ public class ChangeUserHeadImageActivity extends BackActivity implements OnClick
 			Toast.makeText(this, "更新成功....", Toast.LENGTH_LONG).show();
 			Constants.user.saveUserInfo(this);
 			
+			
 		} else {
 			Toast.makeText(this, "操作失败....", Toast.LENGTH_LONG).show();
 		}
+		headImage.setImageBitmap(head);
 	}
 }
