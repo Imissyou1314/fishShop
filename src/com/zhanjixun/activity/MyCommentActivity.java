@@ -3,18 +3,11 @@ package com.zhanjixun.activity;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.os.Bundle;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.View.OnTouchListener;
-import android.view.ViewGroup.LayoutParams;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ScrollView;
-import android.widget.TextView;
-
 import com.google.gson.reflect.TypeToken;
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.zhanjixun.R;
 import com.zhanjixun.adapter.MyCommentAdapter;
 import com.zhanjixun.base.BackActivity;
@@ -29,16 +22,26 @@ import com.zhanjixun.utils.MyGson;
 import com.zhanjixun.utils.ScreenUtil;
 import com.zhanjixun.views.LoadingDialog;
 import com.zhanjixun.views.MessageDialog;
-import com.zhanjixun.views.ReflashListView;
-import com.zhanjixun.views.ReflashListView.OnRefreshListener;
 import com.zhanjixun.views.RoundImageView;
 
+import android.os.Bundle;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.View.OnTouchListener;
+import android.view.ViewGroup.LayoutParams;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.ScrollView;
+import android.widget.TextView;
+
 public class MyCommentActivity extends BackActivity implements
-		OnDataReturnListener, OnRefreshListener {
+		OnDataReturnListener, OnRefreshListener<ListView> {
 
 	private RoundImageView faceImg;
 	private TextView userNameTv;
-	private ReflashListView commentLv;
+	private PullToRefreshListView commentLv;
 	private ImageView faceBg;
 	private final int PAGE_SIZE = 5;
 	private int pageIndex = 1;
@@ -62,7 +65,9 @@ public class MyCommentActivity extends BackActivity implements
 		faceImg = (RoundImageView) findViewById(R.id.img_mycomment_face);
 		
 		userNameTv = (TextView) findViewById(R.id.text_mycomment_name);
-		commentLv = (ReflashListView) findViewById(R.id.list_mycomment_data);
+		commentLv = (PullToRefreshListView) findViewById(R.id.list_mycomment_data);
+		commentLv.setMode(Mode.PULL_FROM_END);
+		
 		frameLayout = (FrameLayout) findViewById(R.id.frameLayout_face_mycomment);
 		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
 				LayoutParams.MATCH_PARENT,
@@ -89,7 +94,7 @@ public class MyCommentActivity extends BackActivity implements
 					}
 					if ((scrollY + height) == mScrollView.getChildAt(0)
 							.getMeasuredHeight()) {
-						MyCommentActivity.this.onLoadingMore(null);
+						MyCommentActivity.this.onRefresh(null);
 					}
 					break;
 				default:
@@ -123,6 +128,11 @@ public class MyCommentActivity extends BackActivity implements
 						result.getResultParam().get("commentsArray"),
 						new TypeToken<List<Comment>>() {
 						}.getType());
+				
+				if (c.size() == 0) {
+					pageIndex --;
+				}
+				
 				comments.addAll(c);
 				initListViewData();
 			}
@@ -133,14 +143,14 @@ public class MyCommentActivity extends BackActivity implements
 
 	private void initListViewData() {
 		adapter.notifyDataSetChanged();
-		commentLv.hideFooterView();
+		commentLv.onRefreshComplete();
 	}
 
 	@Override
-	public void onLoadingMore(View v) {
+	public void onRefresh(PullToRefreshBase<ListView> refreshView) {
+		// TODO Auto-generated method stub
 		DC.getInstance().getMyComment(this, Constants.user.getUserId(),
 				pageIndex++, PAGE_SIZE);
-
 	}
 
 }

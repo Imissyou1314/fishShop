@@ -168,7 +168,7 @@ public class GoodListActivity extends BackActivity implements
 				if (items.size() != 0) {
 					goods.addAll(items);
 				} else {
-					// Toast.makeText(this, "½á¹ûÎª¿Õ", Toast.LENGTH_LONG).show();
+					pageIndex --;
 				}
 				initListViewData();
 			}
@@ -177,7 +177,8 @@ public class GoodListActivity extends BackActivity implements
 		}
 
 	}
-
+	
+	
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {

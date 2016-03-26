@@ -60,13 +60,13 @@
                 </LinearLayout>
             </FrameLayout>
 
-            <com.zhanjixun.views.ReflashListView
+            <com.handmark.pulltorefresh.library.PullToRefreshListView
                 android:id="@+id/list_mycomment_data"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:dividerHeight="10dp"
                 android:scrollbars="none" >
-            </com.zhanjixun.views.ReflashListView>
+            </com.handmark.pulltorefresh.library.PullToRefreshListView>
         </LinearLayout>
     </ScrollView>
 

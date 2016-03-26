@@ -2,18 +2,11 @@ package com.zhanjixun.activity;
 
 import java.util.List;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.ContextMenu;
-import android.view.ContextMenu.ContextMenuInfo;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.AdapterView.AdapterContextMenuInfo;
-import android.widget.Toast;
-
 import com.google.gson.reflect.TypeToken;
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.zhanjixun.R;
 import com.zhanjixun.adapter.AddressManageAdapter;
 import com.zhanjixun.base.BackActivity;
@@ -27,13 +20,23 @@ import com.zhanjixun.utils.MyGson;
 import com.zhanjixun.views.DoubleButtonMessageDialog;
 import com.zhanjixun.views.LoadingDialog;
 import com.zhanjixun.views.MessageDialog;
-import com.zhanjixun.views.ReflashListViewTwo;
-import com.zhanjixun.views.ReflashListViewTwo.OnRefreshListener;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.AdapterView.AdapterContextMenuInfo;
+import android.widget.ListView;
+import android.widget.Toast;
 
 public class AddressManageActivity extends BackActivity implements
-		OnDataReturnListener, OnRefreshListener {
+		OnDataReturnListener, OnRefreshListener<ListView> {
 	private LoadingDialog dialog;
-	private ReflashListViewTwo addressLv;
+	private PullToRefreshListView addressLv;
 	private AddressManageAdapter adapter;
 	private int postion;
 	private DoubleButtonMessageDialog dbMsgDialog;
@@ -64,7 +67,8 @@ public class AddressManageActivity extends BackActivity implements
 	}
 
 	private void loadListViewData(List<Address> addresses) {
-		addressLv = (ReflashListViewTwo) findViewById(R.id.id_mp_admanage);
+		addressLv = (PullToRefreshListView) findViewById(R.id.id_mp_admanage);
+		addressLv.setMode(Mode.PULL_FROM_END);
 		adapter = new AddressManageAdapter(this, addresses);
 		addressLv.setAdapter(adapter);
 		addressLv.setOnRefreshListener(this);
@@ -153,8 +157,10 @@ public class AddressManageActivity extends BackActivity implements
 	}
 
 	@Override
-	public void onLoadingMore(View v) {
-		addressLv.hideFooterView();
+	public void onRefresh(PullToRefreshBase<ListView> refreshView) {
+		// TODO Auto-generated method stub
+		addressLv.onRefreshComplete();
+		
 	}
 
 }

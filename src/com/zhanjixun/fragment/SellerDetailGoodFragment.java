@@ -89,6 +89,8 @@ public class SellerDetailGoodFragment extends Fragment implements
 						}.getType());
 				if (g.size() != 0) {
 					goods.addAll(g);
+				} else {
+					pageIndex --;
 				}
 				initListViewData();
 			}

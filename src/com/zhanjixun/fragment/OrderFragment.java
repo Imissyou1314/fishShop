@@ -23,6 +23,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.gson.reflect.TypeToken;
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.zhanjixun.R;
 import com.zhanjixun.adapter.OrderListAdapter;
 import com.zhanjixun.data.Constants;
@@ -38,12 +42,11 @@ import com.zhanjixun.utils.StringUtil;
 import com.zhanjixun.utils.UnitUtil;
 import com.zhanjixun.views.LoadingDialog;
 import com.zhanjixun.views.MessageDialog;
-import com.zhanjixun.views.ReflashListViewTwo;
-import com.zhanjixun.views.ReflashListViewTwo.OnRefreshListener;
+
 
 public class OrderFragment extends Fragment implements OnDataReturnListener,
-		OnRefreshListener {
-	private int index[] = new int[5];
+		OnRefreshListener<ListView> {
+	private int indexPage[] = new int[5];
 	private final int PAGE_SIZE = 7;
 
 	private TextView t1;
@@ -98,18 +101,18 @@ public class OrderFragment extends Fragment implements OnDataReturnListener,
 	 * 加载页面数据
 	 */
 	private void initData() {
-		for (int i = 0; i < index.length; i++) {
-			index[i] = 1;
+		for (int i = 0; i < indexPage.length; i++) {
+			indexPage[i] = 1;
 		}
 		id = com.zhanjixun.data.Constants.user.getUserId();
 		if (!StringUtil.isEmptyString(id)) {
 			dialog = new LoadingDialog(getActivity());
 			dialog.show();
-			DC.getInstance().getAllOrder(this, id, index[0]++, PAGE_SIZE);
-			DC.getInstance().getUnPayOrder(this, id, index[1]++, PAGE_SIZE);
-			DC.getInstance().getUnSentOrder(this, id, index[2]++, PAGE_SIZE);
-			DC.getInstance().getUngetOrder(this, id, index[3]++, PAGE_SIZE);
-			DC.getInstance().getUnCommentOrder(this, id, index[4]++, PAGE_SIZE);
+			DC.getInstance().getAllOrder(this, id, indexPage[0]++, PAGE_SIZE);
+			DC.getInstance().getUnPayOrder(this, id, indexPage[1]++, PAGE_SIZE);
+			DC.getInstance().getUnSentOrder(this, id, indexPage[2]++, PAGE_SIZE);
+			DC.getInstance().getUngetOrder(this, id, indexPage[3]++, PAGE_SIZE);
+			DC.getInstance().getUnCommentOrder(this, id, indexPage[4]++, PAGE_SIZE);
 		} else {
 			LogUtils.v("用户没有登录");
 		}
@@ -118,16 +121,22 @@ public class OrderFragment extends Fragment implements OnDataReturnListener,
 	private void initViewPage() {
 		pager = (ViewPager) getActivity().findViewById(
 				R.id.order_home_viewPager);
+		
 		ArrayList<View> list = new ArrayList<View>();
 		for (int i = 0; i < 5; i++) {
-			ReflashListViewTwo lv = (ReflashListViewTwo) View.inflate(
+			//TODO
+			PullToRefreshListView lv = (PullToRefreshListView) View.inflate(
 					getActivity(), R.layout.listview_order, null);
+			lv.setMode(Mode.PULL_FROM_END);
+			
 			List<Order> dataList = new ArrayList<Order>();
 			OrderListAdapter adapter = new OrderListAdapter(getActivity(),
 					dataList);
 			lv.setAdapter(adapter);
 			lv.setTag(i);
+			
 			lv.setOnRefreshListener(this);
+			
 			lvKeeper[i] = new ListViewKeeper();
 			lvKeeper[i].setListView(lv);
 			lvKeeper[i].setAdapter(adapter);
@@ -334,37 +343,10 @@ public class OrderFragment extends Fragment implements OnDataReturnListener,
 		}
 	}
 
-	@Override
-	public void onLoadingMore(View v) {
-		int tag = (int) v.getTag();
-		LogUtils.v(tag + "");
-		if (!StringUtil.isEmptyString(Constants.user.getUserId())) {
-			if (tag == 0) {
-				DC.getInstance().getAllOrder(this, id, index[0]++, PAGE_SIZE);
-			}
-			if (tag == 1) {
-				DC.getInstance().getUnPayOrder(this, id, index[1]++, PAGE_SIZE);
-			}
-			if (tag == 2) {
-				DC.getInstance()
-						.getUnSentOrder(this, id, index[2]++, PAGE_SIZE);
-			}
-			if (tag == 3) {
-				DC.getInstance().getUngetOrder(this, id, index[3]++, PAGE_SIZE);
-			}
-			if (tag == 4) {
-				DC.getInstance().getUnCommentOrder(this, id, index[4]++,
-						PAGE_SIZE);
-			}
-		} else {
-			LogUtils.v("用户没有登录");
-		}
-
-	}
 
 	private class ListViewKeeper {
 
-		private ListView listView;
+		private PullToRefreshListView listView;
 
 		private Adapter adapter;
 
@@ -373,16 +355,16 @@ public class OrderFragment extends Fragment implements OnDataReturnListener,
 		/**
 		 * @return listView
 		 */
-		public ListView getListView() {
+		public PullToRefreshListView getListView() {
 			return listView;
 		}
 
 		/**
-		 * @param listView
+		 * @param lv
 		 *            要设置的 listView
 		 */
-		public void setListView(ListView listView) {
-			this.listView = listView;
+		public void setListView(PullToRefreshListView lv) {
+			this.listView = lv;
 		}
 
 		/**
@@ -442,6 +424,10 @@ public class OrderFragment extends Fragment implements OnDataReturnListener,
 					result.getResultParam().get("ordersList"),
 					new TypeToken<List<Order>>() {
 					}.getType());
+			
+			if (orders.size() == 0)
+				indexPage[index] = indexPage[index] - 1 ;
+				
 
 			lvKeeper[index].getDataList().addAll(orders);
 			updataListViewData(index);
@@ -453,7 +439,36 @@ public class OrderFragment extends Fragment implements OnDataReturnListener,
 
 	private void updataListViewData(int i) {
 		((OrderListAdapter) lvKeeper[i].getAdapter()).notifyDataSetChanged();
-		((ReflashListViewTwo) lvKeeper[i].getListView()).hideFooterView();
+		lvKeeper[i].getListView().onRefreshComplete();
+		
+	}
+
+	@Override
+	public void onRefresh(PullToRefreshBase<ListView> refreshView) {
+		int tag = (int) refreshView.getTag();
+		LogUtils.v(tag + "");
+		if (!StringUtil.isEmptyString(Constants.user.getUserId())) {
+			if (tag == 0) {
+				DC.getInstance().getAllOrder(this, id, indexPage[0]++, PAGE_SIZE);
+			}
+			if (tag == 1) {
+				DC.getInstance().getUnPayOrder(this, id, indexPage[1]++, PAGE_SIZE);
+			}
+			if (tag == 2) {
+				DC.getInstance()
+						.getUnSentOrder(this, id, indexPage[2]++, PAGE_SIZE);
+			}
+			if (tag == 3) {
+				DC.getInstance().getUngetOrder(this, id, indexPage[3]++, PAGE_SIZE);
+			}
+			if (tag == 4) {
+				DC.getInstance().getUnCommentOrder(this, id, indexPage[4]++,
+						PAGE_SIZE);
+			}
+		} else {
+			LogUtils.v("用户没有登录");
+		}
+		
 	}
 
 }

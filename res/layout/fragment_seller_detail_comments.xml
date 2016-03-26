@@ -236,10 +236,10 @@
         android:layout_marginRight="10dp"
         android:background="@color/light_color" />
 
-    <com.zhanjixun.views.ReflashListView
+    <com.handmark.pulltorefresh.library.PullToRefreshListView
         android:id="@+id/id_seller_detail_comments_listview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
-    </com.zhanjixun.views.ReflashListView>
+    </com.handmark.pulltorefresh.library.PullToRefreshListView>
 
 </LinearLayout>

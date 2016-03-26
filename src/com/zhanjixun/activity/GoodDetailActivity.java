@@ -13,13 +13,20 @@ import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.PopupMenu.OnMenuItemClickListener;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.reflect.TypeToken;
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
+import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
 import com.zhanjixun.R;
 import com.zhanjixun.adapter.SellerListAdapter;
 import com.zhanjixun.base.BackActivity;
@@ -36,12 +43,10 @@ import com.zhanjixun.utils.LogUtils;
 import com.zhanjixun.utils.StringUtil;
 import com.zhanjixun.views.LoadingDialog;
 import com.zhanjixun.views.MessageDialog;
-import com.zhanjixun.views.ReflashListView;
-import com.zhanjixun.views.ReflashListView.OnRefreshListener;
 import com.zhanjixun.views.RoundImageView;
 
 public class GoodDetailActivity extends BackActivity
-		implements OnDataReturnListener, OnRefreshListener, OnItemClickListener {
+implements OnDataReturnListener, OnRefreshListener<ScrollView>, OnItemClickListener {
 
 	private String categoryId;
 	private int pageIndex = 1;
@@ -50,8 +55,8 @@ public class GoodDetailActivity extends BackActivity
 	private LoadingDialog dialog;
 	private RoundImageView image;
 	private ArrayList<Seller> sellers = new ArrayList<Seller>();
-	private ReflashListView dataLv;
-	private SellerListAdapter adapter;
+	private ListView dataLv;
+	private SellerListAdapter sellAdapter;
 	private RelativeLayout breedWay_popMenu;
 	private RelativeLayout sortWay_popMenu;
 	private TextView breedWay_title;
@@ -60,6 +65,7 @@ public class GoodDetailActivity extends BackActivity
 	private TextView academicName;
 	private TextView englishName;
 	private ImageView imageBg;
+	private PullToRefreshScrollView mScrollView;
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -84,10 +90,14 @@ public class GoodDetailActivity extends BackActivity
 		englishName = (TextView) findViewById(R.id.id_category_good_detail_seafoodEnglishName); // 英文名
 		title = (TextView) findViewById(R.id.text_gooddetailAty_title);
 
-		dataLv = (ReflashListView) findViewById(R.id.id_list_seller);
-		adapter = new SellerListAdapter(this, sellers);
-		dataLv.setAdapter(adapter);
-		dataLv.setOnRefreshListener(this);
+		dataLv = (ListView) findViewById(R.id.id_list_seller);
+
+
+		sellAdapter = new SellerListAdapter(this, sellers);
+		dataLv.setAdapter(sellAdapter);
+		mScrollView= (PullToRefreshScrollView) findViewById(R.id.scrollview);
+		mScrollView.setOnRefreshListener(this);
+		mScrollView.setMode(Mode.PULL_FROM_END);
 		dataLv.setOnItemClickListener(this);
 		initPopupMenu();
 	};
@@ -112,8 +122,8 @@ public class GoodDetailActivity extends BackActivity
 	}
 
 	public void initListData() {
-		adapter.notifyDataSetChanged();
-		dataLv.hideFooterView();
+		sellAdapter.notifyDataSetChanged();
+		mScrollView.onRefreshComplete();;
 
 	}
 
@@ -179,7 +189,7 @@ public class GoodDetailActivity extends BackActivity
 							DC.getInstance().getGoodDatailWild(GoodDetailActivity.this, TaskTag.COMPREHENSIVE_RANKING,
 									pageIndex++, PAGER_SIZE, 1, categoryId);
 							return true;
-							
+
 						case R.id.menu_comment_highest:
 							sortWay_title.setText("评价最高");
 
@@ -187,14 +197,14 @@ public class GoodDetailActivity extends BackActivity
 							DC.getInstance().getGoodDatailWild(GoodDetailActivity.this, TaskTag.COMMENT_HIGHEST,
 									pageIndex++, PAGER_SIZE, 2, categoryId);
 							return true;
-							
+
 						case R.id.menu_send_price:
 							sortWay_title.setText("起送价最低");
 							Toast.makeText(GoodDetailActivity.this, "你选择了起送价最低", Toast.LENGTH_SHORT).show();
 							DC.getInstance().getGoodDatailWild(GoodDetailActivity.this, TaskTag.SEND_PRICE,
 									pageIndex++, PAGER_SIZE, 3, categoryId);
 							return true;
-							
+
 						case R.id.menu_sales_volume:
 							sortWay_title.setText("销量最高");
 							Toast.makeText(GoodDetailActivity.this, "你选择了销量最高", Toast.LENGTH_SHORT).show();
@@ -213,10 +223,6 @@ public class GoodDetailActivity extends BackActivity
 		});
 	}
 
-	@Override
-	public void onLoadingMore(View v) {
-		DC.getInstance().getAllGoodSellers(this, categoryId, pageIndex++, PAGER_SIZE);
-	}
 
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -238,32 +244,31 @@ public class GoodDetailActivity extends BackActivity
 	@Override
 	public void onDataReturn(String taskTag, BaseResult result, String json) {
 		dialog.dismiss();
-		sellers.clear();
 		Map<String, String> resultParm = result.getResultParam();
-		
+
 		if (result.getServiceResult()) {
 			loadData(taskTag, resultParm);
 		} else {
 			new MessageDialog(this, result.getResultInfo()).show();
 		}
 	}
-	
+
 	/**
 	 * 加载页面数据
 	 * @param taskTag
 	 * @param resultParam
 	 */
 	private void loadData(String taskTag, Map<String,String> resultParam) {
-		
+
 		List<Seller> ss = new ArrayList<Seller>();
 		//所以有的商品
 		if (taskTag.equals(TaskTag.GOOD_SELLER) || taskTag.equals(TaskTag.GOOD_ALL)) {
 			List<Fisherman> fisher = MyGson.getInstance().fromJson(resultParam.get("shopList"),
 					new TypeToken<List<Fisherman>>() {
-					}.getType());
+			}.getType());
 			List<Farmer> farmer = MyGson.getInstance().fromJson(resultParam.get("shopList"),
 					new TypeToken<List<Farmer>>() {
-					}.getType());
+			}.getType());
 			for (int i = 0; i < fisher.size(); i++) {
 				if (fisher.get(i).getShopType() == Seller.TYPE_FARMER) {
 					ss.add(farmer.get(i));
@@ -275,19 +280,24 @@ public class GoodDetailActivity extends BackActivity
 			//养殖的商品
 			List<Farmer> farmers = MyGson.getInstance().fromJson(resultParam.get("shopList"),
 					new TypeToken<List<Farmer>>() {
-					}.getType());
+			}.getType());
 			for (Farmer farmer : farmers)
 				ss.add(farmer);
 		} else if (taskTag.equals(TaskTag.GOOD_WILD)) { 
-			
+
 			//野生的商品
 			List<Fisherman> fishers = MyGson.getInstance().fromJson(resultParam.get("shopList"),
 					new TypeToken<List<Fisherman>>() {
-					}.getType());
+			}.getType());
 			for (Fisherman fisher : fishers)
 				ss.add(fisher);
 		}
 		sellers.addAll(ss);
 		initListData();
+	}
+
+	@Override
+	public void onRefresh(PullToRefreshBase<ScrollView> refreshView) {
+		DC.getInstance().getAllGoodSellers(this, categoryId, pageIndex++, PAGER_SIZE);	
 	}
 }

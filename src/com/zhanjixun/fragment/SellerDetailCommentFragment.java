@@ -11,11 +11,16 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.reflect.TypeToken;
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.zhanjixun.R;
 import com.zhanjixun.activity.ShopDetailActivity;
 import com.zhanjixun.adapter.SellerCommentsAdapter;
@@ -29,11 +34,9 @@ import com.zhanjixun.utils.MyGson;
 import com.zhanjixun.utils.LogUtils;
 import com.zhanjixun.utils.UnitUtil;
 import com.zhanjixun.views.MessageDialog;
-import com.zhanjixun.views.ReflashListView;
-import com.zhanjixun.views.ReflashListView.OnRefreshListener;
 
 public class SellerDetailCommentFragment extends Fragment implements
-		OnDataReturnListener, OnRefreshListener, OnClickListener {
+		OnDataReturnListener, OnRefreshListener<ListView>, OnClickListener {
 
 	private int allPageIndex = 1;
 	private int goodPageIndex = 1;
@@ -42,7 +45,7 @@ public class SellerDetailCommentFragment extends Fragment implements
 
 	private final int PAGE_SIZE = 7;
 	private String shopId;
-	private ReflashListView listview;
+	private PullToRefreshListView listview;
 	private SellerCommentsAdapter adapter;
 	private List<Comment> comments = new ArrayList<Comment>();
 	private CommentsSummary commentsSummary = new CommentsSummary();
@@ -79,8 +82,10 @@ public class SellerDetailCommentFragment extends Fragment implements
 				R.id.id_ratingBar_weightQuality);
 		speedRatingBar = (RatingBar) getView().findViewById(
 				R.id.id_ratingBar_speedQuality);
-		listview = (ReflashListView) getView().findViewById(
+		listview = (PullToRefreshListView) getView().findViewById(
 				R.id.id_seller_detail_comments_listview);
+		listview.setMode(Mode.PULL_FROM_END);
+		
 		allComment = (Button) getView().findViewById(R.id.id_commentButton_all);
 		goodComment = (Button) getView().findViewById(
 				R.id.id_commentButton_good);
@@ -107,7 +112,7 @@ public class SellerDetailCommentFragment extends Fragment implements
 
 	public void initListViewData() {
 		adapter.notifyDataSetChanged();
-		listview.hideFooterView();
+		listview.onRefreshComplete();
 	}
 
 	private void initData() {
@@ -172,6 +177,11 @@ public class SellerDetailCommentFragment extends Fragment implements
 				}.getType());
 				if (c.size() != 0) {
 					comments.addAll(c);
+				} else {
+					if (allPageIndex > 1) {
+						allPageIndex -- ;
+					}
+					
 				}
 				initListViewData();
 				Toast.makeText(getActivity(),
@@ -182,30 +192,6 @@ public class SellerDetailCommentFragment extends Fragment implements
 			new MessageDialog(getActivity(), result.getResultInfo()).show();
 		}
 
-	}
-
-	@Override
-	public void onLoadingMore(View v) {
-		switch (commentType) {
-		case 0:
-			DC.getInstance().getAllComments(this, shopId, allPageIndex++,
-					PAGE_SIZE);
-			break;
-		case 1:
-			DC.getInstance().getGoodComments(this, shopId, goodPageIndex++,
-					PAGE_SIZE);
-			break;
-		case 2:
-			DC.getInstance().getMidComments(this, shopId, midPageIndex++,
-					PAGE_SIZE);
-			break;
-		case 3:
-			DC.getInstance().getBadComments(this, shopId, badPageIndex++,
-					PAGE_SIZE);
-			break;
-		default:
-			break;
-		}
 	}
 
 	@Override
@@ -242,6 +228,30 @@ public class SellerDetailCommentFragment extends Fragment implements
 			DC.getInstance().getBadComments(this, shopId, badPageIndex++,
 					PAGE_SIZE);
 			commentType = 3;
+			break;
+		default:
+			break;
+		}
+	}
+
+	@Override
+	public void onRefresh(PullToRefreshBase<ListView> refreshView) {
+		switch (commentType) {
+		case 0:
+			DC.getInstance().getAllComments(this, shopId, allPageIndex++,
+					PAGE_SIZE);
+			break;
+		case 1:
+			DC.getInstance().getGoodComments(this, shopId, goodPageIndex++,
+					PAGE_SIZE);
+			break;
+		case 2:
+			DC.getInstance().getMidComments(this, shopId, midPageIndex++,
+					PAGE_SIZE);
+			break;
+		case 3:
+			DC.getInstance().getBadComments(this, shopId, badPageIndex++,
+					PAGE_SIZE);
 			break;
 		default:
 			break;
