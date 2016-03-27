@@ -10,6 +10,7 @@ import android.content.Context;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
+import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
@@ -47,8 +48,9 @@ public class InputDialog {
 		t.setHint(hint);
 		t.setInputType(inputType);
 		t.addTextChangedListener(new MyTextChangeListener(id));
-
+		
 		LinearLayout contentView = dialog.getContextView();
+		contentView.setGravity(Gravity.CENTER_VERTICAL);
 		contentView.addView(inflate);
 		return this;
 	}

@@ -204,14 +204,12 @@ public class ChangeUserHeadImageActivity extends BackActivity implements OnClick
 			Constants.user = user;
 			
 			//保存用户更新的信息
-			
 			String Path = Constants.HOST + "/fishshop/" + user.getHeadImage();
 			setPicToView(head, Path);// 保存在SD卡中
 			this.deleteFile();// 删除文件
 			Toast.makeText(this, "更新成功....", Toast.LENGTH_LONG).show();
 			Constants.user.saveUserInfo(this);
-			
-			
+			this.finish();
 		} else {
 			Toast.makeText(this, "操作失败....", Toast.LENGTH_LONG).show();
 		}

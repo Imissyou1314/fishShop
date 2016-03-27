@@ -3,7 +3,6 @@ package com.zhanjixun.fragment;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -45,7 +44,10 @@ public class SellerDetailCommentFragment extends Fragment implements
 
 	private final int PAGE_SIZE = 7;
 	private String shopId;
-	private PullToRefreshListView listview;
+	//TODO
+//	private PullToRefreshScrollView mScrollView;
+	
+	private PullToRefreshListView mListview;
 	private SellerCommentsAdapter adapter;
 	private List<Comment> comments = new ArrayList<Comment>();
 	private CommentsSummary commentsSummary = new CommentsSummary();
@@ -64,8 +66,9 @@ public class SellerDetailCommentFragment extends Fragment implements
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		return inflater.inflate(R.layout.fragment_seller_detail_comments,
+		View view =  inflater.inflate(R.layout.fragment_seller_detail_comments,
 				container, false);
+		return view;
 	}
 
 	@Override
@@ -82,10 +85,13 @@ public class SellerDetailCommentFragment extends Fragment implements
 				R.id.id_ratingBar_weightQuality);
 		speedRatingBar = (RatingBar) getView().findViewById(
 				R.id.id_ratingBar_speedQuality);
-		listview = (PullToRefreshListView) getView().findViewById(
-				R.id.id_seller_detail_comments_listview);
-		listview.setMode(Mode.PULL_FROM_END);
 		
+		
+		//TODO
+		
+		mListview = (PullToRefreshListView) getView().
+				findViewById(R.id.id_seller_detail_comments_listview);
+		mListview.setMode(Mode.PULL_FROM_END);
 		allComment = (Button) getView().findViewById(R.id.id_commentButton_all);
 		goodComment = (Button) getView().findViewById(
 				R.id.id_commentButton_good);
@@ -99,8 +105,8 @@ public class SellerDetailCommentFragment extends Fragment implements
 				R.id.id_text_speedQuality);
 
 		adapter = new SellerCommentsAdapter(getActivity(), comments);
-		listview.setAdapter(adapter);
-		listview.setOnRefreshListener(this);
+		mListview.setAdapter(adapter);
+		mListview.setOnRefreshListener(this);
 		allComment.setBackground(getResources().getDrawable(
 				R.drawable.orange_button));
 
@@ -110,9 +116,9 @@ public class SellerDetailCommentFragment extends Fragment implements
 		badComment.setOnClickListener(this);
 	}
 
-	public void initListViewData() {
+	private void initListViewData() {
 		adapter.notifyDataSetChanged();
-		listview.onRefreshComplete();
+		mListview.onRefreshComplete();
 	}
 
 	private void initData() {
@@ -126,7 +132,7 @@ public class SellerDetailCommentFragment extends Fragment implements
 		}
 	}
 
-	public void initCommentButton() {
+	private void initCommentButton() {
 		allComment.setText("È«²¿" + "(" + commentsSummary.getCommentSize() + ")");
 		goodComment
 				.setText("ºÃÆÀ" + "(" + commentsSummary.getGoodComment() + ")");
@@ -134,7 +140,7 @@ public class SellerDetailCommentFragment extends Fragment implements
 		badComment.setText("²îÆÀ" + "(" + commentsSummary.getBedComment() + ")");
 	}
 
-	public void initRatingBar() {
+	private void initRatingBar() {
 		Float freshf = commentsSummary.getShop().getFreshQuality();
 		Float weightf = commentsSummary.getShop().getWeightQuality();
 		Float speedf = commentsSummary.getShop().getSpeedQuality();
@@ -147,7 +153,6 @@ public class SellerDetailCommentFragment extends Fragment implements
 		speedQuality.setText(UnitUtil.NumberFormat(speedf.floatValue(), 1));
 	}
 
-	@SuppressLint("NewApi")
 	public void setCommentBtnClick(Button b) {
 		allComment.setBackground(getResources().getDrawable(
 				R.drawable.gray_button));
@@ -234,8 +239,10 @@ public class SellerDetailCommentFragment extends Fragment implements
 		}
 	}
 
+	
 	@Override
 	public void onRefresh(PullToRefreshBase<ListView> refreshView) {
+		
 		switch (commentType) {
 		case 0:
 			DC.getInstance().getAllComments(this, shopId, allPageIndex++,
@@ -257,5 +264,4 @@ public class SellerDetailCommentFragment extends Fragment implements
 			break;
 		}
 	}
-
 }

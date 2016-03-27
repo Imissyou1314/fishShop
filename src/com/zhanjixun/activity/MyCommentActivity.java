@@ -7,7 +7,7 @@ import com.google.gson.reflect.TypeToken;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
-import com.handmark.pulltorefresh.library.PullToRefreshListView;
+import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
 import com.zhanjixun.R;
 import com.zhanjixun.adapter.MyCommentAdapter;
 import com.zhanjixun.base.BackActivity;
@@ -37,18 +37,18 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 public class MyCommentActivity extends BackActivity implements
-		OnDataReturnListener, OnRefreshListener<ListView> {
+		OnDataReturnListener, OnRefreshListener<ScrollView> {
 
 	private RoundImageView faceImg;
 	private TextView userNameTv;
-	private PullToRefreshListView commentLv;
+	private ListView commentLv;
 	private ImageView faceBg;
 	private final int PAGE_SIZE = 5;
 	private int pageIndex = 1;
 	private List<Comment> comments = new ArrayList<Comment>();
 	private MyCommentAdapter adapter;
 	private LoadingDialog dialog;
-	private ScrollView mScrollView;
+	private PullToRefreshScrollView mScrollView;
 	private FrameLayout title;
 	private FrameLayout frameLayout;
 
@@ -64,16 +64,19 @@ public class MyCommentActivity extends BackActivity implements
 		faceBg = (ImageView) findViewById(R.id.img_mycomment_bg);
 		faceImg = (RoundImageView) findViewById(R.id.img_mycomment_face);
 		
+		
+		
 		userNameTv = (TextView) findViewById(R.id.text_mycomment_name);
-		commentLv = (PullToRefreshListView) findViewById(R.id.list_mycomment_data);
-		commentLv.setMode(Mode.PULL_FROM_END);
+		commentLv = (ListView) findViewById(R.id.list_mycomment_data);
+		
 		
 		frameLayout = (FrameLayout) findViewById(R.id.frameLayout_face_mycomment);
 		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
 				LayoutParams.MATCH_PARENT,
 				(int) ((ScreenUtil.getHeight(this) / 5.0) * 2));
 		frameLayout.setLayoutParams(lp);
-		mScrollView = (ScrollView) findViewById(R.id.scroll_mycomment);
+		mScrollView = (PullToRefreshScrollView) findViewById(R.id.scroll_mycomment);
+		mScrollView.setMode(Mode.PULL_FROM_END);
 		title = (FrameLayout) findViewById(R.id.title_mycomment);
 		title.setAlpha(0);
 		mScrollView.setOnTouchListener(new OnTouchListener() {
@@ -105,7 +108,7 @@ public class MyCommentActivity extends BackActivity implements
 		});
 		adapter = new MyCommentAdapter(comments, this);
 		commentLv.setAdapter(adapter);
-		commentLv.setOnRefreshListener(this);
+		mScrollView.setOnRefreshListener(this);
 	}
 
 	private void initData() {
@@ -143,14 +146,16 @@ public class MyCommentActivity extends BackActivity implements
 
 	private void initListViewData() {
 		adapter.notifyDataSetChanged();
-		commentLv.onRefreshComplete();
+		mScrollView.onRefreshComplete();
 	}
 
+
 	@Override
-	public void onRefresh(PullToRefreshBase<ListView> refreshView) {
+	public void onRefresh(PullToRefreshBase<ScrollView> refreshView) {
 		// TODO Auto-generated method stub
 		DC.getInstance().getMyComment(this, Constants.user.getUserId(),
 				pageIndex++, PAGE_SIZE);
+		
 	}
 
 }

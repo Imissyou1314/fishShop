@@ -25,19 +25,23 @@ public class MyInfoActivity extends BackActivity implements OnDataReturnListener
 	private TextView phoneTv;
 	private TextView usernameTv;
 	private ChangePasswdDialog dialog;
+	private Intent phoneIntent;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_me_myinfo);
 		initViews();
+		initData();
+//		phoneIntent = new Intent();
+//		phoneIntent.setClass(this,ChangeUserPhone.class);
 
 	}
 
 	@Override
 	protected void onStart() {
 		super.onStart();
-		initData();
+//		initData();
 	}
 
 	private void initData() {
@@ -63,11 +67,14 @@ public class MyInfoActivity extends BackActivity implements OnDataReturnListener
 				dialog = new ChangePasswdDialog(this, R.layout.dialog_changepassword, "更改用户密码");
 				dialog.show();
 			} else if (tag.equals("phone")) {
-				dialog = new ChangePasswdDialog(this, R.layout.dialog_changephone, "更改用户手机号");
-				dialog.show();
+				phoneIntent = new Intent(this,ChangeUserPhone.class);
+				startActivity(phoneIntent);
+				return;
 			}
 			/* 更新 */
 			dialog.setPositiveButton("确定", new OnClickListener() {
+				
+
 				public void onClick(View v) {
 					
 					if (tag.equals("password") && null != MyInfoActivity.this.dialog.getOldPassword()) {
@@ -78,12 +85,9 @@ public class MyInfoActivity extends BackActivity implements OnDataReturnListener
 									MyInfoActivity.this.dialog.getOldPassword(),
 									MyInfoActivity.this.dialog.getPassword());
 						}
-					} else if ( tag.equals("name") && null != MyInfoActivity.this.dialog.getName()) {
-						DC.getInstance().changeUserName(MyInfoActivity.this, Constants.user.getUserId(),
+					} else if( tag.equals("name") && null != MyInfoActivity.this.dialog.getName()) {
+					 	DC.getInstance().changeUserName(MyInfoActivity.this, Constants.user.getUserId(),
 								MyInfoActivity.this.dialog.getName());
-					} else if (tag.equals("phone") && null != MyInfoActivity.this.dialog.getPhone()) {
-						DC.getInstance().changeUserName(MyInfoActivity.this, Constants.user.getPhoneNumber(),
-								MyInfoActivity.this.dialog.getPhone());
 					}
 				}
 			});

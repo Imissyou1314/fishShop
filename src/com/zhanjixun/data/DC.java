@@ -96,10 +96,10 @@ public class DC extends DataCenter {
 	 * @param id
 	 * @param code
 	 */
-	public void checkMsgCode(OnDataReturnListener dataReturnListener, String id, String code) {
+	public void checkMsgCode(OnDataReturnListener dataReturnListener, String phoneNumber, String code) {
 		Map<String, String> params = new HashMap<String, String>();
 		params.put("verifyCode", code);
-		params.put("phoneNumber", id);
+		params.put("phoneNumber", phoneNumber);
 		getDatasFromServer(TaskTag.CHECK_MSG_CODE, "user_confirmSmsVerifyCode.action", params,
 				dataReturnListener);
 	}
@@ -111,10 +111,10 @@ public class DC extends DataCenter {
 	 * @param id
 	 * @param pw
 	 */
-	public void findPassword(OnDataReturnListener dataReturnListener, String id, String pw) {
+	public void findPassword(OnDataReturnListener dataReturnListener, String phoneNumber, String pw) {
 		Map<String, String> params = new HashMap<String, String>();
 		params.put("password", pw);
-		params.put("phoneNumber", id);
+		params.put("phoneNumber", phoneNumber);
 		getDatasFromServer(TaskTag.FIND_PASSWORD, "user_findPassword.action", params, dataReturnListener);
 	}
 
@@ -433,6 +433,8 @@ public class DC extends DataCenter {
 	}
 
 	/**
+	 * 
+	 * 订单支付
 	 * @author Imissyou
 	 * @param string
 	 * @param order_information_Activity
@@ -713,14 +715,31 @@ public class DC extends DataCenter {
 	}
 
 	/**
-	 * 更改用户手机
+	 * 更改用户名
 	 */
-	public void changeUserPhone(OnDataReturnListener dataReturnListener, int userId, String userName) {
+	public void changeUserName(OnDataReturnListener dataReturnListener, int userId, String userName) {
 		Map<String, String> params = new HashMap<String, String>();
+		
+		//TODO
 		params.put("userId", userId + "");
 		params.put("userName", userName);
 		getDatasFromServer(TaskTag.CHANGE_USER_NAME, "user_updateUser.action", params, dataReturnListener);
 	}
+	
+	/**
+	 * 更改用户手机号码
+	 * @param dataReturnListener
+	 * @param userId
+	 * @param userName
+	 * @param code
+	 */
+	public void changeUserPhoneNumber(OnDataReturnListener dataReturnListener, String userId, String userPhoneNumber) {
+		Map<String, String> params = new HashMap<String, String>();
+		params.put("userId", userId);
+		params.put("phoneNumber", userPhoneNumber);
+		getDatasFromServer(TaskTag.CHANGE_USER_PHONE, "user_updateUser.action", params, dataReturnListener);
+	}
+	
 
 	/**
 	 * 获取指定商品列表
