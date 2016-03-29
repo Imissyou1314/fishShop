@@ -1,6 +1,7 @@
 package com.zhanjixun.activity;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 
 import com.zhanjixun.R;
 import com.zhanjixun.base.BackActivity;
@@ -18,6 +19,7 @@ import com.zhanjixun.utils.StringUtil;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -43,6 +45,7 @@ public class ChangeUserHeadImageActivity extends BackActivity implements OnClick
 	private Bitmap head;
 
 	private  static String headImageName = Constants.user.getHeadImage();
+	private static File TEMP_IMAGE_CUT = new File(Environment.getExternalStorageDirectory(), "cut.jpg");
 
 	// 加载缓存图片
 //	String imgURL = Constants.HOST + "/fishshop/" + headImageName;
@@ -115,19 +118,33 @@ public class ChangeUserHeadImageActivity extends BackActivity implements OnClick
 			}
 			break;
 		case 3:
-			if (data != null) {
-				Bundle extras = data.getExtras();
-				head = extras.getParcelable("data");
-				if (head != null) {
-					BitmapUtils.BitmapToFile(head, Constants.CACHE_DIR, "UserImage.jpg");// 取出图片
-					File file = new File(Constants.CACHE_DIR+ "/"  + "UserImage.jpg");
-					if (null != file) {
-						UpFileToService.upLoadFile("UpFile", this, file, "/fishshop/user_updateUserImg.action", "userId",
-								Constants.user.getUserId());
-						headImage.setImageBitmap(head);// 用ImageView显示出来
-					}
+			
+			try {
+				Uri formFileCut = Uri.fromFile(TEMP_IMAGE_CUT);
+				head = BitmapFactory.decodeStream(getContentResolver().openInputStream(formFileCut));
+				BitmapUtils.BitmapToFile(head, Constants.CACHE_DIR, "UserImage.jpg");// 取出图片
+				File file = new File(Constants.CACHE_DIR+ "/"  + "UserImage.jpg");
+				if (null != file) {
+					UpFileToService.upLoadFile("UpFile", this, file, "/fishshop/user_updateUserImg.action", "userId",
+							Constants.user.getUserId());
+					headImage.setImageBitmap(head);// 用ImageView显示出来
 				}
-			} 
+			} catch (FileNotFoundException e) {
+				Toast.makeText(this, "更新头像失败", Toast.LENGTH_SHORT).show();
+			}
+//			if (data != null) {
+//				Bundle extras = data.getExtras();
+//				head = extras.getParcelable("data");
+//				if (head != null) {
+//					BitmapUtils.BitmapToFile(head, Constants.CACHE_DIR, "UserImage.jpg");// 取出图片
+//					File file = new File(Constants.CACHE_DIR+ "/"  + "UserImage.jpg");
+//					if (null != file) {
+//						UpFileToService.upLoadFile("UpFile", this, file, "/fishshop/user_updateUserImg.action", "userId",
+//								Constants.user.getUserId());
+//						headImage.setImageBitmap(head);// 用ImageView显示出来
+//					}
+//				}
+//			} 
 			break;
 		default:
 			break;
@@ -150,7 +167,10 @@ public class ChangeUserHeadImageActivity extends BackActivity implements OnClick
 		// outputX outputY 是裁剪图片宽高
 		intent.putExtra("outputX", 150);
 		intent.putExtra("outputY", 150);
-		intent.putExtra("return-data", true);
+		intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(TEMP_IMAGE_CUT));
+		intent.putExtra("return-data",false);
+		intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
+		intent.putExtra("notFaceDetection", true);
 		startActivityForResult(intent, 3);
 	}
 
@@ -162,6 +182,7 @@ public class ChangeUserHeadImageActivity extends BackActivity implements OnClick
 	private void setPicToView(Bitmap mBitmap, String Path) {
 		String sdStatus = Environment.getExternalStorageState();
 		if (!sdStatus.equals(Environment.MEDIA_MOUNTED)) { // 检测sd是否可用
+			Toast.makeText(this, "内存卡不可用", Toast.LENGTH_SHORT).show();
 			return;
 		}
 		try {
@@ -173,11 +194,9 @@ public class ChangeUserHeadImageActivity extends BackActivity implements OnClick
 			String cachePath = Constants.CACHE_DIR + "/" + urlMD5Key;
 			FileUtil.storeBitmap(glassPath, mBitmap);
 			FileUtil.storeBitmap(cachePath, mBitmap);
-			// 加载缓存图片
-			LoadImage.getInstance().setImage(Constants.user.getHeadImage(), headImage);
-			
+			// 加载缓存图片			
 		} catch (Exception e) {
-			e.printStackTrace();
+			Toast.makeText(this, "更新头像失败", Toast.LENGTH_SHORT).show();
 		}
 	}
 
