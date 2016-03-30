@@ -65,6 +65,9 @@ public class OrderFragment extends Fragment implements OnDataReturnListener,
 	private ListViewKeeper[] lvKeeper = new ListViewKeeper[5];
 	private String id;
 	private MessageDialog messageDialog;
+	
+	//是否添加数据
+	private boolean refresh = false;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -428,8 +431,11 @@ public class OrderFragment extends Fragment implements OnDataReturnListener,
 			if (orders.size() == 0)
 				indexPage[index] = indexPage[index] - 1 ;
 				
-
-			lvKeeper[index].getDataList().addAll(orders);
+			if (refresh || lvKeeper[index].getDataList().size() == 0) {
+				lvKeeper[index].getDataList().addAll(orders);
+				refresh = false;
+			}
+			
 			updataListViewData(index);
 		} else {
 			messageDialog.setMessage(result.getResultInfo());
@@ -446,6 +452,8 @@ public class OrderFragment extends Fragment implements OnDataReturnListener,
 	@Override
 	public void onRefresh(PullToRefreshBase<ListView> refreshView) {
 		int tag = (int) refreshView.getTag();
+		//TODO
+		refresh = true;
 		LogUtils.v(tag + "");
 		if (!StringUtil.isEmptyString(Constants.user.getUserId())) {
 			if (tag == 0) {

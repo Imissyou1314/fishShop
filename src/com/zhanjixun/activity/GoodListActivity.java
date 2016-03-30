@@ -81,7 +81,7 @@ public class GoodListActivity extends BackActivity implements
 		goodLv.setAdapter(adapter);
 		switch (kind) {
 		case FISH:
-			titleTv.setText("鱼类");
+			titleTv.setText("海水鱼类");
 			categoryId = "1";
 			break;
 		case SHRIMP:
@@ -97,11 +97,11 @@ public class GoodListActivity extends BackActivity implements
 			categoryId = "4";
 			break;
 		case SQUID:
-			titleTv.setText("鱿鱼类");
+			titleTv.setText("头足类");
 			categoryId = "5";
 			break;
 		case GINSENG:
-			titleTv.setText("参类");
+			titleTv.setText("海参类");
 			categoryId = "6";
 			break;
 		case OTHERS:

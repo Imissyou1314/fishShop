@@ -130,7 +130,7 @@ public class SellerGoodsListAdapter extends BaseAdapter {
 						}
 					});
 			input.show();
-			v.setClickable(false);
+			v.setClickable(true);
 		}
 	}
 

@@ -9,7 +9,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.MediaStore;
 
@@ -99,9 +98,10 @@ public class FileUtil {
 	 */
 	public static Bitmap loadBitmap(String path) {
 
-		File file = new File(path);
-		if (file.exists()) {
-			return BitmapFactory.decodeFile(path);
+//		File file = new File(path);
+		if (path != null) {
+			//TODOÑ¹ËõÍ¼Æ¬
+			return MissBitmapUtils.decodeFileDefault(path);
 		}
 		return null;
 	}
@@ -131,5 +131,8 @@ public class FileUtil {
 	public static boolean fileIsExists(String path) {
 		return new File(path).exists();
 	}
+	
+	
+	 
 
 }

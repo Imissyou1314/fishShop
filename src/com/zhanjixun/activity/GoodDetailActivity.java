@@ -39,6 +39,7 @@ import com.zhanjixun.domain2.Seller;
 import com.zhanjixun.interfaces.OnDataReturnListener;
 import com.zhanjixun.utils.MyGson;
 import com.zhanjixun.utils.LogUtils;
+import com.zhanjixun.utils.MissBitmapUtils;
 import com.zhanjixun.utils.StringUtil;
 import com.zhanjixun.views.LoadingDialog;
 import com.zhanjixun.views.MessageDialog;
@@ -299,4 +300,13 @@ implements OnDataReturnListener, OnRefreshListener<ScrollView>, OnItemClickListe
 	public void onRefresh(PullToRefreshBase<ScrollView> refreshView) {
 		DC.getInstance().getAllGoodSellers(this, categoryId, pageIndex++, PAGER_SIZE);	
 	}
+
+	@Override
+	protected void onDestroy() {
+		//TODO
+		MissBitmapUtils.recycleImageView(imageBg);
+		super.onDestroy();
+	}
+	
+	
 }

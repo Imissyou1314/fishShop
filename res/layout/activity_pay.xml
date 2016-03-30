@@ -26,6 +26,7 @@
     <LinearLayout 
         android:id="@+id/pay_zhifubao_linear"
         android:layout_width="fill_parent"
+        android:layout_marginTop="50dp"
         android:layout_height="200dp"
         android:orientation="vertical"
         >
@@ -48,11 +49,6 @@
         android:textSize="20sp" />
         
     </LinearLayout>
-    <View 
-		android:layout_width="fill_parent"
-		android:layout_height="4dp" 
-		android:background="@color/theme"      
-        />
     
     <!-- 微信支付 -->
     <LinearLayout 

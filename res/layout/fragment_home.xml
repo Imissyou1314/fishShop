@@ -84,7 +84,7 @@
                         android:layout_weight="1"
                         android:drawableTop="@drawable/home_fish"
                         android:gravity="center"
-                        android:text="鱼类"
+                        android:text="海水鱼类"
                         android:textColor="#000000" />
 
                     <TextView
@@ -132,7 +132,7 @@
                         android:layout_weight="1"
                         android:drawableTop="@drawable/home_squid"
                         android:gravity="center"
-                        android:text="鱿鱼类"
+                        android:text="头足类"
                         android:textColor="#000000" />
 
                     <TextView
@@ -142,7 +142,7 @@
                         android:layout_weight="1"
                         android:drawableTop="@drawable/home_ginseng"
                         android:gravity="center"
-                        android:text="参类"
+                        android:text="海参类"
                         android:textColor="#000000" />
 
                     <TextView
