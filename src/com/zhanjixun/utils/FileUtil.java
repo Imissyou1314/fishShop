@@ -99,12 +99,22 @@ public class FileUtil {
 	public static Bitmap loadBitmap(String path) {
 
 //		File file = new File(path);
-		if (path != null) {
+		if (path != null){
 			//TODOÑ¹ËõÍ¼Æ¬
+//			try {
+//				return BitmapFactory.decodeStream(new FileInputStream(file));
+//			} catch (FileNotFoundException e) {
+//				// TODO Auto-generated catch block
+//				LogUtils.d("File not found: " + e.getMessage());
+////				e.printStackTrace();
+//			}
 			return MissBitmapUtils.decodeFileDefault(path);
 		}
 		return null;
 	}
+	
+	
+	
 
 	public static void storeBitmap(String path, Bitmap image) {
 		if (path == null) {

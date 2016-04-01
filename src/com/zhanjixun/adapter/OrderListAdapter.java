@@ -5,6 +5,7 @@ import java.util.List;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -34,6 +35,8 @@ public class OrderListAdapter extends BaseAdapter {
 
 	@Override
 	public int getCount() {
+		
+		Log.d("Miss===>>>>", orders.size() + "Miss");
 		return orders.size();
 	}
 
@@ -81,7 +84,16 @@ public class OrderListAdapter extends BaseAdapter {
 			v.setTag(vh);
 		}
 		vh.shopName.setText(order.getShopKeeperName());
-		Good good = order.getOrdersDetail().get(0);
+		
+		Good good;
+		//TODO
+		if (order.getOrdersDetail().size() == 0) {
+			Log.d("miss>>>>>>", order.getOrdersDetail().toString() + "Miss");
+			return v;
+		} else {
+			good = order.getOrdersDetail().get(0);
+		}
+		
 		IC.getInstance().setForegound(good.getGoodsPhoto(), vh.goodImage);
 
 		vh.goodName.setText(good.getGoodsName() + "");

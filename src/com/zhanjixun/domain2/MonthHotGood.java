@@ -6,6 +6,9 @@ public class MonthHotGood {
 	private String categoryAcademicName;
 	private String categoryEnglishName;
 	private int totalSellNumber;
+	//TODO 
+	/**ÏúÁ¿*/
+	private int hotDegree;
 	private String fishPhoto;
 
 	/**
@@ -96,5 +99,13 @@ public class MonthHotGood {
 	 */
 	public void setFishPhoto(String fishPhoto) {
 		this.fishPhoto = fishPhoto;
+	}
+
+	public int getHotDegree() {
+		return hotDegree;
+	}
+
+	public void setHotDegree(int hotDegree) {
+		this.hotDegree = hotDegree;
 	}
 }

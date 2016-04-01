@@ -107,6 +107,7 @@ public class GoodListActivity extends BackActivity implements
 		case OTHERS:
 			titleTv.setText("其他");
 			categoryId = "7";
+			//TODO
 			topAdapter = new TopGoodsAdapter(this, goods);
 			goodLv.setAdapter(topAdapter);
 			break;
@@ -179,11 +180,27 @@ public class GoodListActivity extends BackActivity implements
 	}
 	
 	
+	//TODO
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
 		GoodListItem item = (GoodListItem) parent.getAdapter()
 				.getItem(position);
+		//TODO
+		/**
+		 * Imissyou  添从其他类别转到主类别
+		 */
+		if (kind == GoodListActivity.OTHERS) {
+			//刷新页面
+			categoryId = String.valueOf(position);
+			kind = position;
+			
+			goods.clear();
+			fefreshView(item, position);
+			
+			return;
+		}
+		
 		Intent intent = new Intent(this, GoodDetailActivity.class);
 		intent.putExtra("back", titleTv.getText());
 		intent.putExtra("simpleName", item.getCategorySimpleName());
@@ -197,6 +214,17 @@ public class GoodListActivity extends BackActivity implements
 	@Override
 	public void onRefresh(PullToRefreshBase<ListView> refreshView) {
 		DC.getInstance().getGoodList(this, categoryId, pageIndex++, PAGE_SIZE);
+	}
+	
+	/**
+	 * 
+	 * 刷新页面
+	 * @param item
+	 */
+	public void fefreshView(GoodListItem item,int postion) {
+		titleTv.setText(item.getCategorySimpleName());
+		DC.getInstance().getGoodList(this, item.getCategoryId(), pageIndex,
+				PAGE_SIZE);
 	}
 
 }

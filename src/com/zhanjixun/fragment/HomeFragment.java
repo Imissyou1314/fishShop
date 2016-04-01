@@ -297,6 +297,7 @@ public class HomeFragment extends Fragment implements OnClickListener,
 	}
 
 	private void initMonthHotData(List<MonthHotGood> goods) {
+		
 		for (int i = 0; i < goods.size(); i++) {
 			MonthHotGood good = goods.get(i);
 			ImageView imag = (ImageView) hotItem[i]
@@ -313,7 +314,7 @@ public class HomeFragment extends Fragment implements OnClickListener,
 			simpleName.setText(good.getCategorySimpleName());
 			academicName.setText(good.getCategoryAcademicName());
 			englishName.setText(good.getCategoryEnglishName());
-			sellNumber.setText(good.getTotalSellNumber() + "");
+			sellNumber.setText(good.getHotDegree() + "");
 			// ¼ÓÔØÍ¼Æ¬
 			IC.getInstance().setForegound(good.getFishPhoto(), imag);
 			hotItem[i].setOnClickListener(new HotItemClickListener(good));
