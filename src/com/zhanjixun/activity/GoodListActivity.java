@@ -196,6 +196,8 @@ public class GoodListActivity extends BackActivity implements
 			kind = position;
 			
 			goods.clear();
+			topAdapter = null;
+			goodLv.setAdapter(adapter);
 			fefreshView(item, position);
 			
 			return;

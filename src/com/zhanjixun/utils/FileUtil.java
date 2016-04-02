@@ -141,8 +141,4 @@ public class FileUtil {
 	public static boolean fileIsExists(String path) {
 		return new File(path).exists();
 	}
-	
-	
-	 
-
 }
