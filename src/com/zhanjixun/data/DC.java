@@ -82,10 +82,10 @@ public class DC extends DataCenter {
 	 * @param dataReturnListener
 	 * @param id
 	 */
-	public void requestCodeForFindPassword(OnDataReturnListener dataReturnListener, String id) {
+	public void requestCodeForFindPassword(OnDataReturnListener dataReturnListener, String phoneNumber) {
 
 		Map<String, String> params = new HashMap<String, String>();
-		params.put("phoneNumber", id);
+		params.put("phoneNumber", phoneNumber);
 		getDatasFromServer(TaskTag.REQUEST_MSG_CODE, "user_smsCodeOfFound.action", params, dataReturnListener);
 	}
 
