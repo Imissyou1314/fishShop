@@ -137,7 +137,8 @@
                                     android:text="@string/credit_index"
                                     android:textColor="#ffffff"
                                     android:textSize="12sp" />
-
+	
+                                <!--   获取全部商品                              
                                 <TextView
                                     android:id="@+id/id_seller_detail_getAllGoods"
                                     android:layout_width="wrap_content"
@@ -145,6 +146,9 @@
                                     android:background="@drawable/all_goods_button"
                                     android:text="@string/all_goods"
                                     android:textColor="#ffffff" />
+                                    
+                                      -->
+                                    
                             </LinearLayout>
                         </LinearLayout>
                     </RelativeLayout>

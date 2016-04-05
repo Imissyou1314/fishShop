@@ -54,6 +54,7 @@ public class AddressManageAdapter extends BaseAdapter {
 					.findViewById(R.id.shopping_car_address_user_name);
 			vh.userPhone = (TextView) convertView
 					.findViewById(R.id.shopping_car_address_user_PhoneNumber);
+			
 			convertView.setTag(vh);
 		} else {
 			vh = (ViewHolder) convertView.getTag();

@@ -15,8 +15,8 @@ import com.zhanjixun.views.MessageDialog;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -80,7 +80,7 @@ public class ChangeUserPhone extends BackActivity implements OnDataReturnListene
 		} else {
 			dialog.show();
 			//请求发送验证码
-			DC.getInstance().requestCodeForFindPassword(this, getPhone());
+			DC.getInstance().requestCodeForRegister(this, getPhone());
 		}
 	}
 
@@ -106,10 +106,10 @@ public class ChangeUserPhone extends BackActivity implements OnDataReturnListene
 	public void onDataReturn(String taskTag, BaseResult result, String json) {
 		dialog.dismiss();
 		if (result.getServiceResult()) {
-			if (taskTag.equals(TaskTag.REQUEST_MSG_CODE)) {
+			if (taskTag.equals(TaskTag.REGISTER_CODE)) {
 				Toast.makeText(this, result.getResultInfo(), Toast.LENGTH_LONG)
 						.show();
-				new AsyncClockTask((Button) findViewById(R.id.change_get_codeBtn))
+				new AsyncClockTask((TextView) findViewById(R.id.change_get_codeBtn))
 						.execute();
 			}
 			if (taskTag.endsWith(TaskTag.CHECK_MSG_CODE)) {

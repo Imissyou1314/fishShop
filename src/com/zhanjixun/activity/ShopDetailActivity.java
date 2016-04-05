@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -65,7 +64,7 @@ public class ShopDetailActivity extends FragmentActivity implements
 	private MessageDialog messageDialog;
 	private TextView backTv;
 	/*获取商家的所有商品*/
-	private TextView getShopGoods;
+//	private TextView getShopGoods;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +76,7 @@ public class ShopDetailActivity extends FragmentActivity implements
 
 	private void initView() {
 		
-		getShopGoods = (TextView) findViewById(R.id.id_seller_detail_getAllGoods);
+//		getShopGoods = (TextView) findViewById(R.id.id_seller_detail_getAllGoods);
 		backTv = (TextView) findViewById(R.id.shop_back);
 		faceImg = (ImageView) findViewById(R.id.id_seller_detail_sellerImage);
 		faceImgBg = (ImageView) findViewById(R.id.id_seller_detail_sellerImage_bg);
@@ -93,7 +92,7 @@ public class ShopDetailActivity extends FragmentActivity implements
 		msg_item3 = (TextView) findViewById(R.id.id_seller_detail_creditValue); // 信用值
 		
 		/*商店的使用商品还是页面goods*/
-		getShopGoods.setOnClickListener(new MyClickListener(0));
+//		getShopGoods.setOnClickListener(new MyClickListener(0));
 		
 		tv_goods.setOnClickListener(new MyClickListener(0));
 		tv_comments.setOnClickListener(new MyClickListener(1));
@@ -201,10 +200,10 @@ public class ShopDetailActivity extends FragmentActivity implements
 
 		@Override
 		public void onClick(View v) {
-			if (v.getId() == R.id.id_seller_detail_getAllGoods) {
-				Log.d("getMiss", "get shop all fishs");
-//				DC.getInstance()  TODO 获取商店的所有商品
-			}
+//			if (v.getId() == R.id.id_seller_detail_getAllGoods) {
+//				Log.d("getMiss", "get shop all fishs");
+////				DC.getInstance()  TODO 获取商店的所有商品
+//			}
 			pager.setCurrentItem(index);
 		}
 	}

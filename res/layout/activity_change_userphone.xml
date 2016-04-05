@@ -33,12 +33,12 @@
         <EditText
             android:id="@+id/change_userphone_input"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="45dp"
             android:hint="请输入新的手机号码" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="45dp"
             android:layout_marginBottom="5dp"
             android:layout_marginTop="4dp"
             android:background="@color/page_bg"
@@ -47,11 +47,11 @@
             <EditText
                 android:id="@+id/change_inputcode"
                 android:layout_width="0dp"
-                android:layout_height="fill_parent"
-                android:layout_weight="2"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.93"
                 android:hint="请输入短信验证码" />
 
-            <Button
+            <TextView
                 android:id="@+id/change_get_codeBtn"
                 style="@style/myButton"
                 android:layout_width="0dp"
@@ -66,10 +66,10 @@
         <Button
             android:id="@+id/change_userPhone_CommitBtn"
             style="@style/myButton"
-            android:layout_height="wrap_content"
+            android:layout_height="45dp"
             android:layout_width="match_parent"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
             android:text="提交" />
     </LinearLayout>
 

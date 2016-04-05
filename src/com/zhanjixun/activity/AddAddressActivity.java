@@ -123,6 +123,8 @@ public class AddAddressActivity extends BackActivity implements OnDataReturnList
 			messageDialog.setMessage(result.getResultInfo());
 			messageDialog.show();
 		} else if (taskTag.equals(TaskTag.GET_SHENFEN)) {
+			
+			
 			loadData(result.getResultParam().get("regionList"));
 		}
 	}

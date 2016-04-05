@@ -23,26 +23,26 @@ import com.zhanjixun.views.MessageDialog;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnCreateContextMenuListener;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ListView;
 import android.widget.Toast;
 
-public class AddressManageActivity extends BackActivity implements
-		OnDataReturnListener, OnRefreshListener<ListView> {
+public class AddressManageActivity extends BackActivity
+		implements OnDataReturnListener, View.OnCreateContextMenuListener {
 	private LoadingDialog dialog;
-	private PullToRefreshListView addressLv;
+	private ListView addressLv;
 	private AddressManageAdapter adapter;
 	private int postion;
 	private DoubleButtonMessageDialog dbMsgDialog;
 	private AdapterContextMenuInfo info;
-	
-	
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -67,33 +67,39 @@ public class AddressManageActivity extends BackActivity implements
 	}
 
 	private void loadListViewData(List<Address> addresses) {
-		addressLv = (PullToRefreshListView) findViewById(R.id.id_mp_admanage);
-		addressLv.setMode(Mode.PULL_FROM_END);
+		addressLv = (ListView) findViewById(R.id.id_mp_admanage);
 		adapter = new AddressManageAdapter(this, addresses);
 		addressLv.setAdapter(adapter);
-		addressLv.setOnRefreshListener(this);
 		addressLv.setOnCreateContextMenuListener(this);
+		// this.registerForContextMenu(addressLv);
 	}
 
 	@Override
-	public void onCreateContextMenu(ContextMenu menu, View v,
-			ContextMenuInfo menuInfo) {
+	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+		Log.d("Miss", v.getId() + "Miss");
 		menu.add(0, 1, Menu.NONE, "设为默认");
 		menu.add(0, 2, Menu.NONE, "修改");
 		menu.add(0, 3, Menu.NONE, "删除");
+		info = (AdapterContextMenuInfo) menuInfo;
+		super.onCreateContextMenu(menu, v, menuInfo);
 	}
 
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
-		info = (AdapterContextMenuInfo) item.getMenuInfo();
-		postion = new Long(info.id).intValue();
+		if (info == null) {
+			info = (AdapterContextMenuInfo) item.getMenuInfo();
+		}
+
+		postion = new Long(info.position).intValue();
+
+		// TODO
 		Address address = (Address) adapter.getItem(postion);
+
 		switch (item.getItemId()) {
 		// 设为默认
 		case 1:
 			dialog.show();
-			DC.getInstance().defultaAdress(this, address.getGetAddressId(),
-					Constants.user.getUserId());
+			DC.getInstance().defultaAdress(this, address.getGetAddressId(), Constants.user.getUserId());
 			break;
 		// 修改
 		case 2:
@@ -112,8 +118,7 @@ public class AddressManageActivity extends BackActivity implements
 					postion = new Long(info.id).intValue();
 					Address address = (Address) adapter.getItem(postion);
 					dialog.show();
-					DC.getInstance().deleteAdress(AddressManageActivity.this,
-							address.getGetAddressId());
+					DC.getInstance().deleteAdress(AddressManageActivity.this, address.getGetAddressId());
 				}
 			});
 			dbMsgDialog.show();
@@ -130,8 +135,7 @@ public class AddressManageActivity extends BackActivity implements
 
 		if (result.getServiceResult()) {
 			if (taskTag.equals(TaskTag.GET_ADDREES)) {
-				List<Address> addresses = MyGson.getInstance().fromJson(result
-						.getResultParam().get("getAddressList"),
+				List<Address> addresses = MyGson.getInstance().fromJson(result.getResultParam().get("getAddressList"),
 						new TypeToken<List<Address>>() {
 						}.getType());
 				// 设置默认地址
@@ -141,12 +145,10 @@ public class AddressManageActivity extends BackActivity implements
 				}
 				loadListViewData(addresses);
 			} else if (taskTag.equals(TaskTag.DELETE_ADDRESS)) {
-				Toast.makeText(this, result.getResultInfo(), Toast.LENGTH_LONG)
-						.show();
+				Toast.makeText(this, result.getResultInfo(), Toast.LENGTH_LONG).show();
 				getAddress();// 更新地址数据
 			} else if (taskTag.equals(TaskTag.DEFULT_AADRESS)) {
-				Toast.makeText(this, result.getResultInfo(), Toast.LENGTH_LONG)
-						.show();
+				Toast.makeText(this, result.getResultInfo(), Toast.LENGTH_LONG).show();
 				getAddress();// 更新地址数据
 			}
 
@@ -156,11 +158,5 @@ public class AddressManageActivity extends BackActivity implements
 
 	}
 
-	@Override
-	public void onRefresh(PullToRefreshBase<ListView> refreshView) {
-		// TODO Auto-generated method stub
-		addressLv.onRefreshComplete();
-		
-	}
 
 }
