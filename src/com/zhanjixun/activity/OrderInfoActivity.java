@@ -213,6 +213,9 @@ public class OrderInfoActivity extends BackActivity implements
 			this.startActivity(intent2);
 			break;
 		case Order.state_un_sent:
+			
+			Toast.makeText(this, "已提醒商家发货....", Toast.LENGTH_SHORT).show();
+			this.finish();
 			//TODO 提醒发货
 			break;
 		case Order.state_un_get:

@@ -3,10 +3,6 @@ package com.zhanjixun.activity;
 import java.util.List;
 
 import com.google.gson.reflect.TypeToken;
-import com.handmark.pulltorefresh.library.PullToRefreshBase;
-import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
-import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
-import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.zhanjixun.R;
 import com.zhanjixun.adapter.AddressManageAdapter;
 import com.zhanjixun.base.BackActivity;
@@ -30,7 +26,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnCreateContextMenuListener;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ListView;
 import android.widget.Toast;
