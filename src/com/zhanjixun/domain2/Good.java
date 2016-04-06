@@ -10,6 +10,8 @@ public class Good {
 	private Integer number;
 	private Integer sellNumber;
 	private String skuString;
+	//ÊýÁ¿
+	private Integer nowNumber;
 
 	/**
 	 * @return goodsId
@@ -143,5 +145,13 @@ public class Good {
 	 */
 	public void setSkuString(String skuString) {
 		this.skuString = skuString;
+	}
+
+	public Integer getNowNumber() {
+		return nowNumber;
+	}
+
+	public void setNowNumber(Integer nowNumber) {
+		this.nowNumber = nowNumber;
 	}
 }

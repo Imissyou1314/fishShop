@@ -125,8 +125,17 @@ public class SellerGoodsListAdapter extends BaseAdapter {
 							if (StringUtil.isNumber(result.get(goodItemBean.getGoodsId()))){
 								number = Integer.valueOf(result.get(goodItemBean.getGoodsId()));
 							}	
-							addToCarOrder(goodItemBean);
-							Toast.makeText(context, "添加" + number + "个商品成功!", Toast.LENGTH_LONG).show();
+							//TODO
+							if(number <= goodItemBean.getNowNumber()) {
+								
+								addToCarOrder(goodItemBean);
+								goodItemBean.setNowNumber(goodItemBean.getNowNumber() - number);
+								Toast.makeText(context, "添加" + number + "个商品成功!", Toast.LENGTH_LONG).show();
+							} else {
+								Toast.makeText(context, "最多只能添加" + goodItemBean.getNowNumber() + "个商品!", Toast.LENGTH_LONG).show();
+							}
+							
+							
 						}
 					});
 			input.show();
