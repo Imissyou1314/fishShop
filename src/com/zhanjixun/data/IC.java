@@ -47,4 +47,23 @@ public class IC {
 		LogUtils.v(imgURL);
 		new AsyncImageTask(imgURL, view, AsyncImageTask.SET_BITMAP_BACKGROUND);
 	}
+	
+	
+	/**
+	 * 
+	 * 加载大图片
+	 * @param url
+	 * @param view
+	 */
+	public void setForegoundOrigin(String url, ImageView view) {
+		int lastIndexOf = url.lastIndexOf(".");
+		StringBuilder builder = new StringBuilder();
+		builder.append(url.substring(0, lastIndexOf));
+		builder.append("_300");
+		builder.append(url.substring(lastIndexOf, url.length()));
+		String url2 = builder.toString();
+		//TODO 后面的没有了
+//		getImage(url2, view, AsyncImageTask.FOREGROUND);
+	}
+
 }

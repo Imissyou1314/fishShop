@@ -16,6 +16,7 @@ public class AsyncImageTask extends AsyncTask<String, Integer, Bitmap> {
 	private int type;
 	public static final int SET_BITMAP_BACKGROUND = 1;
 	public static final int SET_BITMAP_FOREGROUND = 2;
+	public static final int FOREGROUND = 3;
 
 	@SuppressWarnings("deprecation")
 	public AsyncImageTask(String url, View view, int type) {
