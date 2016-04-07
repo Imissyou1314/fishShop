@@ -160,7 +160,6 @@ public class ShopDetailActivity extends FragmentActivity implements
 	
 	private void initViewpager() {
 		
-		
 		int screenW = ScreenUtil.getWidth(this);
 		// 设置游标自适应长度
 		int dipToPixels = UnitUtil.DipToPixels(this, 2);
@@ -193,7 +192,6 @@ public class ShopDetailActivity extends FragmentActivity implements
 	
 	class MyClickListener implements View.OnClickListener {
 		int index = 0;
-
 		public MyClickListener(int i) {
 			index = i;
 		}

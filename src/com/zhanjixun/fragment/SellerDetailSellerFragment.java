@@ -10,6 +10,7 @@ import java.util.Map;
 import org.json.JSONException;
 
 import android.annotation.SuppressLint;
+import android.app.ActionBar.LayoutParams;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -124,6 +125,7 @@ public class SellerDetailSellerFragment extends Fragment implements
 			parent.addView(v);
 		}
 		// 初始化商家展示图片
+		//TODO
 		parent.addView(initShowImageView(fishmen.getShowImageUrls()));
 	}
 
@@ -220,8 +222,20 @@ public class SellerDetailSellerFragment extends Fragment implements
 	private GridView initShowImageView(final List<String> urls) {
 		showImageUrls = urls;
 		GridView showImages = new GridView(getContext());
-		showImages.setNumColumns(5);
-		showImages.setPadding(10, 5, 10, 0);
+		//TODO
+//		LayoutParams params = new LayoutParams(LinearLayout);
+//		showImages.setLayoutParams(params);
+		
+		//自动
+		
+		GridView.LayoutParams lp=new GridView.LayoutParams(-1,-1);  
+        showImages.setLayoutParams(lp);
+        showImages.setNumColumns(GridView.AUTO_FIT);
+        showImages.setColumnWidth(90);
+        showImages.setHorizontalSpacing(10);
+        showImages.setVerticalSpacing(10);
+		
+		
 		SellerShowImageAdapter ssiAdapter = new SellerShowImageAdapter(
 				getContext(), urls);
 		showImages.setAdapter(ssiAdapter);
@@ -230,6 +244,8 @@ public class SellerDetailSellerFragment extends Fragment implements
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
+				
+				//TODO 显示大图
 				Intent intent = new Intent(getContext(),
 						BrowseImageActivity.class);
 				intent.putExtra("index", position);

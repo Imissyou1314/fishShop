@@ -168,8 +168,9 @@
 
                     <TextView
                         android:id="@+id/id_seller_detail_goods"
-                        android:layout_width="wrap_content"
+                        android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
+                        android:gravity="center"
                         android:layout_centerInParent="true"
                         android:clickable="true"
                         android:tag="seller_good"
@@ -191,8 +192,9 @@
 
                     <TextView
                         android:id="@+id/id_seller_detail_comment"
-                        android:layout_width="wrap_content"
+                        android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
+                        android:gravity="center"
                         android:layout_centerInParent="true"
                         android:clickable="true"
                         android:tag="seller_comment"
@@ -214,8 +216,9 @@
 
                     <TextView
                         android:id="@+id/id_seller_detail_seller"
-                        android:layout_width="wrap_content"
+                        android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
+                        android:gravity="center"
                         android:layout_centerInParent="true"
                         android:clickable="true"
                         android:tag="seller_seller"

@@ -6,13 +6,15 @@ import java.util.List;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.ImageView;
 
 import com.zhanjixun.R;
 import com.zhanjixun.adapter.BrowseViewPagerAdapter;
 import com.zhanjixun.data.IC;
 
-public class BrowseImageActivity extends Activity {
+public class BrowseImageActivity extends Activity implements OnClickListener {
 
 	private ViewPager viewPager;
 	private BrowseViewPagerAdapter adapter;
@@ -33,12 +35,19 @@ public class BrowseImageActivity extends Activity {
 		viewPager.setAdapter(adapter);
 		viewPager.setCurrentItem(getIntent().getIntExtra("index", 0));
 		images.clear();
+		//º”‘ÿÕº∆¨
 		for (int i = 0; i < urls.length; i++) {
 			ImageView iv = new ImageView(this);
 			IC.getInstance().setForegound(urls[i], iv);
+			iv.setOnClickListener(this);
 			images.add(iv);
 		}
 		adapter.notifyDataSetChanged();
+	}
+
+	@Override
+	public void onClick(View v) {
+		this.finish();
 	}
 
 }
