@@ -108,12 +108,8 @@
         </activity>
         <activity android:name="com.zhanjixun.activity.ChangeUserHeadImageActivity" >
         </activity>
-        <!-- <activity android:name="com.zhanjixun.activity.SearchActivity"  
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"/> -->
-        
-        <activity android:name="com.zhanjixun.activity.SearchActivity"/>
-        
-        <activity android:name="com.zhanjixun.activity.ChangeUserPhone"/>
+        <activity android:name="com.zhanjixun.activity.SearchActivity" />
+        <activity android:name="com.zhanjixun.activity.ChangeUserPhone" />
         <!-- Ping++ SDK -->
         <activity
             android:name="com.pingplusplus.android.PaymentActivity"
