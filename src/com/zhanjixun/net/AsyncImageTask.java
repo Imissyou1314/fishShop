@@ -3,6 +3,7 @@ package com.zhanjixun.net;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -30,10 +31,15 @@ public class AsyncImageTask extends AsyncTask<String, Integer, Bitmap> {
 			LogUtils.v(bitmap.toString());
 			bitmap = BitmapUtils.getBitmap(bitmap, view.getMeasuredWidth(),
 					view.getMeasuredHeight());
+			
+			Log.d("url + Miss", bitmap.toString() + "Miss");
+			
 			if (SET_BITMAP_BACKGROUND == type) {
 				view.setBackgroundDrawable(new BitmapDrawable(bitmap));
 			} else if (SET_BITMAP_FOREGROUND == type) {
 				((ImageView) view).setImageBitmap(bitmap);
+			} else if(FOREGROUND == type) {
+				view.setBackground(new BitmapDrawable(bitmap));
 			}
 		} else {
 			this.execute(url);
@@ -64,6 +70,8 @@ public class AsyncImageTask extends AsyncTask<String, Integer, Bitmap> {
 				result = BitmapUtils.getBitmap(result, view.getMeasuredWidth(),
 						view.getMeasuredHeight());
 				((ImageView) view).setImageBitmap(result);
+			} else if (FOREGROUND == type) {
+				view.setBackground(new BitmapDrawable(result));
 			}
 		}
 	}

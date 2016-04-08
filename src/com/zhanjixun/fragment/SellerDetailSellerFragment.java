@@ -10,7 +10,6 @@ import java.util.Map;
 import org.json.JSONException;
 
 import android.annotation.SuppressLint;
-import android.app.ActionBar.LayoutParams;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -221,6 +220,7 @@ public class SellerDetailSellerFragment extends Fragment implements
     
 	private GridView initShowImageView(final List<String> urls) {
 		showImageUrls = urls;
+//		GridView showImages = (GridView) getView().findViewById(R.id.fragment_seller_detail_gridView);
 		GridView showImages = new GridView(getContext());
 		//TODO
 //		LayoutParams params = new LayoutParams(LinearLayout);

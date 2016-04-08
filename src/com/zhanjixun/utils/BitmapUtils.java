@@ -57,7 +57,6 @@ public class BitmapUtils {
 		
 		if (null == path && "".equals(path))
 			path = Constants.CACHE_DIR;
-		
 		try {
 			stream = new FileOutputStream(path +"/"+ filename);
 			result = bitmap.compress(format, quality, stream);

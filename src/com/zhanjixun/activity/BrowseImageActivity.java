@@ -38,7 +38,7 @@ public class BrowseImageActivity extends Activity implements OnClickListener {
 		//╪стьм╪ф╛
 		for (int i = 0; i < urls.length; i++) {
 			ImageView iv = new ImageView(this);
-			IC.getInstance().setForegound(urls[i], iv);
+			IC.getInstance().setForegoundOrigin(urls[i], iv);
 			iv.setOnClickListener(this);
 			images.add(iv);
 		}

@@ -316,7 +316,8 @@ public class HomeFragment extends Fragment implements OnClickListener,
 			englishName.setText(good.getCategoryEnglishName());
 			sellNumber.setText(good.getHotDegree() + "");
 			// º”‘ÿÕº∆¨
-			IC.getInstance().setForegound(good.getFishPhoto(), imag);
+			IC.getInstance().setForegoundOrigin(good.getFishPhoto(), imag);
+			
 			hotItem[i].setOnClickListener(new HotItemClickListener(good));
 		}
 	}

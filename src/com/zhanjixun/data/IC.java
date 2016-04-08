@@ -1,6 +1,7 @@
 package com.zhanjixun.data;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -56,12 +57,16 @@ public class IC {
 	 * @param view
 	 */
 	public void setForegoundOrigin(String url, ImageView view) {
+		Log.d("miss:::>>> ", url);
 		int lastIndexOf = url.lastIndexOf(".");
 		StringBuilder builder = new StringBuilder();
 		builder.append(url.substring(0, lastIndexOf));
 		builder.append("_300");
 		builder.append(url.substring(lastIndexOf, url.length()));
 		String url2 = builder.toString();
+		Log.d("miss:::after>>>", url2);
+		setForegound(url2, view);
+//		new AsyncImageTask(url2, view, AsyncImageTask.FOREGROUND);
 		//TODO 后面的没有了
 //		getImage(url2, view, AsyncImageTask.FOREGROUND);
 	}

@@ -1,6 +1,7 @@
 package com.zhanjixun.utils;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -9,6 +10,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.MediaStore;
 
@@ -62,8 +64,7 @@ public class FileUtil {
 
 	public static String getCacheFilePath(String url) {
 		StringBuilder path = new StringBuilder();
-		path.append(Constants.CACHE_DIR).append("/")
-				.append(StringUtil.MD5(url))
+		path.append(Constants.CACHE_DIR).append("/").append(StringUtil.MD5(url))
 				.append(url.substring(url.lastIndexOf(".")));
 		return path.toString();
 	}
@@ -81,8 +82,7 @@ public class FileUtil {
 			}
 		}
 		String[] filePathColumn = { MediaStore.Images.Media.DATA };
-		Cursor cursor = context.getContentResolver().query(selectedImage,
-				filePathColumn, null, null, null);
+		Cursor cursor = context.getContentResolver().query(selectedImage, filePathColumn, null, null, null);
 		cursor.moveToFirst();
 		int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
 		String picturePath = cursor.getString(columnIndex);
@@ -94,27 +94,28 @@ public class FileUtil {
 	 * ¥”±æµÿªÒ»°Õº∆¨
 	 * 
 	 * @param path
+	 * @param state true  â∫øs
 	 * @return
 	 */
-	public static Bitmap loadBitmap(String path) {
+	public static Bitmap loadBitmap(String path, boolean state) {
 
-//		File file = new File(path);
-		if (path != null){
-			//TODO—πÀıÕº∆¨
-//			try {
-//				return BitmapFactory.decodeStream(new FileInputStream(file));
-//			} catch (FileNotFoundException e) {
-//				// TODO Auto-generated catch block
-//				LogUtils.d("File not found: " + e.getMessage());
-////				e.printStackTrace();
-//			}
-			return MissBitmapUtils.decodeFileDefault(path);
+		if (path != null) {
+			if (!state) {
+				try {
+					File file = new File(path);
+					return BitmapFactory.decodeStream(new FileInputStream(file));
+				} catch (FileNotFoundException e) {
+					// // TODO Auto-generated catch block
+					LogUtils.d("File not found: " + e.getMessage());
+				}
+			} else {
+				// TODO—πÀıÕº∆¨
+				return MissBitmapUtils.decodeFileDefault(path);
+			}
+			
 		}
 		return null;
 	}
-	
-	
-	
 
 	public static void storeBitmap(String path, Bitmap image) {
 		if (path == null) {

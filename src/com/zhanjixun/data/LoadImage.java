@@ -84,19 +84,19 @@ public class LoadImage {
 		}
 		if (path.contains("http:")) {
 			String filePath = Constants.CACHE_DIR + "/" + key;
-			bitmap = FileUtil.loadBitmap(filePath);
+			bitmap = FileUtil.loadBitmap(filePath,false);
 			if (null != bitmap) {
 				putImage(key, bitmap);// 放入系统缓存中
 				return bitmap;
 			} else {
 				if (HttpConnection.sendGetToFile(path, filePath)) {
-					bitmap = FileUtil.loadBitmap(path);
+					bitmap = FileUtil.loadBitmap(path,false);
 					putImage(key, bitmap);
 					return bitmap;
 				}
 			}
 		} else {
-			bitmap = FileUtil.loadBitmap(path);
+			bitmap = FileUtil.loadBitmap(path,false);
 			putImage(key, bitmap);
 			return bitmap;
 		}
@@ -124,12 +124,12 @@ public class LoadImage {
 			return bitmap;
 		}
 		// 根据毛玻璃图片地址在Cache中找图片
-		Bitmap glassBitmap = FileUtil.loadBitmap(glassPath);
+		Bitmap glassBitmap = FileUtil.loadBitmap(glassPath,false);
 		if (glassBitmap != null) {
 			return glassBitmap;
 		} else {
 			// 在Cache中找原图
-			Bitmap cacheBitmap = FileUtil.loadBitmap(cachePath);
+			Bitmap cacheBitmap = FileUtil.loadBitmap(cachePath , false);
 			if (cacheBitmap != null) {
 				Bitmap blurBitmap = Blur.fastblur(context, cacheBitmap, 12);
 				// 将毛玻璃的图片存入LruCache
@@ -141,7 +141,7 @@ public class LoadImage {
 				if (HttpConnection.sendGetToFile(path, cachePath)) {
 					if(path.isEmpty())
 						return null;
-					Bitmap netBitmap = FileUtil.loadBitmap(path);
+					Bitmap netBitmap = FileUtil.loadBitmap(path,false);
 					Bitmap netBlurBitmap = Blur
 							.fastblur(context, netBitmap, 12);
 					putImage(glassPath, netBlurBitmap);
@@ -216,7 +216,7 @@ public class LoadImage {
 		@Override
 		protected Bitmap doInBackground(String... params) {
 			String path = params[0];
-			return FileUtil.loadBitmap(path);
+			return FileUtil.loadBitmap(path,false);
 		}
 
 		@Override
