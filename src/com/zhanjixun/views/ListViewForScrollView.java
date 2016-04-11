@@ -23,9 +23,4 @@ public class ListViewForScrollView extends ListView{
 				MeasureSpec.AT_MOST);
 		super.onMeasure(widthMeasureSpec, expandSpec);
 	}
-	
-	
-	
-	
-
 }

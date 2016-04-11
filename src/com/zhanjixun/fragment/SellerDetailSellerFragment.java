@@ -52,7 +52,7 @@ public class SellerDetailSellerFragment extends Fragment implements
 	private Farmers farmer = null;
 	private LinearLayout parent;
 	private List<String> showImageUrls;
-
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {

@@ -4,6 +4,7 @@ package com.zhanjixun.views;
 import android.content.Context;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 public class selfAdapterViewPager extends ViewPager{
@@ -18,7 +19,8 @@ public class selfAdapterViewPager extends ViewPager{
 	
 	 @Override
 	    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-	 
+		 	
+		 Log.d("Miss Adapter Viewpager", heightMeasureSpec + ":::::>>>now");
 	        int height = 0;
 	        //下面遍历所有child的高度
 	        for (int i = 0; i < getChildCount(); i++) {
@@ -29,10 +31,15 @@ public class selfAdapterViewPager extends ViewPager{
 	            if (h > height) //采用最大的view的高度。
 	                height = h;
 	        }
-	 
-	        heightMeasureSpec = MeasureSpec.makeMeasureSpec(height,
-	                MeasureSpec.EXACTLY);
-	 
+	        /**
+	         * 修复了不能全屏的问题
+	         */
+	        if (heightMeasureSpec <= MeasureSpec.makeMeasureSpec(height,
+	                MeasureSpec.EXACTLY)) {
+	        	heightMeasureSpec = MeasureSpec.makeMeasureSpec(height,
+		                MeasureSpec.EXACTLY);
+			}
+	        Log.d("Miss Adapter Viewpager", heightMeasureSpec + ":::::>>>after");
 	        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 	    }
 

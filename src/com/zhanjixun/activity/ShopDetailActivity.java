@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -37,7 +38,7 @@ import com.zhanjixun.views.LoadingDialog;
 import com.zhanjixun.views.MessageDialog;
 
 public class ShopDetailActivity extends FragmentActivity implements
-		OnDataReturnListener {
+		OnDataReturnListener{
 	private Seller seller = new Seller();
 	private TextView tv_goods;
 	private TextView tv_comments;
@@ -63,6 +64,7 @@ public class ShopDetailActivity extends FragmentActivity implements
 	private LoadingDialog dialog;
 	private MessageDialog messageDialog;
 	private TextView backTv;
+	private View shop_title;
 	/*获取商家的所有商品*/
 //	private TextView getShopGoods;
 
@@ -73,9 +75,16 @@ public class ShopDetailActivity extends FragmentActivity implements
 		initView();
 		initData();
 	}
+	
+	@Override
+	protected void onStart() {
+		visibleView();
+		super.onStart();
+	}
 
 	private void initView() {
 		
+	    shop_title = findViewById(R.id.seller_detail_shop_Title);
 //		getShopGoods = (TextView) findViewById(R.id.id_seller_detail_getAllGoods);
 		backTv = (TextView) findViewById(R.id.shop_back);
 		faceImg = (ImageView) findViewById(R.id.id_seller_detail_sellerImage);
@@ -130,7 +139,10 @@ public class ShopDetailActivity extends FragmentActivity implements
 			messageDialog.show();
 		}
 	}
-
+	
+	/**
+	 * 返回数据的处理
+	 */
 	private void setDataOnReturn() {
 		shopName.setText(seller.getShopName());
 		IC.getInstance().setForegound(seller.getShopPhoto(), faceImg);
@@ -176,8 +188,9 @@ public class ShopDetailActivity extends FragmentActivity implements
 		cursor.setImageMatrix(matrix);
 
 		views = new ArrayList<Fragment>();
-		goodFragment = new SellerDetailGoodFragment();
-		commentFragment = new SellerDetailCommentFragment();
+		
+		commentFragment = new SellerDetailCommentFragment(this);
+		goodFragment = new SellerDetailGoodFragment(this);
 		sellerFragment = new SellerDetailSellerFragment();
 		views.add(goodFragment);
 		views.add(commentFragment);
@@ -198,11 +211,10 @@ public class ShopDetailActivity extends FragmentActivity implements
 
 		@Override
 		public void onClick(View v) {
-//			if (v.getId() == R.id.id_seller_detail_getAllGoods) {
-//				Log.d("getMiss", "get shop all fishs");
-////				DC.getInstance()  TODO 获取商店的所有商品
-//			}
 			pager.setCurrentItem(index);
+			//TODO 显示Title
+			Log.d("Activity >>>>>>>>>>>", "显示:::" + index + 1);
+			visibleView();
 		}
 	}
 
@@ -210,9 +222,29 @@ public class ShopDetailActivity extends FragmentActivity implements
 		return seller;
 	}
 	
+	/**
+	 * 返回
+	 * @param v
+	 */
 	public void onBack(View v) {
 		this.finish();
 	}
-
-
+	
+	/**
+	 * 隐藏上面
+	 */
+	public void goneView() {
+		if (shop_title != null && shop_title.getVisibility() == View.VISIBLE) {
+			shop_title.setVisibility(View.GONE);
+		}
+	}
+	
+	/**
+	 * 显示上面
+	 */
+	public void visibleView() {
+		if (shop_title != null && shop_title.getVisibility() == View.GONE) {
+			shop_title.setVisibility(View.VISIBLE);
+		}
+	}
 }

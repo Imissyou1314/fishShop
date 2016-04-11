@@ -5,11 +5,15 @@ import java.util.List;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -34,8 +38,8 @@ import com.zhanjixun.utils.LogUtils;
 import com.zhanjixun.utils.UnitUtil;
 import com.zhanjixun.views.MessageDialog;
 
-public class SellerDetailCommentFragment extends Fragment implements
-		OnDataReturnListener, OnRefreshListener<ListView>, OnClickListener {
+public class SellerDetailCommentFragment extends Fragment
+		implements OnDataReturnListener, OnRefreshListener<ListView>, OnClickListener {
 
 	private int allPageIndex = 1;
 	private int goodPageIndex = 1;
@@ -44,9 +48,8 @@ public class SellerDetailCommentFragment extends Fragment implements
 
 	private final int PAGE_SIZE = 7;
 	private String shopId;
-	//TODO
-//	private PullToRefreshScrollView mScrollView;
 	
+	private LinearLayout commentInfoLinearLayout;
 	private PullToRefreshListView mListview;
 	private SellerCommentsAdapter adapter;
 	private List<Comment> comments = new ArrayList<Comment>();
@@ -63,12 +66,20 @@ public class SellerDetailCommentFragment extends Fragment implements
 	private TextView speedQuality;
 	private int commentType = 0;
 
+	// TODO 是否显示Title评论那一块
+	private ShopDetailActivity mMainactivity;
+	private boolean isShowTitle = true;
+	private boolean isPause = false;
+
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		View view =  inflater.inflate(R.layout.fragment_seller_detail_comments,
-				container, false);
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		View view = inflater.inflate(R.layout.fragment_seller_detail_comments, container, false);
 		return view;
+	}
+
+	// TODO
+	public SellerDetailCommentFragment(ShopDetailActivity activity) {
+		this.mMainactivity = (ShopDetailActivity) activity;
 	}
 
 	@Override
@@ -77,38 +88,102 @@ public class SellerDetailCommentFragment extends Fragment implements
 		initView();
 		initData();
 	}
+	
+	@Override
+	public void onPause() {
+		// TODO Auto-generated method stub
+		isPause  = true;
+		//肯去掉
+		mMainactivity.visibleView();
+		super.onPause();
+	}
+	
+	@Override
+	public void onResume() {
+		// TODO Auto-generated method stub
+		isPause = false;
+		super.onResume();
+	}
 
 	public void initView() {
-		freshRatingBar = (RatingBar) getView().findViewById(
-				R.id.id_ratingBar_freshQuality);
-		weightRatingBar = (RatingBar) getView().findViewById(
-				R.id.id_ratingBar_weightQuality);
-		speedRatingBar = (RatingBar) getView().findViewById(
-				R.id.id_ratingBar_speedQuality);
-		
-		
-		//TODO
-		
-		mListview = (PullToRefreshListView) getView().
-				findViewById(R.id.id_seller_detail_comments_listview);
+
+		freshRatingBar = (RatingBar) getView().findViewById(R.id.id_ratingBar_freshQuality);
+		weightRatingBar = (RatingBar) getView().findViewById(R.id.id_ratingBar_weightQuality);
+		speedRatingBar = (RatingBar) getView().findViewById(R.id.id_ratingBar_speedQuality);
+
+		// TODO
+		// 隐藏上面的评价
+		commentInfoLinearLayout = (LinearLayout) getView()
+				.findViewById(R.id.fragment_seller_detail_comments_LinearLayout);
+
+		mListview = (PullToRefreshListView) getView().findViewById(R.id.id_seller_detail_comments_listview);
 		mListview.setMode(Mode.PULL_FROM_END);
 		allComment = (Button) getView().findViewById(R.id.id_commentButton_all);
-		goodComment = (Button) getView().findViewById(
-				R.id.id_commentButton_good);
+		goodComment = (Button) getView().findViewById(R.id.id_commentButton_good);
 		midComment = (Button) getView().findViewById(R.id.id_commentButton_mid);
 		badComment = (Button) getView().findViewById(R.id.id_commentButton_bad);
-		weightQuality = (TextView) getView().findViewById(
-				R.id.id_text_weightQuality);
-		freshQuality = (TextView) getView().findViewById(
-				R.id.id_text_freshQuality);
-		speedQuality = (TextView) getView().findViewById(
-				R.id.id_text_speedQuality);
+		weightQuality = (TextView) getView().findViewById(R.id.id_text_weightQuality);
+		freshQuality = (TextView) getView().findViewById(R.id.id_text_freshQuality);
+		speedQuality = (TextView) getView().findViewById(R.id.id_text_speedQuality);
 
 		adapter = new SellerCommentsAdapter(getActivity(), comments);
 		mListview.setAdapter(adapter);
+
+		// TODO
+		mListview.setOnScrollListener(new OnScrollListener() {
+			
+			int mfirstVisibleItem = 0;
+
+			@Override
+			public void onScrollStateChanged(AbsListView view, int scrollState) {
+				// TODO Auto-generated method stub
+				/**
+				 * 1.滑动的View是ListView
+				 * 2.在第一条的时候才行
+				 */
+				if (scrollState == 0 &&
+						view instanceof ListView &&
+						mfirstVisibleItem == 0) {
+					Log.d("Comment stae  VISIBLE", "显示");
+					//TODO 显示
+					commentInfoLinearLayout.setVisibility(View.VISIBLE);
+					mMainactivity.visibleView();
+				}
+			}
+
+			@Override
+			public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
+				if (isShowTitle || isPause) {
+					return;
+				}
+				
+				/**
+				 * 1.该变布局的是ListView
+				 * 2.滑动到最后一项
+				 * 3.显示的第一条数据大于六时
+				 */
+				if (comments.size() > 0 && view instanceof ListView && 
+						((visibleItemCount + firstVisibleItem) == totalItemCount)
+						|| mfirstVisibleItem > 6) {
+					
+					mMainactivity.goneView();
+					Log.d("Comment Gone", "不显示");
+
+					commentInfoLinearLayout.setPadding(0, 0, 0, 0);
+					commentInfoLinearLayout.setVisibility(View.GONE);
+					adapter.notifyDataSetChanged();
+				} else {
+					Log.d("VISIBLE", "显示");
+//					mMainactivity.visibleView();
+//					commentInfoLinearLayout.setVisibility(View.VISIBLE);
+				}
+				mfirstVisibleItem = firstVisibleItem;
+			}
+		});
 		mListview.setOnRefreshListener(this);
-		allComment.setBackground(getResources().getDrawable(
-				R.drawable.orange_button));
+
+		allComment.setBackground(getResources().getDrawable(R.drawable.orange_button));
 
 		allComment.setOnClickListener(this);
 		goodComment.setOnClickListener(this);
@@ -125,8 +200,7 @@ public class SellerDetailCommentFragment extends Fragment implements
 		shopId = ((ShopDetailActivity) getActivity()).getShop().getShopId();
 		if (shopId != null) {
 			DC.getInstance().getCommentsSummary(this, shopId);
-			DC.getInstance().getAllComments(this, shopId, allPageIndex++,
-					PAGE_SIZE);
+			DC.getInstance().getAllComments(this, shopId, allPageIndex++, PAGE_SIZE);
 		} else {
 			LogUtils.v("shopId=null");
 		}
@@ -134,8 +208,7 @@ public class SellerDetailCommentFragment extends Fragment implements
 
 	private void initCommentButton() {
 		allComment.setText("全部" + "(" + commentsSummary.getCommentSize() + ")");
-		goodComment
-				.setText("好评" + "(" + commentsSummary.getGoodComment() + ")");
+		goodComment.setText("好评" + "(" + commentsSummary.getGoodComment() + ")");
 		midComment.setText("中评" + "(" + commentsSummary.getMidComment() + ")");
 		badComment.setText("差评" + "(" + commentsSummary.getBedComment() + ")");
 	}
@@ -154,84 +227,74 @@ public class SellerDetailCommentFragment extends Fragment implements
 	}
 
 	public void setCommentBtnClick(Button b) {
-		allComment.setBackground(getResources().getDrawable(
-				R.drawable.gray_button));
-		goodComment.setBackground(getResources().getDrawable(
-				R.drawable.gray_button));
-		midComment.setBackground(getResources().getDrawable(
-				R.drawable.gray_button));
-		badComment.setBackground(getResources().getDrawable(
-				R.drawable.gray_button));
+		allComment.setBackground(getResources().getDrawable(R.drawable.gray_button));
+		goodComment.setBackground(getResources().getDrawable(R.drawable.gray_button));
+		midComment.setBackground(getResources().getDrawable(R.drawable.gray_button));
+		badComment.setBackground(getResources().getDrawable(R.drawable.gray_button));
 		b.setBackground(getResources().getDrawable(R.drawable.orange_button));
 	}
 
 	@Override
 	public void onDataReturn(String taskTag, BaseResult result, String json) {
 		if (result.getServiceResult()) {
+
 			// 评论概要
 			if (taskTag == TaskTag.COMMENT_SUMMARY) {
-				commentsSummary = MyGson.getInstance().fromJson(result.getResultParam()
-						.toString(), CommentsSummary.class);
+				commentsSummary = MyGson.getInstance().fromJson(result.getResultParam().toString(),
+						CommentsSummary.class);
 				initRatingBar();
 				initCommentButton();
 			}
 			// 评论详情
 			if (taskTag == TaskTag.COMMENT_DETAIL) {
-				List<Comment> c = MyGson.getInstance().fromJson(result.getResultParam()
-						.get("comment"), new TypeToken<List<Comment>>() {
-				}.getType());
+				List<Comment> c = MyGson.getInstance().fromJson(result.getResultParam().get("comment"),
+						new TypeToken<List<Comment>>() {
+						}.getType());
 				if (c.size() != 0) {
 					comments.addAll(c);
 				} else {
 					if (allPageIndex > 1) {
-						allPageIndex -- ;
+						allPageIndex--;
 					}
-					
 				}
 				initListViewData();
-				Toast.makeText(getActivity(),
-						c.size() == 0 ? "没有更多数据了" : "加载成功", Toast.LENGTH_LONG)
-						.show();
+				Toast.makeText(getActivity(), c.size() == 0 ? "没有更多数据了" : "加载成功", Toast.LENGTH_LONG).show();
 			}
 		} else {
 			new MessageDialog(getActivity(), result.getResultInfo()).show();
 		}
-
 	}
 
 	@Override
 	public void onClick(View v) {
+		isShowTitle = true;
 		switch (v.getId()) {
 		case R.id.id_commentButton_all:
 			setCommentBtnClick(allComment);
 			comments.clear();
 			allPageIndex = 1;
-			DC.getInstance().getAllComments(this, shopId, allPageIndex++,
-					PAGE_SIZE);
+			DC.getInstance().getAllComments(this, shopId, allPageIndex++, PAGE_SIZE);
 			commentType = 0;
 			break;
 		case R.id.id_commentButton_good:
 			setCommentBtnClick(goodComment);
 			comments.clear();
 			goodPageIndex = 1;
-			DC.getInstance().getGoodComments(this, shopId, goodPageIndex++,
-					PAGE_SIZE);
+			DC.getInstance().getGoodComments(this, shopId, goodPageIndex++, PAGE_SIZE);
 			commentType = 1;
 			break;
 		case R.id.id_commentButton_mid:
 			setCommentBtnClick(midComment);
 			comments.clear();
 			midPageIndex = 1;
-			DC.getInstance().getMidComments(this, shopId, midPageIndex++,
-					PAGE_SIZE);
+			DC.getInstance().getMidComments(this, shopId, midPageIndex++, PAGE_SIZE);
 			commentType = 2;
 			break;
 		case R.id.id_commentButton_bad:
 			setCommentBtnClick(badComment);
 			comments.clear();
 			badPageIndex = 1;
-			DC.getInstance().getBadComments(this, shopId, badPageIndex++,
-					PAGE_SIZE);
+			DC.getInstance().getBadComments(this, shopId, badPageIndex++, PAGE_SIZE);
 			commentType = 3;
 			break;
 		default:
@@ -239,26 +302,21 @@ public class SellerDetailCommentFragment extends Fragment implements
 		}
 	}
 
-	
 	@Override
 	public void onRefresh(PullToRefreshBase<ListView> refreshView) {
-		
+		isShowTitle = false;
 		switch (commentType) {
 		case 0:
-			DC.getInstance().getAllComments(this, shopId, allPageIndex++,
-					PAGE_SIZE);
+			DC.getInstance().getAllComments(this, shopId, allPageIndex++, PAGE_SIZE);
 			break;
 		case 1:
-			DC.getInstance().getGoodComments(this, shopId, goodPageIndex++,
-					PAGE_SIZE);
+			DC.getInstance().getGoodComments(this, shopId, goodPageIndex++, PAGE_SIZE);
 			break;
 		case 2:
-			DC.getInstance().getMidComments(this, shopId, midPageIndex++,
-					PAGE_SIZE);
+			DC.getInstance().getMidComments(this, shopId, midPageIndex++, PAGE_SIZE);
 			break;
 		case 3:
-			DC.getInstance().getBadComments(this, shopId, badPageIndex++,
-					PAGE_SIZE);
+			DC.getInstance().getBadComments(this, shopId, badPageIndex++, PAGE_SIZE);
 			break;
 		default:
 			break;
