@@ -14,6 +14,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,7 +53,14 @@ public class SellerDetailSellerFragment extends Fragment implements
 	private Farmers farmer = null;
 	private LinearLayout parent;
 	private List<String> showImageUrls;
+	private ShopDetailActivity mShopDetailActivity;
 	
+	
+	public SellerDetailSellerFragment(ShopDetailActivity shopDetailActivity) {
+		// TODO Auto-generated constructor stub
+		this.mShopDetailActivity = shopDetailActivity;
+	}
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -60,7 +68,21 @@ public class SellerDetailSellerFragment extends Fragment implements
 				false);
 	}
 
+	@Override
+	public void onPause() {
+		// TODO Auto-generated method stub
+		Log.d("Miss onPause", this.getClass().getSimpleName());
+		mShopDetailActivity.goneView();
+		super.onPause();
+	}
 	
+	@Override
+	public void onResume() {
+		// TODO Auto-generated method stub
+		Log.d("Miss onResume", this.getClass().getSimpleName());
+		mShopDetailActivity.visibleView();
+		super.onResume();
+	}
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {

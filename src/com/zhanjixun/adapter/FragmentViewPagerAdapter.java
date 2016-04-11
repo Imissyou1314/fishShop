@@ -19,6 +19,7 @@ import android.widget.ImageView;
  */
 public class FragmentViewPagerAdapter extends PagerAdapter implements
 		ViewPager.OnPageChangeListener {
+	
 	private List<Fragment> fragments; // 每个Fragment对应一个Page
 	private FragmentManager fragmentManager;
 	private ViewPager viewPager; // viewPager对象
@@ -156,7 +157,6 @@ public class FragmentViewPagerAdapter extends PagerAdapter implements
 			onExtraPageChangeListener.onExtraPageScrollStateChanged(i);
 		}
 	}
-
 	/**
 	 * page切换额外功能接口
 	 */

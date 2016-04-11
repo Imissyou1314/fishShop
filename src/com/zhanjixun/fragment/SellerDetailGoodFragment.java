@@ -49,7 +49,6 @@ public class SellerDetailGoodFragment extends Fragment implements
 	
 	
 	private ShopDetailActivity mMainActivity;
-	protected boolean isShowTitle = true;
 	private boolean isPause = false;
 	
 	//TODO
@@ -76,17 +75,20 @@ public class SellerDetailGoodFragment extends Fragment implements
 	public void onPause() {
 		// TODO Auto-generated method stub
 		Log.d("Miss GOOD onPause", "显示");
+		Log.d("Miss onPause", this.getClass().getSimpleName());
 		isPause  = true;
 		//TODO 可能去掉
-		mMainActivity.visibleView();
+		mMainActivity.goneView();
 		super.onPause();
 	}
 	
 	@Override
 	public void onResume() {
 		// TODO Auto-generated method stub
-		isShowTitle = true;
+		Log.d("Miss onResume", this.getClass().getSimpleName());
 		isPause = false;
+		mMainActivity.goneView();
+		initListViewData();
 		super.onResume();
 	}
 	
@@ -97,12 +99,20 @@ public class SellerDetailGoodFragment extends Fragment implements
 		adapter = new SellerGoodsListAdapter(getActivity(), goods);
 		listGoods.setAdapter(adapter);
 		listGoods.setOnRefreshListener(this);
+		
+		//滑动监听
 		listGoods.setOnScrollListener(new OnScrollListener() {
 			
 			int mFirstVisibleItem = 0;
+			
+			/**
+			 * 
+			 * 显示Title
+			 * 1.滑动的View 为ListaView
+			 * 2.显示第一条Item时才显示
+			 */
 			@Override
 			public void onScrollStateChanged(AbsListView view, int scrollState) {
-				// TODO Auto-generated method stub
 				 if (view instanceof ListView &&
 						 scrollState == 0 &&
 						 mFirstVisibleItem == 0) {
@@ -111,19 +121,21 @@ public class SellerDetailGoodFragment extends Fragment implements
 				}
 			}
 			
+			/**
+			 * 隐藏Title
+			 * 1.滑动到最后 totalItem 是才隐藏Title
+			 */
 			@Override
 			public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 				// TODO Auto-generated method stub
-				if ((isShowTitle || isPause) && mFirstVisibleItem > 6) {
-					mMainActivity.visibleView();
+				if (isPause) {
 					return;
 				}
 				 if (view instanceof ListView && 
-						 ((firstVisibleItem + visibleItemCount) == (totalItemCount -1))) {
+						 ((firstVisibleItem + visibleItemCount) > PAGE_SIZE)) {
 					 Log.d("Goods 滑动ListView  ", firstVisibleItem + "::::Miss");
 					 mMainActivity.goneView();
 					 //刷新页面
-					 adapter.notifyDataSetChanged();
 				}
 				Log.d("滑动", firstVisibleItem + "::::Miss");
 				mFirstVisibleItem = firstVisibleItem;
@@ -172,7 +184,6 @@ public class SellerDetailGoodFragment extends Fragment implements
 
 	@Override
 	public void onRefresh(PullToRefreshBase<ListView> refreshView) {
-		isShowTitle = false;
 		DC.getInstance().getSellerGoods(this, shopId, pageIndex++, PAGE_SIZE);
 	}
 }

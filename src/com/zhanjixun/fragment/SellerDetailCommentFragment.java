@@ -68,7 +68,6 @@ public class SellerDetailCommentFragment extends Fragment
 
 	// TODO 是否显示Title评论那一块
 	private ShopDetailActivity mMainactivity;
-	private boolean isShowTitle = true;
 	private boolean isPause = false;
 
 	@Override
@@ -92,29 +91,28 @@ public class SellerDetailCommentFragment extends Fragment
 	@Override
 	public void onPause() {
 		// TODO Auto-generated method stub
-		isPause  = true;
-		//肯去掉
-		mMainactivity.visibleView();
+		isPause = true;
+		Log.d("MIss comment onPause", "Commnet Pause");
+		Log.d("Miss onPause", this.getClass().getSimpleName());
+		mMainactivity.goneView();
 		super.onPause();
 	}
 	
 	@Override
 	public void onResume() {
-		// TODO Auto-generated method stub
 		isPause = false;
+		// TODO Auto-generated method stub
+		Log.d("MIss comment onPause", "Commnet onResume");
+		Log.d("Miss onResume", this.getClass().getSimpleName());
+		mMainactivity.goneView();
 		super.onResume();
 	}
 
 	public void initView() {
-
+        
 		freshRatingBar = (RatingBar) getView().findViewById(R.id.id_ratingBar_freshQuality);
 		weightRatingBar = (RatingBar) getView().findViewById(R.id.id_ratingBar_weightQuality);
 		speedRatingBar = (RatingBar) getView().findViewById(R.id.id_ratingBar_speedQuality);
-
-		// TODO
-		// 隐藏上面的评价
-		commentInfoLinearLayout = (LinearLayout) getView()
-				.findViewById(R.id.fragment_seller_detail_comments_LinearLayout);
 
 		mListview = (PullToRefreshListView) getView().findViewById(R.id.id_seller_detail_comments_listview);
 		mListview.setMode(Mode.PULL_FROM_END);
@@ -138,6 +136,7 @@ public class SellerDetailCommentFragment extends Fragment
 			public void onScrollStateChanged(AbsListView view, int scrollState) {
 				// TODO Auto-generated method stub
 				/**
+				 * 下拉显示
 				 * 1.滑动的View是ListView
 				 * 2.在第一条的时候才行
 				 */
@@ -145,19 +144,18 @@ public class SellerDetailCommentFragment extends Fragment
 						view instanceof ListView &&
 						mfirstVisibleItem == 0) {
 					Log.d("Comment stae  VISIBLE", "显示");
-					//TODO 显示
-					commentInfoLinearLayout.setVisibility(View.VISIBLE);
+					
 					mMainactivity.visibleView();
 				}
 			}
 
 			@Override
 			public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-
-				if (isShowTitle || isPause) {
+				
+				if(isPause){
 					return;
 				}
-				
+
 				/**
 				 * 1.该变布局的是ListView
 				 * 2.滑动到最后一项
@@ -166,17 +164,8 @@ public class SellerDetailCommentFragment extends Fragment
 				if (comments.size() > 0 && view instanceof ListView && 
 						((visibleItemCount + firstVisibleItem) == totalItemCount)
 						|| mfirstVisibleItem > 6) {
-					
+					Log.d("MIss comment onPause", "不显示ppppp");
 					mMainactivity.goneView();
-					Log.d("Comment Gone", "不显示");
-
-					commentInfoLinearLayout.setPadding(0, 0, 0, 0);
-					commentInfoLinearLayout.setVisibility(View.GONE);
-					adapter.notifyDataSetChanged();
-				} else {
-					Log.d("VISIBLE", "显示");
-//					mMainactivity.visibleView();
-//					commentInfoLinearLayout.setVisibility(View.VISIBLE);
 				}
 				mfirstVisibleItem = firstVisibleItem;
 			}
@@ -267,7 +256,6 @@ public class SellerDetailCommentFragment extends Fragment
 
 	@Override
 	public void onClick(View v) {
-		isShowTitle = true;
 		switch (v.getId()) {
 		case R.id.id_commentButton_all:
 			setCommentBtnClick(allComment);
@@ -304,7 +292,6 @@ public class SellerDetailCommentFragment extends Fragment
 
 	@Override
 	public void onRefresh(PullToRefreshBase<ListView> refreshView) {
-		isShowTitle = false;
 		switch (commentType) {
 		case 0:
 			DC.getInstance().getAllComments(this, shopId, allPageIndex++, PAGE_SIZE);

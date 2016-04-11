@@ -8,6 +8,8 @@ import android.util.Log;
 import android.view.View;
 
 public class selfAdapterViewPager extends ViewPager{
+	
+	private static int MAX_Height = 0;
 
 	public selfAdapterViewPager(Context context) {
 		super(context);
@@ -40,7 +42,9 @@ public class selfAdapterViewPager extends ViewPager{
 		                MeasureSpec.EXACTLY);
 			}
 	        Log.d("Miss Adapter Viewpager", heightMeasureSpec + ":::::>>>after");
+	        Log.d("Miss Adapter Viewpager", MAX_Height + ":::::>>>after  MAX_Height");
 	        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+	        
 	    }
 
 }

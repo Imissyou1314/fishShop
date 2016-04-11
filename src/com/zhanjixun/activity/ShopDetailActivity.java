@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -37,8 +36,7 @@ import com.zhanjixun.utils.UnitUtil;
 import com.zhanjixun.views.LoadingDialog;
 import com.zhanjixun.views.MessageDialog;
 
-public class ShopDetailActivity extends FragmentActivity implements
-		OnDataReturnListener{
+public class ShopDetailActivity extends FragmentActivity implements OnDataReturnListener {
 	private Seller seller = new Seller();
 	private TextView tv_goods;
 	private TextView tv_comments;
@@ -65,8 +63,8 @@ public class ShopDetailActivity extends FragmentActivity implements
 	private MessageDialog messageDialog;
 	private TextView backTv;
 	private View shop_title;
-	/*获取商家的所有商品*/
-//	private TextView getShopGoods;
+	/* 获取商家的所有商品 */
+	// private TextView getShopGoods;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +73,7 @@ public class ShopDetailActivity extends FragmentActivity implements
 		initView();
 		initData();
 	}
-	
+
 	@Override
 	protected void onStart() {
 		visibleView();
@@ -83,9 +81,10 @@ public class ShopDetailActivity extends FragmentActivity implements
 	}
 
 	private void initView() {
-		
-	    shop_title = findViewById(R.id.seller_detail_shop_Title);
-//		getShopGoods = (TextView) findViewById(R.id.id_seller_detail_getAllGoods);
+
+		shop_title = findViewById(R.id.seller_detail_shop_Title);
+		// getShopGoods = (TextView)
+		// findViewById(R.id.id_seller_detail_getAllGoods);
 		backTv = (TextView) findViewById(R.id.shop_back);
 		faceImg = (ImageView) findViewById(R.id.id_seller_detail_sellerImage);
 		faceImgBg = (ImageView) findViewById(R.id.id_seller_detail_sellerImage_bg);
@@ -94,15 +93,15 @@ public class ShopDetailActivity extends FragmentActivity implements
 		tv_sellers = (TextView) findViewById(R.id.id_seller_detail_seller);
 		cursor = (ImageView) findViewById(R.id.image_seller_detail_cursor);
 		pager = (ViewPager) findViewById(R.id.id_seller_detail_viewpager);
-		
+
 		shopName = (TextView) findViewById(R.id.id_seller_detail_sellerName); // 商家名
 		msg_item1 = (TextView) findViewById(R.id.id_seller_detail_shipPort); // 靠岸口
 		msg_item2 = (TextView) findViewById(R.id.id_seller_detail_returnTime); // 靠岸时间
 		msg_item3 = (TextView) findViewById(R.id.id_seller_detail_creditValue); // 信用值
-		
-		/*商店的使用商品还是页面goods*/
-//		getShopGoods.setOnClickListener(new MyClickListener(0));
-		
+
+		/* 商店的使用商品还是页面goods */
+		// getShopGoods.setOnClickListener(new MyClickListener(0));
+
 		tv_goods.setOnClickListener(new MyClickListener(0));
 		tv_comments.setOnClickListener(new MyClickListener(1));
 		tv_sellers.setOnClickListener(new MyClickListener(2));
@@ -124,13 +123,10 @@ public class ShopDetailActivity extends FragmentActivity implements
 		if (result.getServiceResult()) {
 			Farmer farmer = new Farmer();
 			Fisherman fisherman = new Fisherman();
-			farmer = MyGson.getInstance().fromJson(
-					result.getResultParam().get("shop"), Farmer.class);
-			fisherman = MyGson.getInstance().fromJson(
-					result.getResultParam().get("shop"), Fisherman.class);
+			farmer = MyGson.getInstance().fromJson(result.getResultParam().get("shop"), Farmer.class);
+			fisherman = MyGson.getInstance().fromJson(result.getResultParam().get("shop"), Fisherman.class);
 
-			seller = fisherman.getShopType() == Seller.TYPE_FARMER ? farmer
-					: fisherman;
+			seller = fisherman.getShopType() == Seller.TYPE_FARMER ? farmer : fisherman;
 			Constants.seller = seller;
 			LogUtils.v(MyGson.getInstance().toJson(seller));
 			setDataOnReturn();
@@ -139,23 +135,21 @@ public class ShopDetailActivity extends FragmentActivity implements
 			messageDialog.show();
 		}
 	}
-	
+
 	/**
 	 * 返回数据的处理
 	 */
 	private void setDataOnReturn() {
 		shopName.setText(seller.getShopName());
 		IC.getInstance().setForegound(seller.getShopPhoto(), faceImg);
-		IC.getInstance().setBlurForegound(this, seller.getShopPhoto(),
-				faceImgBg);
+		IC.getInstance().setBlurForegound(this, seller.getShopPhoto(), faceImgBg);
 		if (seller instanceof Farmer) {
 			Farmer farmer = (Farmer) seller;
 			msg_item1.setText("养殖场地址：" + farmer.getAddress());
 			Location l2 = new Location();
 			l2.setLongitude(seller.getLongitude());
 			l2.setLatitude(seller.getLatitude());
-			msg_item2.setText("距离：" + MyUtil.distance(Constants.location, l2)
-					+ "千米");
+			msg_item2.setText("距离：" + MyUtil.distance(Constants.location, l2) + "千米");
 			msg_item3.setText("信用指数：" + farmer.getGrade());
 		} else if (seller instanceof Fisherman) {
 			Fisherman fisherman = (Fisherman) seller;
@@ -169,16 +163,15 @@ public class ShopDetailActivity extends FragmentActivity implements
 			msg_item3.setText("信用指数：" + fisherman.getGrade());
 		}
 	}
-	
+
 	private void initViewpager() {
-		
+
 		int screenW = ScreenUtil.getWidth(this);
 		// 设置游标自适应长度
 		int dipToPixels = UnitUtil.DipToPixels(this, 2);
-		LinearLayout.LayoutParams lp = new LayoutParams((int) (screenW / 3.0),
-				dipToPixels);
-		
-		/*设置ViewPager*/
+		LinearLayout.LayoutParams lp = new LayoutParams((int) (screenW / 3.0), dipToPixels);
+
+		/* 设置ViewPager */
 		cursor.setLayoutParams(lp);
 
 		bmpW = cursor.getHeight();
@@ -188,23 +181,23 @@ public class ShopDetailActivity extends FragmentActivity implements
 		cursor.setImageMatrix(matrix);
 
 		views = new ArrayList<Fragment>();
-		
+
 		commentFragment = new SellerDetailCommentFragment(this);
 		goodFragment = new SellerDetailGoodFragment(this);
-		sellerFragment = new SellerDetailSellerFragment();
+		sellerFragment = new SellerDetailSellerFragment(this);
 		views.add(goodFragment);
 		views.add(commentFragment);
 		views.add(sellerFragment);
-		
-		myPagerAdapter = new FragmentViewPagerAdapter(
-				getSupportFragmentManager(), pager, views, offset, bmpW, cursor);
-		
+
+		myPagerAdapter = new FragmentViewPagerAdapter(getSupportFragmentManager(), pager, views, offset, bmpW, cursor);
+
 		pager.setAdapter(myPagerAdapter);
 		pager.setCurrentItem(0);
 	}
-	
+
 	class MyClickListener implements View.OnClickListener {
 		int index = 0;
+
 		public MyClickListener(int i) {
 			index = i;
 		}
@@ -212,24 +205,22 @@ public class ShopDetailActivity extends FragmentActivity implements
 		@Override
 		public void onClick(View v) {
 			pager.setCurrentItem(index);
-			//TODO 显示Title
-			Log.d("Activity >>>>>>>>>>>", "显示:::" + index + 1);
-			visibleView();
 		}
 	}
 
 	public Seller getShop() {
 		return seller;
 	}
-	
+
 	/**
 	 * 返回
+	 * 
 	 * @param v
 	 */
 	public void onBack(View v) {
 		this.finish();
 	}
-	
+
 	/**
 	 * 隐藏上面
 	 */
@@ -238,7 +229,7 @@ public class ShopDetailActivity extends FragmentActivity implements
 			shop_title.setVisibility(View.GONE);
 		}
 	}
-	
+
 	/**
 	 * 显示上面
 	 */
