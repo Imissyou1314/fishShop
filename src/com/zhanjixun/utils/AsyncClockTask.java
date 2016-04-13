@@ -1,6 +1,7 @@
 package com.zhanjixun.utils;
 
 import android.os.AsyncTask;
+import android.util.Log;
 import android.widget.TextView;
 
 /**
@@ -12,6 +13,7 @@ import android.widget.TextView;
 public class AsyncClockTask extends AsyncTask<Void, Integer, Void> {
 
 	private TextView view;
+	private boolean isRunning = true;
 	private String text;
 
 	public AsyncClockTask(TextView t) {
@@ -29,8 +31,13 @@ public class AsyncClockTask extends AsyncTask<Void, Integer, Void> {
 	@Override
 	protected Void doInBackground(Void... params) {
 		int second = 60;
-
-		while (second > -1) {
+		
+		if (isCancelled()) {
+			isRunning = false;
+			return null;
+		}
+		
+		while (second > -1 && isRunning) {
 			publishProgress(second--);
 			try {
 				Thread.sleep(1000);
@@ -53,4 +60,21 @@ public class AsyncClockTask extends AsyncTask<Void, Integer, Void> {
 		view.setText(text);
 		view.setClickable(true);
 	}
+	
+	@Override
+	protected void onCancelled() {
+		// TODO Auto-generated method stub
+		isRunning = false;
+		super.onCancelled();
+		Log.d("AsyncClockTask", "退出计时器");
+	}
+	
+	/**
+	 * 设置标准为去停止线程
+	 * @param isRunning
+	 */
+	public void onCancle(boolean isRunning) {
+		this.isRunning = isRunning;
+	}
+	
 }

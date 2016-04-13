@@ -1,5 +1,8 @@
 package com.zhanjixun.activity;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 import com.zhanjixun.R;
 import com.zhanjixun.base.BackActivity;
 import com.zhanjixun.data.Constants;
@@ -15,6 +18,7 @@ import com.zhanjixun.views.MessageDialog;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,7 +31,7 @@ import android.widget.Toast;
  */
 public class ChangeUserPhone extends BackActivity implements OnDataReturnListener{
 	
-	
+	private Button getCodeBtn;
 	private MessageDialog msg;
 	private LoadingDialog dialog;
 
@@ -38,7 +42,8 @@ public class ChangeUserPhone extends BackActivity implements OnDataReturnListene
 		msg = new MessageDialog(this);
 		dialog = new LoadingDialog(this);
 		
-		findViewById(R.id.change_get_codeBtn).setOnClickListener(new OnClickListener() {
+		getCodeBtn = (Button) findViewById(R.id.change_get_codeBtn);
+		getCodeBtn.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				onGetCode();
 				
@@ -48,6 +53,7 @@ public class ChangeUserPhone extends BackActivity implements OnDataReturnListene
 		findViewById(R.id.change_userPhone_CommitBtn).setOnClickListener(new OnClickListener() {
 			
 			@Override public void onClick(View v) {
+				getCodeBtn.setFocusable(true);
 				onCommit();
 				
 			}
@@ -107,10 +113,10 @@ public class ChangeUserPhone extends BackActivity implements OnDataReturnListene
 		dialog.dismiss();
 		if (result.getServiceResult()) {
 			if (taskTag.equals(TaskTag.REGISTER_CODE)) {
-				Toast.makeText(this, result.getResultInfo(), Toast.LENGTH_LONG)
+				Toast.makeText(this, result.getResultInfo() + "有效时间为60秒", Toast.LENGTH_LONG)
 						.show();
 				new AsyncClockTask((TextView) findViewById(R.id.change_get_codeBtn))
-						.execute();
+						.executeOnExecutor((ExecutorService)Executors.newCachedThreadPool());
 			}
 			if (taskTag.endsWith(TaskTag.CHECK_MSG_CODE)) {
 				DC.getInstance().changeUserPhoneNumber(this, Constants.user.getUserId(),

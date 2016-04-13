@@ -1,10 +1,8 @@
 package com.zhanjixun.activity;
 
-import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Toast;
+
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import com.zhanjixun.R;
 import com.zhanjixun.base.BackActivity;
@@ -16,6 +14,12 @@ import com.zhanjixun.utils.AsyncClockTask;
 import com.zhanjixun.utils.StringUtil;
 import com.zhanjixun.views.LoadingDialog;
 import com.zhanjixun.views.MessageDialog;
+
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
 public class RegisterActivity extends BackActivity implements
 		OnDataReturnListener {
@@ -56,6 +60,7 @@ public class RegisterActivity extends BackActivity implements
 			} else {
 				dialog = new LoadingDialog(this);
 				dialog.show();
+				//获取验证码
 				DC.getInstance().requestCodeForRegister(this, phone);
 			}
 		} else if (tag.equals("commit")) {
@@ -64,6 +69,7 @@ public class RegisterActivity extends BackActivity implements
 					&& !StringUtil.isEmptyString(password)) {
 				dialog = new LoadingDialog(this);
 				dialog.show();
+				
 				DC.getInstance().register(this, phone, checkCode, password);
 
 			} else {
@@ -81,8 +87,8 @@ public class RegisterActivity extends BackActivity implements
 			if (taskTag.equals(TaskTag.REGISTER_CODE)) {
 				Toast.makeText(this, result.getResultInfo(), Toast.LENGTH_LONG)
 						.show();
-				//倒计时
-				new AsyncClockTask(getCodeBtn).execute();
+				new AsyncClockTask(getCodeBtn).executeOnExecutor
+					((ExecutorService)Executors.newCachedThreadPool());
 				return;
 			} else if (taskTag.equals(TaskTag.REGISTER)) {
 				messageDialog.setMessage(result.getResultInfo());
@@ -91,6 +97,9 @@ public class RegisterActivity extends BackActivity implements
 				messageDialog.setMessage(result.getResultInfo());
 				messageDialog.show();
 			}
+		} else if (null != result.getResultInfo()) {
+			messageDialog.setMessage(result.getResultInfo());
+			messageDialog.show();
 		} else {
 			messageDialog.setMessage("注册出错");
 			messageDialog.show();
