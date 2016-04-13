@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -49,7 +48,6 @@ public class SellerDetailCommentFragment extends Fragment
 	private final int PAGE_SIZE = 7;
 	private String shopId;
 	
-	private LinearLayout commentInfoLinearLayout;
 	private PullToRefreshListView mListview;
 	private SellerCommentsAdapter adapter;
 	private List<Comment> comments = new ArrayList<Comment>();
@@ -69,6 +67,7 @@ public class SellerDetailCommentFragment extends Fragment
 	// TODO 是否显示Title评论那一块
 	private ShopDetailActivity mMainactivity;
 	private boolean isPause = false;
+	private boolean isClick = false;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -153,6 +152,9 @@ public class SellerDetailCommentFragment extends Fragment
 			public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 				
 				if(isPause){
+					return;
+				} else if(isClick) {
+					isClick = false;
 					return;
 				}
 
@@ -256,6 +258,9 @@ public class SellerDetailCommentFragment extends Fragment
 
 	@Override
 	public void onClick(View v) {
+		
+		isClick = true;
+		
 		switch (v.getId()) {
 		case R.id.id_commentButton_all:
 			setCommentBtnClick(allComment);

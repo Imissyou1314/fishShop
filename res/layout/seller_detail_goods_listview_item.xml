@@ -36,19 +36,22 @@
                 android:layout_alignParentTop="true"
                 android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
+                
                 android:layout_toEndOf="@id/id_seller_detail_goods_listview_item_image"
                 android:layout_toRightOf="@id/id_seller_detail_goods_listview_item_image"
                 android:text="@string/Null"
                 android:textSize="16sp" />
 
             <LinearLayout
+                android:id="@+id/id_seller_detail_goods_listView_itemLinearLayout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
                 android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
+                android:layout_below="@+id/id_seller_detail_goods_listview_item_seaFoodName"
                 android:layout_toEndOf="@id/id_seller_detail_goods_listview_item_image"
                 android:layout_toRightOf="@id/id_seller_detail_goods_listview_item_image"
+                 android:layout_alignParentBottom="true"
                 android:orientation="vertical" >
 
                 <TextView

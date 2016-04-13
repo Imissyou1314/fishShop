@@ -74,10 +74,7 @@ public class SellerDetailGoodFragment extends Fragment implements
 	@Override
 	public void onPause() {
 		// TODO Auto-generated method stub
-		Log.d("Miss GOOD onPause", "显示");
-		Log.d("Miss onPause", this.getClass().getSimpleName());
 		isPause  = true;
-		//TODO 可能去掉
 		mMainActivity.goneView();
 		super.onPause();
 	}
@@ -85,7 +82,6 @@ public class SellerDetailGoodFragment extends Fragment implements
 	@Override
 	public void onResume() {
 		// TODO Auto-generated method stub
-		Log.d("Miss onResume", this.getClass().getSimpleName());
 		isPause = false;
 		mMainActivity.goneView();
 		initListViewData();
@@ -137,7 +133,6 @@ public class SellerDetailGoodFragment extends Fragment implements
 					 mMainActivity.goneView();
 					 //刷新页面
 				}
-				Log.d("滑动", firstVisibleItem + "::::Miss");
 				mFirstVisibleItem = firstVisibleItem;
 			}
 		});
