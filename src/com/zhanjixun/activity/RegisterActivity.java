@@ -69,7 +69,6 @@ public class RegisterActivity extends BackActivity implements
 					&& !StringUtil.isEmptyString(password)) {
 				dialog = new LoadingDialog(this);
 				dialog.show();
-				
 				DC.getInstance().register(this, phone, checkCode, password);
 
 			} else {
@@ -81,6 +80,7 @@ public class RegisterActivity extends BackActivity implements
 	
 	@Override
 	public void onDataReturn(String taskTag, BaseResult result, String json) {
+		
 		dialog.dismiss();
 		
 		if (result.getServiceResult()) {
@@ -100,6 +100,7 @@ public class RegisterActivity extends BackActivity implements
 		} else if (null != result.getResultInfo()) {
 			messageDialog.setMessage(result.getResultInfo());
 			messageDialog.show();
+			return;
 		} else {
 			messageDialog.setMessage("×¢²á³ö´í");
 			messageDialog.show();
