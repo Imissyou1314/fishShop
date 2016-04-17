@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,7 +36,7 @@ import com.zhanjixun.utils.LogUtils;
 import com.zhanjixun.utils.UnitUtil;
 import com.zhanjixun.views.MessageDialog;
 
-public class SellerDetailCommentFragment extends Fragment
+public class SellerDetailCommentFragment extends BaseFragment
 		implements OnDataReturnListener, OnRefreshListener<ListView>, OnClickListener {
 
 	private int allPageIndex = 1;
@@ -66,12 +65,16 @@ public class SellerDetailCommentFragment extends Fragment
 
 	// TODO 是否显示Title评论那一块
 	private ShopDetailActivity mMainactivity;
-	private boolean isPause = false;
+	private static int mFirstVisibleItem = 0;
+	private boolean isPause = true;
 	private boolean isClick = false;
+	private int i;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_seller_detail_comments, container, false);
+		Log.d("comment onCreateView", "Comment fragment onCreateView");
+		isPause = true;
 		return view;
 	}
 
@@ -79,32 +82,20 @@ public class SellerDetailCommentFragment extends Fragment
 	public SellerDetailCommentFragment(ShopDetailActivity activity) {
 		this.mMainactivity = (ShopDetailActivity) activity;
 	}
-
-	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);
-		initView();
-		initData();
-	}
 	
 	@Override
 	public void onPause() {
 		// TODO Auto-generated method stub
 		isPause = true;
-		Log.d("MIss comment onPause", "Commnet Pause");
-		Log.d("Miss onPause", this.getClass().getSimpleName());
-		mMainactivity.goneView();
 		super.onPause();
 	}
-	
+
 	@Override
-	public void onResume() {
-		isPause = false;
-		// TODO Auto-generated method stub
-		Log.d("MIss comment onPause", "Commnet onResume");
-		Log.d("Miss onResume", this.getClass().getSimpleName());
-		mMainactivity.goneView();
-		super.onResume();
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		Log.d("comment onActivityCreated", "Comment fragment onActivityCreated");
+		initView();
+		initData();
 	}
 
 	public void initView() {
@@ -129,8 +120,6 @@ public class SellerDetailCommentFragment extends Fragment
 		// TODO
 		mListview.setOnScrollListener(new OnScrollListener() {
 			
-			int mfirstVisibleItem = 0;
-
 			@Override
 			public void onScrollStateChanged(AbsListView view, int scrollState) {
 				// TODO Auto-generated method stub
@@ -141,7 +130,7 @@ public class SellerDetailCommentFragment extends Fragment
 				 */
 				if (scrollState == 0 &&
 						view instanceof ListView &&
-						mfirstVisibleItem == 0) {
+						mFirstVisibleItem == 0) {
 					Log.d("Comment stae  VISIBLE", "显示");
 					
 					mMainactivity.visibleView();
@@ -149,9 +138,16 @@ public class SellerDetailCommentFragment extends Fragment
 			}
 
 			@Override
-			public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-				
-				if(isPause){
+			public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount,
+					int totalItemCount) {
+				if(mFirstVisibleItem == firstVisibleItem) 
+					return;
+				Log.d("Miss---->", "i=======>" + i);
+				/**
+				 * 只有一项是或者重新进入时不显示
+				 */
+				if(isPause || firstVisibleItem  <= 1){
+					isPause = false;
 					return;
 				} else if(isClick) {
 					isClick = false;
@@ -165,11 +161,11 @@ public class SellerDetailCommentFragment extends Fragment
 				 */
 				if (comments.size() > 0 && view instanceof ListView && 
 						((visibleItemCount + firstVisibleItem) == totalItemCount)
-						|| mfirstVisibleItem > 6) {
+						|| mFirstVisibleItem > 6) {
 					Log.d("MIss comment onPause", "不显示ppppp");
 					mMainactivity.goneView();
 				}
-				mfirstVisibleItem = firstVisibleItem;
+				mFirstVisibleItem = firstVisibleItem;
 			}
 		});
 		mListview.setOnRefreshListener(this);
@@ -187,7 +183,7 @@ public class SellerDetailCommentFragment extends Fragment
 		mListview.onRefreshComplete();
 	}
 
-	private void initData() {
+	public void initData() {
 		shopId = ((ShopDetailActivity) getActivity()).getShop().getShopId();
 		if (shopId != null) {
 			DC.getInstance().getCommentsSummary(this, shopId);
@@ -297,6 +293,7 @@ public class SellerDetailCommentFragment extends Fragment
 
 	@Override
 	public void onRefresh(PullToRefreshBase<ListView> refreshView) {
+		 i ++;
 		switch (commentType) {
 		case 0:
 			DC.getInstance().getAllComments(this, shopId, allPageIndex++, PAGE_SIZE);
@@ -314,4 +311,12 @@ public class SellerDetailCommentFragment extends Fragment
 			break;
 		}
 	}
+
+	@Override
+	protected void lazyLoad() {
+		Log.d("CommentFragment lazyLoad", "加载中显示Title");
+		// TODO Auto-generated method stub
+		mMainactivity.visibleView();
+		
+	}	
 }

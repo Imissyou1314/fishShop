@@ -8,12 +8,19 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 
+import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import com.zhanjixun.R;
 import com.zhanjixun.adapter.FragmentViewPagerAdapter;
 import com.zhanjixun.data.Constants;
@@ -36,7 +43,7 @@ import com.zhanjixun.utils.UnitUtil;
 import com.zhanjixun.views.LoadingDialog;
 import com.zhanjixun.views.MessageDialog;
 
-public class ShopDetailActivity extends FragmentActivity implements OnDataReturnListener {
+public class ShopDetailActivity extends FragmentActivity implements OnDataReturnListener{
 	private Seller seller = new Seller();
 	private TextView tv_goods;
 	private TextView tv_comments;
@@ -52,6 +59,7 @@ public class ShopDetailActivity extends FragmentActivity implements OnDataReturn
 	private SellerDetailCommentFragment commentFragment;
 	private SellerDetailSellerFragment sellerFragment;
 	private FragmentViewPagerAdapter myPagerAdapter;
+	//TODO
 
 	private TextView shopName;
 	private TextView msg_item1;
@@ -63,6 +71,8 @@ public class ShopDetailActivity extends FragmentActivity implements OnDataReturn
 	private MessageDialog messageDialog;
 	private TextView backTv;
 	private View shop_title;
+	
+	private static int i = 0;
 	/* 获取商家的所有商品 */
 	// private TextView getShopGoods;
 
@@ -76,7 +86,6 @@ public class ShopDetailActivity extends FragmentActivity implements OnDataReturn
 
 	@Override
 	protected void onStart() {
-		visibleView();
 		super.onStart();
 	}
 
@@ -103,9 +112,10 @@ public class ShopDetailActivity extends FragmentActivity implements OnDataReturn
 		// getShopGoods.setOnClickListener(new MyClickListener(0));
 
 		tv_goods.setOnClickListener(new MyClickListener(0));
-		tv_comments.setOnClickListener(new MyClickListener(1));
-		tv_sellers.setOnClickListener(new MyClickListener(2));
-
+		tv_sellers.setOnClickListener(new MyClickListener(1));
+		tv_comments.setOnClickListener(new MyClickListener(2));
+		
+		
 		initViewpager();
 	}
 
@@ -186,9 +196,11 @@ public class ShopDetailActivity extends FragmentActivity implements OnDataReturn
 		goodFragment = new SellerDetailGoodFragment(this);
 		sellerFragment = new SellerDetailSellerFragment(this);
 		views.add(goodFragment);
-		views.add(commentFragment);
 		views.add(sellerFragment);
-
+		views.add(commentFragment);
+		
+		 //关闭预加载，默认一次只加载一个Fragment
+		((ViewPager) pager).setOffscreenPageLimit(3);
 		myPagerAdapter = new FragmentViewPagerAdapter(getSupportFragmentManager(), pager, views, offset, bmpW, cursor);
 
 		pager.setAdapter(myPagerAdapter);
@@ -225,7 +237,9 @@ public class ShopDetailActivity extends FragmentActivity implements OnDataReturn
 	 * 隐藏上面
 	 */
 	public void goneView() {
+		
 		if (shop_title != null && shop_title.getVisibility() == View.VISIBLE) {
+			Log.d("不显示", "数量" + (i++));
 			shop_title.setVisibility(View.GONE);
 		}
 	}
@@ -235,7 +249,10 @@ public class ShopDetailActivity extends FragmentActivity implements OnDataReturn
 	 */
 	public void visibleView() {
 		if (shop_title != null && shop_title.getVisibility() == View.GONE) {
+			Log.d("显示", "数量" + (i++));
 			shop_title.setVisibility(View.VISIBLE);
 		}
 	}
+	
+	
 }

@@ -13,7 +13,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,7 +43,7 @@ import com.zhanjixun.views.MessageDialog;
  * @author Imissyou
  *
  */
-public class SellerDetailSellerFragment extends Fragment implements
+public class SellerDetailSellerFragment extends BaseFragment implements
 		OnDataReturnListener {
 
 	private String Id;
@@ -63,29 +63,26 @@ public class SellerDetailSellerFragment extends Fragment implements
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		Log.d("Detail onCreateView", "Detail  onCreateView");
 		return inflater.inflate(R.layout.fragment_seller_detail, container,
 				false);
 	}
 
 	@Override
-	public void onPause() {
-		// TODO Auto-generated method stub
-		mShopDetailActivity.goneView();
-		super.onPause();
-	}
-	
-	@Override
-	public void onResume() {
-		// TODO Auto-generated method stub
-		mShopDetailActivity.visibleView();
-		super.onResume();
-	}
-
-	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+		Log.d("Detail onActivityCreated", "Detail  onActivityCreated");
 		initView();
 		initData();
+	}
+	
+	public void onPause() {
+		// TODO Auto-generated method stub
+		Log.d("Miss==SellerDetailSellerFragment>>" + "onPause", "onPause");
+		//TODO 退出就显示
+		mShopDetailActivity.visibleView();
+		
+		super.onPause();
 	}
 	
 	private void initView() {
@@ -276,6 +273,13 @@ public class SellerDetailSellerFragment extends Fragment implements
 		});
 
 		return showImages;
+	}
+
+	@Override
+	protected void lazyLoad() {
+		// TODO Auto-generated method stub
+		Log.d("Detail Seller lazyLoad", "加载显示");
+		mShopDetailActivity.visibleView();
 	}
 
 }

@@ -56,8 +56,6 @@ public class CarFragment extends CheckCarFragment implements OnClickListener {
 	}
 	
 	/*Ë¢ÐÂÒ³Ãæ*/
-	
-
 	private void initViews() {
 		msg = new MessageDialog(getActivity());
 		sellerNameTv = (TextView) getView().findViewById(
@@ -139,6 +137,7 @@ public class CarFragment extends CheckCarFragment implements OnClickListener {
 				doubleBtnMsg.setNegativeButton("·µ»Ø", null);
 				doubleBtnMsg.show();
 			} else {
+				
 				Intent intent = new Intent(getActivity(), SubmitOrder.class);
 				getActivity().startActivity(intent);
 			}

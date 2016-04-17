@@ -141,12 +141,14 @@ implements OnDataReturnListener, OnRefreshListener<ScrollView>, OnItemClickListe
 					@Override
 					public boolean onMenuItemClick(MenuItem item) {
 						pageIndex = 1;
+						sellers.clear();   //TODO
 						switch (item.getItemId()) {
 						case R.id.menu_all:
 							breedWay_title.setText("全部");
 							Toast.makeText(GoodDetailActivity.this, "你选择了全部", Toast.LENGTH_SHORT).show();
 							DC.getInstance().getGoodDatailWild(GoodDetailActivity.this, TaskTag.GOOD_ALL,
 									pageIndex++, PAGER_SIZE, 1, categoryId);
+							
 							return true;
 						case R.id.menu_wild:
 							breedWay_title.setText("野生");
@@ -292,6 +294,7 @@ implements OnDataReturnListener, OnRefreshListener<ScrollView>, OnItemClickListe
 			for (Fisherman fisher : fishers)
 				ss.add(fisher);
 		}
+		
 		sellers.addAll(ss);
 		initListData();
 	}
@@ -305,6 +308,7 @@ implements OnDataReturnListener, OnRefreshListener<ScrollView>, OnItemClickListe
 	protected void onDestroy() {
 		//TODO
 		MissBitmapUtils.recycleImageView(imageBg);
+		
 		super.onDestroy();
 	}
 	

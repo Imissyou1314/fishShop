@@ -1,6 +1,5 @@
 package com.zhanjixun.activity;
 
-
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -21,8 +20,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-public class RegisterActivity extends BackActivity implements
-		OnDataReturnListener {
+public class RegisterActivity extends BackActivity implements OnDataReturnListener {
 	private EditText passwordEdit;
 	private EditText phoneEd;
 	private EditText checkCodeEdit;
@@ -60,12 +58,11 @@ public class RegisterActivity extends BackActivity implements
 			} else {
 				dialog = new LoadingDialog(this);
 				dialog.show();
-				//获取验证码
+				// 获取验证码
 				DC.getInstance().requestCodeForRegister(this, phone);
 			}
 		} else if (tag.equals("commit")) {
-			if (!StringUtil.isEmptyString(phone)
-					&& !StringUtil.isEmptyString(checkCode)
+			if (!StringUtil.isEmptyString(phone) && !StringUtil.isEmptyString(checkCode)
 					&& !StringUtil.isEmptyString(password)) {
 				dialog = new LoadingDialog(this);
 				dialog.show();
@@ -77,25 +74,25 @@ public class RegisterActivity extends BackActivity implements
 			}
 		}
 	}
-	
+
 	@Override
 	public void onDataReturn(String taskTag, BaseResult result, String json) {
-		
+
 		dialog.dismiss();
-		
+
 		if (result.getServiceResult()) {
 			if (taskTag.equals(TaskTag.REGISTER_CODE)) {
-				Toast.makeText(this, result.getResultInfo(), Toast.LENGTH_LONG)
-						.show();
-				new AsyncClockTask(getCodeBtn).executeOnExecutor
-					((ExecutorService)Executors.newCachedThreadPool());
+				Toast.makeText(this, result.getResultInfo(), Toast.LENGTH_LONG).show();
+				new AsyncClockTask(getCodeBtn).executeOnExecutor((ExecutorService) Executors.newCachedThreadPool());
 				return;
 			} else if (taskTag.equals(TaskTag.REGISTER)) {
 				messageDialog.setMessage(result.getResultInfo());
 				messageDialog.show();
-			} else if(null != result.getResultInfo()){
+				return ;
+			} else if (null != result.getResultInfo()) {
 				messageDialog.setMessage(result.getResultInfo());
 				messageDialog.show();
+				return ;
 			}
 		} else if (null != result.getResultInfo()) {
 			messageDialog.setMessage(result.getResultInfo());

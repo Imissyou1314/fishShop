@@ -295,7 +295,7 @@ int id id_ratingBar_speedQuality 0x7f0600d2
 int id id_ratingBar_weightQuality 0x7f0600ce
 int id id_sales 0x7f060090
 int id id_sales_salesValue 0x7f060118
-int id id_seller_detail_comment 0x7f060125
+int id id_seller_detail_comment 0x7f060126
 int id id_seller_detail_comments_listview 0x7f0600df
 int id id_seller_detail_creditValue 0x7f060123
 int id id_seller_detail_goods 0x7f060124
@@ -305,7 +305,7 @@ int id id_seller_detail_goods_listview_item_image 0x7f06012d
 int id id_seller_detail_goods_listview_item_salesValue 0x7f060132
 int id id_seller_detail_goods_listview_item_seaFoodName 0x7f06012e
 int id id_seller_detail_returnTime 0x7f060122
-int id id_seller_detail_seller 0x7f060126
+int id id_seller_detail_seller 0x7f060125
 int id id_seller_detail_sellerImage 0x7f06011f
 int id id_seller_detail_sellerImage_bg 0x7f06011d
 int id id_seller_detail_sellerName 0x7f060120

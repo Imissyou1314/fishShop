@@ -6,6 +6,8 @@ import java.util.Map;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.zhanjixun.R;
+import com.zhanjixun.activity.MainActivity;
 import com.zhanjixun.data.Constants;
 import com.zhanjixun.data.IC;
 import com.zhanjixun.domain2.CarOrder;
@@ -26,6 +29,7 @@ import com.zhanjixun.domain2.Seller;
 import com.zhanjixun.utils.StringUtil;
 import com.zhanjixun.views.InputDialog;
 import com.zhanjixun.views.InputDialog.OnPositiveButtonClickListener;
+import com.zhanjixun.views.InputDialog.onNegativeButtonClickListener;
 
 @SuppressLint("InflateParams")
 public class SellerGoodsListAdapter extends BaseAdapter {
@@ -40,7 +44,7 @@ public class SellerGoodsListAdapter extends BaseAdapter {
 
 	private Context context;
 
-	public SellerGoodsListAdapter(Context context, List<Good> beans) {
+	public SellerGoodsListAdapter(FragmentActivity context, List<Good> beans) {
 		this.inflater = LayoutInflater.from(context);
 		this.goods = beans;
 		this.context = context;
@@ -120,7 +124,10 @@ public class SellerGoodsListAdapter extends BaseAdapter {
 			input.addInputItem(goodItemBean.getGoodsId(),
 					"默认数量为一");
 			number = 1;
-			input.setPositiveButton("确认", new OnPositiveButtonClickListener() {
+			/**
+			 * 添加继续购物
+			 */
+			input.setPositiveButton("继续购物", new OnPositiveButtonClickListener() {
 						@Override public void onPositiveButtonClick(Map<String, String> result) {
 							if (StringUtil.isNumber(result.get(goodItemBean.getGoodsId()))){
 								number = Integer.valueOf(result.get(goodItemBean.getGoodsId()));
@@ -134,10 +141,32 @@ public class SellerGoodsListAdapter extends BaseAdapter {
 							} else {
 								Toast.makeText(context, "最多只能添加" + goodItemBean.getNowNumber() + "个商品!", Toast.LENGTH_LONG).show();
 							}
-							
-							
 						}
 					});
+			
+			/**
+			 * 回首页
+			 */
+			input.setNegativeButton("回首页", new onNegativeButtonClickListener(){
+
+				@Override public void onNegativeButtonClick(Map<String, String> result) {
+					// TODO Auto-generated method stub
+					if (StringUtil.isNumber(result.get(goodItemBean.getGoodsId()))){
+						number = Integer.valueOf(result.get(goodItemBean.getGoodsId()));
+					}	
+					//TODO
+					if(number <= goodItemBean.getNowNumber()) {
+						
+						addToCarOrder(goodItemBean);
+						goodItemBean.setNowNumber(goodItemBean.getNowNumber() - number);
+						Toast.makeText(context, "添加" + number + "个商品成功!", Toast.LENGTH_LONG).show();
+					} else {
+						Toast.makeText(context, "最多只能添加" + goodItemBean.getNowNumber() + "个商品!", Toast.LENGTH_LONG).show();
+					}
+					Intent intent = new Intent(context,MainActivity.class);
+					context.startActivity(intent);
+				}
+			});
 			input.show();
 			v.setClickable(true);
 		}

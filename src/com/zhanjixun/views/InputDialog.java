@@ -40,6 +40,25 @@ public class InputDialog {
 		};
 		dialog.setPositiveButton(text, onClickListener);
 	}
+	
+	/**
+	 * È¡Ïû °´Å¥
+	 * @param text
+	 * @param negative
+	 */
+	public void setNegativeButton(String text, 
+			final onNegativeButtonClickListener negative) {
+		OnClickListener onClickListener = new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				negative.onNegativeButtonClick(result);
+				
+			}
+		};
+		dialog.setNegativeButton(text, onClickListener);
+	}
 
 	public InputDialog addInputItem(String id, String hint, int inputType) {
 		LinearLayout inflate = (LinearLayout) View.inflate(dialog.getContext(),
@@ -104,6 +123,14 @@ public class InputDialog {
 		 */
 		public void onPositiveButtonClick(Map<String, String> result);
 
+	}
+	
+	public interface onNegativeButtonClickListener{
+		/**
+		 * Map£ºkey£ºid value£ºEdittext context
+		 * @param result
+		 */
+		public void onNegativeButtonClick(Map<String, String> result);
 	}
 
 }

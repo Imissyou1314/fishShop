@@ -24,13 +24,13 @@
 
     
     <!-- TODO -->
-    <!--  
-    <ScrollView
+   <!-- 
+    <com.handmark.pulltorefresh.library.PullToRefreshScrollView
+        android:id="@+id/ShopDetail_ScrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
-        android:scrollbars="none" >
-        -->
+        android:scrollbars="none" >-->
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -196,17 +196,16 @@
                     android:layout_weight="1" >
 
                     <TextView
-                        android:id="@+id/id_seller_detail_comment"
+                        android:id="@+id/id_seller_detail_seller"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:layout_centerInParent="true"
                         android:clickable="true"
-                        android:tag="seller_comment"
-                        android:text="@string/comment"
+                        android:tag="seller_seller"
+                        android:text="@string/seller"
                         android:textSize="18sp" />
                 </RelativeLayout>
-
                 <View
                     android:layout_width="0.5dp"
                     android:layout_height="match_parent"
@@ -220,14 +219,14 @@
                     android:layout_weight="1" >
 
                     <TextView
-                        android:id="@+id/id_seller_detail_seller"
+                        android:id="@+id/id_seller_detail_comment"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:layout_centerInParent="true"
                         android:clickable="true"
-                        android:tag="seller_seller"
-                        android:text="@string/seller"
+                        android:tag="seller_comment"
+                        android:text="@string/comment"
                         android:textSize="18sp" />
                 </RelativeLayout>
             </LinearLayout>
@@ -251,8 +250,6 @@
                 </com.zhanjixun.views.selfAdapterViewPager>
             </LinearLayout>
         </LinearLayout>
-        <!--  
-    </ScrollView>
-    -->
-
+        
+    <!-- </com.handmark.pulltorefresh.library.PullToRefreshScrollView>   -->
 </LinearLayout>
