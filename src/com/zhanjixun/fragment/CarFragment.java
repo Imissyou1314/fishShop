@@ -164,7 +164,7 @@ public class CarFragment extends CheckCarFragment implements OnClickListener {
 	private float getPrice() {
 		
 		String text = priceTv.getText().toString();
-		String price = text.substring(1, text.length());
+		String price = text.substring(2, text.length());
 		String[] strlist = price.split(",");
 		price = "";
 		for (String str : strlist)
