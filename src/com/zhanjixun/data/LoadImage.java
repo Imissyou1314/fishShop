@@ -142,6 +142,9 @@ public class LoadImage {
 					if(path.isEmpty())
 						return null;
 					Bitmap netBitmap = FileUtil.loadBitmap(path,false);
+					if (netBitmap == null ) {
+						return null;
+					}
 					Bitmap netBlurBitmap = Blur
 							.fastblur(context, netBitmap, 12);
 					putImage(glassPath, netBlurBitmap);

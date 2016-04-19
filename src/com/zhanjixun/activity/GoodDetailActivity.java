@@ -13,7 +13,6 @@ import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.PopupMenu.OnMenuItemClickListener;
 import android.widget.RelativeLayout;
@@ -41,6 +40,7 @@ import com.zhanjixun.utils.MyGson;
 import com.zhanjixun.utils.LogUtils;
 import com.zhanjixun.utils.MissBitmapUtils;
 import com.zhanjixun.utils.StringUtil;
+import com.zhanjixun.views.ListViewForScrollView;
 import com.zhanjixun.views.LoadingDialog;
 import com.zhanjixun.views.MessageDialog;
 import com.zhanjixun.views.RoundImageView;
@@ -55,7 +55,7 @@ implements OnDataReturnListener, OnRefreshListener<ScrollView>, OnItemClickListe
 	private LoadingDialog dialog;
 	private RoundImageView image;
 	private ArrayList<Seller> sellers = new ArrayList<Seller>();
-	private ListView dataLv;
+	private ListViewForScrollView dataLv;
 	private SellerListAdapter sellAdapter;
 	private RelativeLayout breedWay_popMenu;
 	private RelativeLayout sortWay_popMenu;
@@ -90,7 +90,7 @@ implements OnDataReturnListener, OnRefreshListener<ScrollView>, OnItemClickListe
 		englishName = (TextView) findViewById(R.id.id_category_good_detail_seafoodEnglishName); // Ó¢ÎÄÃû
 		title = (TextView) findViewById(R.id.text_gooddetailAty_title);
 
-		dataLv = (ListView) findViewById(R.id.id_list_seller);
+		dataLv = (ListViewForScrollView) findViewById(R.id.id_list_seller);
 
 
 		sellAdapter = new SellerListAdapter(this, sellers);

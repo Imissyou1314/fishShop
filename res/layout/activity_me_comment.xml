@@ -5,6 +5,7 @@
     android:layout_height="fill_parent" >
 
     <com.handmark.pulltorefresh.library.PullToRefreshScrollView
+        android:fillViewport="true"
         android:id="@+id/scroll_mycomment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -60,13 +61,13 @@
                 </LinearLayout>
             </FrameLayout>
 
-            <ListView
+            <com.zhanjixun.views.ListViewForScrollView
                 android:id="@+id/list_mycomment_data"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:dividerHeight="10dp"
                 android:scrollbars="none" >
-            </ListView>
+            </com.zhanjixun.views.ListViewForScrollView>
         </LinearLayout>
     </com.handmark.pulltorefresh.library.PullToRefreshScrollView>
 

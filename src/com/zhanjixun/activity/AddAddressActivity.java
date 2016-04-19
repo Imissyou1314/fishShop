@@ -84,6 +84,19 @@ public class AddAddressActivity extends BackActivity implements OnDataReturnList
 		getEdit();
 		if (!StringUtil.isEmptyString(userName) && !StringUtil.isEmptyString(userPhone)
 				&& !StringUtil.isEmptyString(userEmail) && !StringUtil.isEmptyString(userAddress)) {
+			//TODO
+			/**
+			 * 检验手机号
+			 */
+			if (!StringUtil.isMobileNO(userPhone)) {
+//				Log.d("boolean", StringUtil.isMobileNO(userPhone) + "miss");
+//				new MessageDialog(this, "请输入正常的手机号！").show();
+//				return;
+			} else if (!StringUtil.isEmail(userEmail)) {
+//				new MessageDialog(this, "请输入正常的邮箱地址！").show();
+//				edit_userEmail.setText("");
+//				return;
+			}
 
 			dialog.show();
 			if (Add) {
@@ -101,6 +114,7 @@ public class AddAddressActivity extends BackActivity implements OnDataReturnList
 	private void getEdit() {
 		userName = edit_userName.getText().toString();
 		userPhone = edit_userPhone.getText().toString();
+		
 		userEmail = edit_userEmail.getText().toString();
 		userAddress = edit_userAddress.getText().toString();
 	}

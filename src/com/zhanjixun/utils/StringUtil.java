@@ -6,6 +6,8 @@ import java.security.NoSuchAlgorithmException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import android.util.Log;
+
 public class StringUtil {
 	public static boolean isPhoneNumber(String phoneNumber) {
 		if (phoneNumber == null) {
@@ -109,4 +111,31 @@ public class StringUtil {
 			return false;
 		}
 	}
+	
+	/**
+	 * 检测是否是手机号
+	 * @param mobiles
+	 * @return
+	 *
+	 */
+	//TODO
+	public static boolean isMobileNO(String mobiles) {   
+        Pattern p = Pattern   
+                .compile("^(13[0-9]|15[0|3|6|7|8|9]|18[8|9])$");   
+        Matcher m = p.matcher(mobiles);   
+        Log.d("mobiles", "shi ::" + mobiles);  
+        return m.matches();   
+    }   
+	
+	/**
+	 * 检测是否是邮箱
+	 * @param strEmail
+	 * @return
+	 */
+	public static boolean isEmail(String strEmail) {    
+	    String strPattern = "^[a-zA-Z][\\w\\.-]*[a-zA-Z0-9]@[a-zA-Z0-9][\\w\\.-]*[a-zA-Z0-9]\\.[a-zA-Z][a-zA-Z\\.]*[a-zA-Z]$";   
+	    Pattern p = Pattern.compile(strPattern);   
+	    Matcher m = p.matcher(strEmail);   
+	    return m.matches();   
+	}  
 }

@@ -435,8 +435,8 @@ public class OrderFragment extends Fragment implements OnDataReturnListener,
 			}		
 			if (lvKeeper[index].getDataList().size() != 0) {
 				
-				//TODO
-				lvKeeper[index].getDataList().clear();
+				//TODO  4.19 修改订单消除的BUG
+//				lvKeeper[index].getDataList().clear();
 				lvKeeper[index].getDataList().addAll(orders);
 //				refresh = false;
 			} else {

@@ -20,6 +20,7 @@ import com.zhanjixun.domain2.Comment;
 import com.zhanjixun.interfaces.OnDataReturnListener;
 import com.zhanjixun.utils.MyGson;
 import com.zhanjixun.utils.ScreenUtil;
+import com.zhanjixun.views.ListViewForScrollView;
 import com.zhanjixun.views.LoadingDialog;
 import com.zhanjixun.views.MessageDialog;
 import com.zhanjixun.views.RoundImageView;
@@ -32,7 +33,6 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -41,7 +41,7 @@ public class MyCommentActivity extends BackActivity implements
 
 	private RoundImageView faceImg;
 	private TextView userNameTv;
-	private ListView commentLv;
+	private ListViewForScrollView commentLv;
 	private ImageView faceBg;
 	private final int PAGE_SIZE = 5;
 	private int pageIndex = 1;
@@ -67,7 +67,7 @@ public class MyCommentActivity extends BackActivity implements
 		
 		
 		userNameTv = (TextView) findViewById(R.id.text_mycomment_name);
-		commentLv = (ListView) findViewById(R.id.list_mycomment_data);
+		commentLv = (ListViewForScrollView) findViewById(R.id.list_mycomment_data);
 		
 		
 		frameLayout = (FrameLayout) findViewById(R.id.frameLayout_face_mycomment);

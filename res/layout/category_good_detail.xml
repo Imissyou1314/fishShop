@@ -24,14 +24,14 @@
 
     <com.handmark.pulltorefresh.library.PullToRefreshScrollView
         android:id="@+id/scrollview"
+        android:fillViewport="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="none" >
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="fill_parent"
-            
+            android:layout_height="match_parent"  
             android:orientation="vertical" >
 
             <FrameLayout
@@ -183,10 +183,10 @@
                 android:layout_height="0.5dp"
                 android:background="#FAAE90" />
 
-            <ListView
+            <com.zhanjixun.views.ListViewForScrollView
                 android:id="@+id/id_list_seller"
                 android:layout_width="match_parent"
-                android:layout_height="fill_parent" />
+                android:layout_height="wrap_content" />
 
         </LinearLayout>
     </com.handmark.pulltorefresh.library.PullToRefreshScrollView>

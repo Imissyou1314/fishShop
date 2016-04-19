@@ -31,8 +31,8 @@ public class Blur {
 			script.forEach(output);
 			output.copyTo(bitmap);
 			return bitmap;
-		}
-
+		} 
+		
 		Bitmap bitmap = sentBitmap.copy(sentBitmap.getConfig(), true);
 
 		if (radius < 1) {
