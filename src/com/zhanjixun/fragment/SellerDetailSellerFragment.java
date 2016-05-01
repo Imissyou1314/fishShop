@@ -35,6 +35,7 @@ import com.zhanjixun.domain2.BaseResult;
 import com.zhanjixun.interfaces.OnDataReturnListener;
 import com.zhanjixun.utils.JsonResultUtil;
 import com.zhanjixun.utils.JsonUtil;
+import com.zhanjixun.utils.LogUtils;
 import com.zhanjixun.views.MessageDialog;
 
 /**
@@ -186,7 +187,8 @@ public class SellerDetailSellerFragment extends BaseFragment implements
 		try {
 			jr = JsonUtil.getJosn(json);
 		} catch (JSONException e) {
-			e.printStackTrace();
+			LogUtils.d("JSON 解析异常");
+			new MessageDialog(getActivity(), "服务器连接异常!").show();
 		}
 		if (JsonResultUtil.state(jr)) {
 			if (TaskTag.FISHMAN_DETAIL.equals(taskTag)) {
