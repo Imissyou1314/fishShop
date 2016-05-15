@@ -19,7 +19,6 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,7 +31,7 @@ import android.widget.Toast;
  */
 public class ChangeUserPhone extends BackActivity implements OnDataReturnListener{
 	
-	private Button getCodeBtn;
+	private TextView getCodeBtn;
 	private MessageDialog msg;
 	private LoadingDialog dialog;
 
@@ -44,11 +43,10 @@ public class ChangeUserPhone extends BackActivity implements OnDataReturnListene
 		msg = new MessageDialog(this);
 		dialog = new LoadingDialog(this);
 		
-		getCodeBtn = (Button) findViewById(R.id.change_get_codeBtn);
+		getCodeBtn = (TextView) findViewById(R.id.change_get_codeBtn);
 		getCodeBtn.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				onGetCode();
-				
 			}
 		});
 		
@@ -57,7 +55,6 @@ public class ChangeUserPhone extends BackActivity implements OnDataReturnListene
 			@Override public void onClick(View v) {
 				getCodeBtn.setFocusable(true);
 				onCommit();
-				
 			}
 		});
 	}

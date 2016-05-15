@@ -185,6 +185,7 @@ implements OnDataReturnListener, OnRefreshListener<ScrollView>, OnItemClickListe
 					@Override
 					public boolean onMenuItemClick(MenuItem item) {
 						pageIndex = 1;
+						sellers.clear();   //TODO
 						switch (item.getItemId()) {
 						case R.id.menu_comprehensive_ranking:
 							sortWay_title.setText("综合排序");
@@ -266,7 +267,7 @@ implements OnDataReturnListener, OnRefreshListener<ScrollView>, OnItemClickListe
 
 		List<Seller> ss = new ArrayList<Seller>();
 		//所以有的商品
-		if (taskTag.equals(TaskTag.GOOD_SELLER) || taskTag.equals(TaskTag.GOOD_ALL)) {
+		if (taskTag.equals(TaskTag.GOOD_SELLER) || taskTag.equals(TaskTag.GOOD_ALL) ) {
 			List<Fisherman> fisher = MyGson.getInstance().fromJson(resultParam.get("shopList"),
 					new TypeToken<List<Fisherman>>() {
 			}.getType());
@@ -308,9 +309,7 @@ implements OnDataReturnListener, OnRefreshListener<ScrollView>, OnItemClickListe
 
 	@Override
 	protected void onDestroy() {
-		//TODO
 		MissBitmapUtils.recycleImageView(imageBg);
-		
 		super.onDestroy();
 	}
 	
