@@ -18,6 +18,7 @@ import com.zhanjixun.utils.StringUtil;
 import com.zhanjixun.views.LoadingDialog;
 import com.zhanjixun.views.MessageDialog;
 
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -46,9 +47,10 @@ public class AddAddressActivity extends BackActivity implements OnDataReturnList
 
 	private List<String> provinces = new ArrayList<String>();
 	private ArrayAdapter<String> spinnerAdapter;
-
+	
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		setContentView(R.layout.activity_car_add_address);
 		initViews();
 		initData();

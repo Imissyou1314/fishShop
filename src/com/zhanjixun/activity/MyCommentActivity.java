@@ -25,6 +25,7 @@ import com.zhanjixun.views.LoadingDialog;
 import com.zhanjixun.views.MessageDialog;
 import com.zhanjixun.views.RoundImageView;
 
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -55,6 +56,7 @@ public class MyCommentActivity extends BackActivity implements
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		setContentView(R.layout.activity_me_comment);
 		initViews();
 		initData();

@@ -18,6 +18,7 @@ import com.zhanjixun.views.LoadingDialog;
 import com.zhanjixun.views.MessageDialog;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -41,6 +42,7 @@ public class AddressManageActivity extends BackActivity
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		setContentView(R.layout.activity_me_address_manage);
 	}
 

@@ -1,5 +1,6 @@
 package com.zhanjixun.activity;
 
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -48,6 +49,7 @@ public class LogisiticeActivity extends BackActivity implements
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		setContentView(R.layout.activity_order_logistics_state_information);
 		orderId = getIntent().getStringExtra("order_id");
 		initViews();

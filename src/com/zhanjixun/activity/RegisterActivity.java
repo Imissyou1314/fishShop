@@ -14,6 +14,7 @@ import com.zhanjixun.utils.StringUtil;
 import com.zhanjixun.views.LoadingDialog;
 import com.zhanjixun.views.MessageDialog;
 
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -34,6 +35,7 @@ public class RegisterActivity extends BackActivity implements OnDataReturnListen
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		setContentView(R.layout.activity_regist);
 		initViews();
 	}

@@ -3,6 +3,7 @@ package com.zhanjixun.activity;
 import java.util.ArrayList;
 import java.util.Date;
 
+import android.content.pm.ActivityInfo;
 import android.graphics.Matrix;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -73,6 +74,7 @@ public class ShopDetailActivity extends FragmentActivity implements OnDataReturn
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		setContentView(R.layout.seller_detail);
 		initView();
 		initData();

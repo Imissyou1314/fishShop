@@ -15,6 +15,7 @@ import com.zhanjixun.utils.StringUtil;
 import com.zhanjixun.views.LoadingDialog;
 import com.zhanjixun.views.MessageDialog;
 
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -38,6 +39,7 @@ public class ChangeUserPhone extends BackActivity implements OnDataReturnListene
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		setContentView(R.layout.activity_change_userphone);
 		msg = new MessageDialog(this);
 		dialog = new LoadingDialog(this);

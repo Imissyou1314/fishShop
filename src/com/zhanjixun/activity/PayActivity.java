@@ -9,6 +9,7 @@ import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.content.ComponentName;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -52,6 +53,7 @@ public class PayActivity extends BackActivity implements OnClickListener, OnData
     
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		setContentView(R.layout.activity_pay);
 		
 		initViews();

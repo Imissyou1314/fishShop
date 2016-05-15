@@ -5,6 +5,7 @@ import com.zhanjixun.R;
 import com.zhanjixun.base.BackActivity;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -24,6 +25,7 @@ public class SearchActivity extends BackActivity{
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		setContentView(R.layout.activity_search);
 		initViews();
 		intent = new Intent(this,GoodListActivity.class);

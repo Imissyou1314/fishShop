@@ -3,6 +3,7 @@ package com.zhanjixun.activity;
 import java.util.List;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -53,6 +54,7 @@ public class SubmitOrder extends BackActivity implements OnDataReturnListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		dialog = new LoadingDialog(this);
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		setContentView(R.layout.activity_submint_order);
 		initViews();
 

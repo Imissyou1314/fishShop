@@ -163,18 +163,21 @@ public class SellerDetailSellerFragment extends BaseFragment implements
 			sb.append(s + ",");
 		}
 		getType.setText("养殖方式  : " + sb.deleteCharAt(sb.length() - 1));
+		getType.setTextColor(R.color.black);
 		parent.addView(child1);
 
 		View child2 = inflater.inflate(R.layout.seller_detail_infoitem, null);
 		TextView address = (TextView) child2
 				.findViewById(R.id.id_selller_detail_content);
 		address.setText("养殖地址  :  " + farmer.getAddress());
+		address.setTextColor(R.color.black);
 		parent.addView(child2);
 
 		View child3 = inflater.inflate(R.layout.seller_detail_infoitem, null);
 		TextView sellerShow = (TextView) child3
 				.findViewById(R.id.id_selller_detail_content);
 		sellerShow.setText("商家展示");
+		sellerShow.setTextColor(R.color.black);
 		parent.addView(child3);
 
 		parent.addView(initShowImageView(farmer.getShowImageUrls()));
