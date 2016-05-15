@@ -120,10 +120,11 @@ public class SellerDetailSellerFragment extends BaseFragment implements
 	private void initFishmanData() {
 		LayoutInflater inflater = LayoutInflater.from(getContext());
 		//¸üÐÂ null Throw
-		String portTime = "null";
+		String portTime = "ÎÞ";
 		if (null != fishmen.getPortTime() ) {
 			portTime = new SimpleDateFormat("yyyy-MM-dd").format(fishmen
 					.getPortTime());
+//			portTime = fishmen.getPortTime().substring(0, fishmen.getPortTime().indexOf(" "));
 		}
 		
 		String[] textArr = {
@@ -202,9 +203,9 @@ public class SellerDetailSellerFragment extends BaseFragment implements
 					fishmen.setTonnage(map.get("tonnage").toString());
 					fishmen.setEnginePower(map.get("enginePower") + "W");
 					SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-					Date date = null;
+					Date date = new Date();
 					try {
-						date = sdf.parse(map.get("shipCreateTime").toString());
+						date = sdf.parse(map.get("shipCreateTime").toString());	
 					} catch (ParseException e) {
 						e.printStackTrace();
 					}
