@@ -78,8 +78,10 @@ public class SellerListAdapter extends BaseAdapter {
 		vh.shopName.setText(seller.getShopName());
 		vh.sendPrice.setText("ฃค " + seller.getSendPrice() + "ิช");
 		vh.creditValue.setText(seller.getGrade());
+		
+		vh.image.setBackgroundResource(R.drawable.myface);
 		IC.getInstance().setForegound(seller.getShopPhoto(), vh.image);
-
+		
 		if (seller instanceof Fisherman) {
 			initFisherman(seller, vh);
 		} else if (seller instanceof Farmer) {
@@ -107,8 +109,6 @@ public class SellerListAdapter extends BaseAdapter {
 			vh.item_3.setText(context.getResources().getString(R.string.farmer_way)
 					+ StringUtil.splistString(farmers.getGetTypeString().toString(), 1, ",", "]..."));
 		}
-		
-		
 	}
 
 	private void initFisherman(Seller seller, ViewHolder vh) {
