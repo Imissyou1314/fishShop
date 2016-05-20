@@ -8,6 +8,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
+import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -121,8 +122,10 @@ public class SellerGoodsListAdapter extends BaseAdapter {
 			
 			
 			InputDialog input = new InputDialog(context);
+			
+			//TODO添加输入过滤
 			input.addInputItem(goodItemBean.getGoodsId(),
-					"默认数量为一");
+					"默认数量为一", InputType.TYPE_CLASS_NUMBER);
 			number = 1;
 			/**
 			 * 添加继续购物

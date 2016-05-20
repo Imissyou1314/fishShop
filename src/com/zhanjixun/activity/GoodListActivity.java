@@ -181,14 +181,11 @@ public class GoodListActivity extends BackActivity implements
 
 	}
 	
-	
-	//TODO
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
 		GoodListItem item = (GoodListItem) parent.getAdapter()
 				.getItem(position);
-		//TODO
 		/**
 		 * Imissyou  添从其他类别转到主类别
 		 */

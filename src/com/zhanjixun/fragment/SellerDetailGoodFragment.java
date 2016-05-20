@@ -69,9 +69,7 @@ public class SellerDetailGoodFragment extends Fragment implements
 	}
 	
 	@Override public void onPause() {
-		// TODO Auto-generated method stub
 		mMainActivity.visibleView();
-		
 		super.onPause();
 	}
 	
@@ -109,10 +107,8 @@ public class SellerDetailGoodFragment extends Fragment implements
 			 */
 			@Override public void onScroll(AbsListView view, int firstVisibleItem, 
 					int visibleItemCount, int totalItemCount) {
-				 //TODO Auto-generated method stub
 				if (mFirstVisibleItem == firstVisibleItem) {
 					mFirstVisibleItem = firstVisibleItem;
-					//TODO 同次进入无效
 					return;
 				}
 				/**

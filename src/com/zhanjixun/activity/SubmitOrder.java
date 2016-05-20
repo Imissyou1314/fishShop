@@ -155,6 +155,7 @@ public class SubmitOrder extends BackActivity implements OnDataReturnListener {
 				try {
 					String s = result.getResultParam().get("postagePrice");
 					postPrice.setText("(∫¨‘À∑—" + UnitUtil.toRMB(s) + ")");
+					price.setText(UnitUtil.toRMB(co.getPrice() + Double.parseDouble(s)));
 					ready = true;
 				} catch (Exception e) {
 					ready = false;
